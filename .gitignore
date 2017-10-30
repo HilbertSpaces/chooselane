@@ -1,0 +1,3 @@
+*.pyc
+chooseback/db.sqlite3
+
