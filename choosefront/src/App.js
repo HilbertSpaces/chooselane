@@ -1,13 +1,30 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
 
+class ChampName extends Component {
+  constructor(){
+    super()
+    this.state = {name: 'Jon'};
+
+  }
+  componentDidMount(){
+    axios.get('http://localhost:8000')
+      .then(response => this.setState({name: response.data}))
+      .catch(error => console.log('fail'))
+  }
+  render() {
+    return (<p> Riot says: {this.state.name} </p>)
+  }
+}
 class App extends Component {
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
+          <ChampName></ChampName>
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <p className="App-intro">
