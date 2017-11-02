@@ -1,5 +1,28 @@
 body {
-  margin: 0;
-  padding: 0;
   font-family: sans-serif;
+}
+
+.jumbotron {
+  height:1100px;
+  width: 100%;
+  background-size: 1200px 1200px;
+  background-repeat: no-repeat;
+  background-color: black;
+  background-position: center;
+  margin: auto;
+}
+
+#top_lane {
+  height:100px;
+  width:100px;
+}
+
+.map{
+  height:1100px;
+  width: 100%;
+  background-size: 1200px 1200px;
+  background-repeat: no-repeat;
+  background-color: black;
+  background-position: center;
+  margin: auto;
 }

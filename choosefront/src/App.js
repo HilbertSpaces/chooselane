@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
+import map from 'top_lane.jpg'
 
 class ChampName extends Component {
   constructor(){
-    super()
+    super();
     this.state = {name: 'Jon'};
 
   }
@@ -15,13 +16,27 @@ class ChampName extends Component {
       .catch(error => console.log('fail'))
   }
   render() {
-    return (<p> Riot says: {this.state.name} </p>)
+    return (<p></p>)
   }
 }
+
+class LaneIcon extends Component {
+  render() {
+    return (
+      <div className="top_lane"> </div>
+    )
+  }
+}
+
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <div className="jumbotron">
+        <img src="{map}" className="map" alt="Map did not load"></img>
+        <ChampName></ChampName>
+        <LaneIcon></LaneIcon>
+      </div>
+      /*<div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <ChampName></ChampName>
@@ -30,8 +45,8 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-      </div>
-    );
+      </div>*/
+    )
   }
 }
 
