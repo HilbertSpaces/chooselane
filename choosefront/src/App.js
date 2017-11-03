@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
-import map from './choose_lane_map1.png';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 class ChampName extends Component {
   constructor(){
@@ -20,9 +20,12 @@ class ChampName extends Component {
 }
 
 class LaneIcon extends Component {
+  constructor(props) {
+    super(props)
+  }
   render() {
     return (
-      <div className="top_lane"> </div>
+        <a className={this.props.lane} href={this.props.view} target='_blank'></a>
     )
   }
 }
@@ -34,21 +37,13 @@ var myfunction= function() {
 class App extends Component {
   render() {
     return (
+      <BrowserRouter>
         <div className='lane_map'>
-          <button onClick={this.myfunction} className='top_lane'></button>
           <ChampName></ChampName>
-          <LaneIcon></LaneIcon>
+          <LaneIcon lane='top_lane' view='https://www.google.com'></LaneIcon>
+          <p></p>
         </div>
-      /*<div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <ChampName></ChampName>
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>*/
+      </BrowserRouter>
     )
   }
 }
