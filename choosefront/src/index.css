@@ -1,28 +1,38 @@
 body {
   font-family: sans-serif;
+  width: 100em;
+  background-color: black;
+  background-size: cover;
+  color:white;
+  text-align: center;
+}
+.map_wrap{
+  width: 1000em;
+  background-color: black;
+  background-size: cover;
 }
 
-.jumbotron {
-  height:1100px;
-  width: 100%;
-  background-size: 1200px 1200px;
+.lane_map {
+  display: block;
+  height:60em;
+  width: 100em;
+  background-size: cover;
   background-repeat: no-repeat;
   background-color: black;
   background-position: center;
-  margin: auto;
+  position: absolute;
+  background-image:url('choose_lane_map1.png');
+  left: 10em;
+  top:5em;
 }
 
-#top_lane {
-  height:100px;
-  width:100px;
-}
-
-.map{
-  height:1100px;
-  width: 100%;
-  background-size: 1200px 1200px;
-  background-repeat: no-repeat;
-  background-color: black;
-  background-position: center;
-  margin: auto;
+.top_lane {
+  top: 8em;
+  right:78em;
+  position: absolute;
+  background-size: cover;
+  height:4em;
+  width: 4em;
+  background-image: url('top_lane.png');
+  opacity: .5;
 }

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
-import map from 'top_lane.jpg'
+import map from './choose_lane_map1.png';
 
 class ChampName extends Component {
   constructor(){
@@ -28,14 +27,20 @@ class LaneIcon extends Component {
   }
 }
 
+var myfunction= function() {
+        console.log("CLICKED");
+  }
+
 class App extends Component {
   render() {
     return (
-      <div className="jumbotron">
-        <img src="{map}" className="map" alt="Map did not load"></img>
-        <ChampName></ChampName>
-        <LaneIcon></LaneIcon>
-      </div>
+      <div className='map_wrap'>
+        <div className='lane_map'>
+          <button onClick={this.myfunction} className='top_lane'>Top</button>
+          <ChampName></ChampName>
+          <LaneIcon></LaneIcon>
+        </div>
+    </div>
       /*<div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
