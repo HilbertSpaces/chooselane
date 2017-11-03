@@ -34,13 +34,11 @@ var myfunction= function() {
 class App extends Component {
   render() {
     return (
-      <div className='map_wrap'>
         <div className='lane_map'>
-          <button onClick={this.myfunction} className='top_lane'>Top</button>
+          <button onClick={this.myfunction} className='top_lane'></button>
           <ChampName></ChampName>
           <LaneIcon></LaneIcon>
         </div>
-    </div>
       /*<div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
