@@ -3,32 +3,33 @@ import json
 
 
 class RiotInterface(object):
+
   def __init__(self, key):
     self.key = key
     self.api_key = 'api_key=' + self.key
 
-  def queryBuilder(param_dict):
+  def queryBuilder(self, param_dict):
     full_path = ''
-    for key, value in query_dict:
-      full_path += key + '=' + value + '&'
+    for key in param_dict:
+      full_path += key + '=' + str(param_dict[key]) + '&'
     return full_path
 
   #return a summoner object containing: profileIconId (int), name(str),
   #summonerLevel(int), revisionDate(str), id(int), and accountId(int)
-  def getSummonerByName(summ_name):
+  def getSummonerByName(self, summ_name):
     summ_name = summ_name + '?'
     url = 'https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/'
-    summ = requests.get(url + summ_name + self.api_key).json()
+    summoner = requests.get(url + summ_name + self.api_key).json()
     return summoner
 
-  def getSummonerByAccount(summ_account):
-    summ_account = summ_account + '?'
+  def getSummonerByAccountId(self, summ_account):
+    summ_account = str(summ_account) + '?'
     url = 'https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-account/'
     summoner = requests.get(url + summ_account + self.api_key).json()
     return summoner
 
-  def getSummonerById(summ_id):
-    summ_id = summ_id + '?'
+  def getSummonerBySummonerId(self, summ_id):
+    summ_id = str(summ_id) + '?'
     url = 'https://na1.api.riotgames.com/lol/summoner/v3/summoners/'
     summoner = requests.get(url + summ_id + self.api_key).json()
     return summoner
@@ -37,15 +38,15 @@ class RiotInterface(object):
   #totalGames(int), startIndex(int), endIndex(int)
   #a MatchReference contains: lane(str), gameId(int), champion(int),
   #platformId(str), season(int), queue(int), role(str), timestamp(int)
-  def getMatchlistsByAccount(account_id, param_dict):
-    account_id = account_id + '?'
+  def getMatchlistsByAccountId(self, account_id, param_dict={}):
+    account_id = str(account_id) + '?'
     query = self.queryBuilder(param_dict)
     url =  'https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/'
     matchlists= requests.get(url + account_id + query + self.api_key).json()
     return matchlists
 
-  def getMatchlistsByAccountRecent(account_id):
-    account_id = account_id + '?'
+  def getMatchlistsByAccountRecent(self, account_id):
+    account_id = str(account_id) + '?'
     url = 'https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/'
     matchlists = requests.get(url + account_id + self.api_key).json()
     return matchlists
@@ -56,13 +57,14 @@ class RiotInterface(object):
   #teamsList([TeamStatsDto]), participants(List[ParticipantDto]),
   #gameDuration(int), gameCreation(int)
   #participantstats and participanttimeline written in list of 82
-  def getMatchesById(match_id):
-    match_id = match_id + '?'
+  def getMatchesByGameId(self, game_id):
+    match_id = str(game_id) + '?'
     url = 'https://na1.api.riotgames.com/lol/match/v3/matches/'
     match = requests.get(url + match_id + self.api_key).json()
     return match
 
-  def getTimelinesById(match_id):
-    match_id = match_id + '?'
+  def getTimelinesByMatchId(self, match_id):
+    match_id = str(match_id) + '?'
     url = 'https://na1.api.riotgames.com/lol/match/v3/timelines/by-match/'
-    match = requests.get(url + match_id + self.api_key).json()
+    timelines = requests.get(url + match_id + self.api_key).json()
+    return timelines
