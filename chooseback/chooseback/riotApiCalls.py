@@ -1,7 +1,6 @@
 import requests
 import json
 
-
 class RiotInterface(object):
 
   def __init__(self, key):
@@ -68,3 +67,9 @@ class RiotInterface(object):
     url = 'https://na1.api.riotgames.com/lol/match/v3/timelines/by-match/'
     timelines = requests.get(url + match_id + self.api_key).json()
     return timelines
+
+  def getLeagueBySummonerId(self, summ_id):
+    summ_id = str(summ_id) + '?'
+    url = 'https://na1.api.riotgames.com/lol/league/v3/positions/by-summoner/'
+    league = requests.get(url + summ_id +self.api_key).json()
+    return league
