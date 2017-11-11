@@ -1,8 +1,8 @@
 from riotApiCalls import RiotInterface
 import time
 
-key = 'RGAPI-6e45120e-2a38-43e6-938f-3e5cf584b457'
-interface = RiotInterface(key)
+key = 'RGAPI-951c25af-ce88-4021-ac66-29095ba93d9e'
+interface = RiotInterface(key, .3)
 
 class Summoner(object):
 
@@ -17,15 +17,18 @@ class Summoner(object):
     self.game_ids = []
     self.match = None
     self.matches = None
-    self.match_num = 0
+    self.match_num = -1
     self.leagues = []
-    self.champion = 0
+    self.champ_id = 0
+    self.champion = None
     self.participant_stats = {}
     self.total_games = 0
     self.team_id = 0
     self.team = None
     self.timeline = None
     self.participant_id = 0
+    self.participant_timeline = None
+    self.length = params.get('endIndex',0) - params.get('beginIndex',0)
 
   def description(self):
     desc = '''Takes a summoner name (str) or id(int), a sleep(float) and a
@@ -54,8 +57,13 @@ class Summoner(object):
   # timestamp
   def getMatchesInMatchlist(self):
     summoner_matchlists = self.getMatchlists()
-    summoner_matches = summoner_matchlists['matches']
+    try:
+      summoner_matches = summoner_matchlists['matches']
+    except:
+      self.getNextMatch()
+      return
     self.matches_in_matchlist = summoner_matches
+    self.length = len(self.matches_in_matchlist)
     return summoner_matches
 
   def getAllMatchIdsInMatchList(self):
@@ -68,7 +76,6 @@ class Summoner(object):
 
   def getMatches(self):
     game_ids = self.getAllMatchIdsInMatchList()
-    time.sleep
     for game_id in game_ids:
       self.match = self.interface.getMatchesByGameId(game_id)
       yield self.match
@@ -76,42 +83,44 @@ class Summoner(object):
   def createMatches(self):
     self.matches = self.getMatches()
     self.matches.__next__()
-    self.getParticipant()
+    self.createParticipant()
     self.match_num += 1
 
   def getNextMatch(self):
-    if self.match_num == 0:
+    if self.match_num == -1:
       self.createMatches()
     else:
       self.matches.__next__()
       self.match_num += 1
-      self.getParticipant()
 
   def createLeague(self):
     self.leagues = self.interface.getLeagueBySummonerId(self.summoner_id)
 
-  def getParticipant(self):
+  def createParticipant(self):
     self.total_games = self.matchlists['totalGames']
     current_matchlist = self.matchlists['matches'][self.match_num]
-    self.champion = current_matchlist['champion']
+    self.champ_id = current_matchlist['champion']
     participant_list = self.match['participants']
     for participant_data in participant_list:
-      if participant_data['championId'] == self.champion:
+      if participant_data['championId'] == self.champ_id:
         self.participant_stats = participant_data['stats']
+        self.participant_timeline = participant_data['timeline']
         self.participant_id = participant_data['participantId']
         self.team_id = participant_data['teamId']
 
-  def getTeam(self):
+  def createTeam(self):
     teams = self.match['teams']
     for team in teams:
       if team['teamId'] == self.team_id:
         self.team = team
 
-  def getTimelines(self):
-    timeline = self.interface.getTimelinesByMatchId(
-      self.game_ids[self.match_num])
-    self.timeline = timeline
-    print(self.timeline)
+  def createChampion(self):
+    self.champion = self.interface.getChampionById(self.champ_id)
+
+  def initAll(self):
+    self.createParticipant()
+    self.createTeam()
+    self.createChampion()
 
 #class SummonerMatchFlattener(object):
 
@@ -147,8 +156,11 @@ class Summoner(object):
 '''
 
 rp = interface.getSummonerByName('RamanujanPrime')
-rpMatch = Summoner(rp, .2, {})
-rpMatch.createMatches()
-rpMatch.getTeam()
-rpMatch.getTimelines()
-print(rpMatch.timeline)
+print(rp)
+rp = Summoner(rp, .2, {})
+rp.createMatches()
+rp.initAll()
+for s in range(rp.length):
+  print(rp.champion, ": ", rp.participant_stats['kills'])
+  rp.getNextMatch()
+  rp.initAll()
