@@ -2,21 +2,20 @@ from riotApiCalls import RiotInterface
 import time
 
 key = 'RGAPI-1b0fa30c-917f-43d4-ba3b-4bce3c614508'
-interface = RiotInterface(key, .3)
+
 
 class Summoner(object):
 
   def __init__(self, summoner_name, sleep = .1, params = {}):
     self.sleep = sleep
-    self.params = params
-    self.interface = interface
+    self.interface = RiotInterface(key, sleep)
     self.matches_in_matchlist= []
     self.summoner_list = []
     self.game_ids = []
     self.match = None
     self.matches = None
     self.match_num = -1
-    self.leagues = []
+    self.league = []
     self.champ_id = 0
     self.champion = None
     self.participant_stats = {}
@@ -28,8 +27,8 @@ class Summoner(object):
     self.participant_timeline = None
     self.length = params.get('endIndex',0) - params.get('beginIndex',0)
     try:
-      self.summoner = interface.getSummonerByName(summoner_name)
-      self.matchlists = interface.getMatchlistsByAccountId(self.summoner['accountId'])
+      self.summoner = self.interface.getSummonerByName(summoner_name)
+      self.matchlists = self.interface.getMatchlistsByAccountId(self.summoner['accountId'], params)
     except:
       raise(ValueError('Could not retrieve summoner'))
 
@@ -93,7 +92,7 @@ class Summoner(object):
       self.createTeam()
 
   def createLeague(self):
-    self.leagues = self.interface.getLeagueBySummonerId(self.summoner_id)
+    self.league = self.interface.getLeagueBySummonerId(self.summoner['id'])
 
   def createParticipant(self):
     self.total_games = self.matchlists['totalGames']
