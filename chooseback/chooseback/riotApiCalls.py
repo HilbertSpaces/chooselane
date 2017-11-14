@@ -1,3 +1,4 @@
+from requests.utils import quote
 import requests
 import json
 import time
@@ -9,6 +10,13 @@ class RiotInterface(object):
     self.api_key = 'api_key=' + self.key
     self.limiter = limiter
     self.calls = 0
+  def summNameJoin(self, summ_name):
+    summ_split = summ_name.split()
+    summ_percent = ''
+    for i in range(len(summ_split)-1):
+      summ_percent += summ_split[i] +'%20'
+    summ_percent += summ_split[-1]
+    return summ_percent
 
   def queryBuilder(self, param_dict):
     full_path = ''
@@ -19,7 +27,8 @@ class RiotInterface(object):
   #return a summoner object containing: profileIconId (int), name(str),
   #summonerLevel(int), revisionDate(str), id(int), and accountId(int)
   def getSummonerByName(self, summ_name):
-    summ_name = summ_name + '?'
+    summ_name = quote(summ_name)
+    summ_name += '?'
     url = 'https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/'
     summoner = requests.get(url + summ_name + self.api_key).json()
     time.sleep(self.limiter)
