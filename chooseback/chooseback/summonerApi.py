@@ -1,7 +1,7 @@
 from riotApiCalls import RiotInterface
 import time
 
-key = 'RGAPI-0b8992a5-6d9e-46da-bf51-9343b749bb84'
+key = 'RGAPI-0755e0f7-7456-4a53-9f8b-45dfbc8762c4'
 
 
 class Summoner(object):
@@ -28,9 +28,11 @@ class Summoner(object):
     self.length = params.get('endIndex',0) - params.get('beginIndex',0)
     try:
       self.summoner = self.interface.getSummonerByName(summoner_name)
-      self.matchlists = self.interface.getMatchlistsByAccountId(self.summoner['accountId'], params)
     except:
       raise(ValueError('Could not retrieve summoner'))
+    self.summ_name = self.summoner['name']
+    self.matchlists = self.interface.getMatchlistsByAccountId(
+      self.summoner['accountId'], params)
 
   def description(self):
     desc = '''Takes a summoner name (str) or id(int), a sleep(float) and a

@@ -28,6 +28,7 @@ class RiotInterface(object):
   #summonerLevel(int), revisionDate(str), id(int), and accountId(int)
   def getSummonerByName(self, summ_name):
     summ_name = quote(summ_name)
+    print(summ_name)
     summ_name += '?'
     url = 'https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/'
     summoner = requests.get(url + summ_name + self.api_key).json()
@@ -101,7 +102,7 @@ class RiotInterface(object):
     self.calls += 1
     return league
 
-  def getChampions(self, param_dict = {}):
+  def getChampList(self, param_dict = {}):
     url = 'https://na1.api.riotgames.com/lol/league/v3/champions/?'
     query = self.queryBuilder(param_dict)
     champions = requests.get(url + query + self.api_key)
@@ -109,8 +110,9 @@ class RiotInterface(object):
     self.calls += 1
     return champions
 
-  def getChampionById(self, champ_id, locale = 'en_US', param_dict = {}):
-    champ_id = str(champ_id) + '?'
+  def getChampionById(self, champ_id = '', locale = 'en_US', param_dict = {}):
+    if champ_id is not '':
+      champ_id = str(champ_id) + '?'
     query = self.queryBuilder(param_dict)
     url ='https://na1.api.riotgames.com/lol/static-data/v3/champions/'
     locale = 'locale=' + locale + '&'
