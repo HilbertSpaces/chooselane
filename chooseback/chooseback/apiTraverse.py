@@ -17,17 +17,16 @@ for s in range(2000):
   try:
     rp.createMatches()
   except ValueError:
-    i = 0
-    summoners.pop(rand_int)
+    i = (i+1)%30
     rand_int = random.randint(0,len(summoners)-1)
     rp = Summoner(summoners.pop(rand_int), sleep = 1, params = {'beginIndex':i, 'endIndex':i+1})
+    print('couldn\'t create matches')
     continue
-  rp.createMatchSummoners()
   rp.createLeague()
   if rp.match['queueId'] in [420, 440]:
     stats = rp.participant_stats
     if len(summoners) < 4000:
-      new_summoners = set(rp.summoner_list) - set(rp.summ_name)
+      new_summoners = set(rp.summoner_list) - set(rp.summoner_name)
       summoners = list(set(summoners).union(new_summoners))
       rand_int = random.randint(0,len(summoners)-1)
     if stats.get('firstTowerKill',False) or stats.get('firstTowerAssist',False):
@@ -38,9 +37,10 @@ for s in range(2000):
     print(rp.match_num)
     rp = Summoner(summoners.pop(rand_int),sleep=1,params = {'beginIndex':i, 'endIndex':i+1})
   else:
+    print('not in queue [420, 440]')
     rand_int = random.randint(0,len(summoners)-1)
-    rp = Summoner(summoners.pop(rand_int), sleep=.3, params = {'beginIndex':i, 'endIndex':i+1})
-  i = (i+1)%100
+    rp = Summoner(summoners.pop(rand_int), sleep=1, params = {'beginIndex':i, 'endIndex':i+1})
+  i = (i+1)%30
 '''
 class Traversal(object):
 

@@ -1,7 +1,7 @@
 from riotApiCalls import RiotInterface
 import time
 
-key = 'RGAPI-0755e0f7-7456-4a53-9f8b-45dfbc8762c4'
+key = 'RGAPI-934d8694-b049-48d1-935d-872a615762d5'
 
 
 class Summoner(object):
@@ -77,7 +77,6 @@ class Summoner(object):
       self.summoner = self.interface.getSummonerByName(self.summoner_name)
     except ValueError:
       raise(ValueError('Could not retrieve summoner'))
-    self.summ_name = self.summoner['name']
     try:
       self.matchlists = self.interface.getMatchlistsByAccountId(
          self.summoner['accountId'], self.params)
@@ -88,10 +87,10 @@ class Summoner(object):
     try:
       self.matches.__next__()
     except StopIteration:
-      raise(ValueError('Could not retrieve match id: ' + str(
-        self.game_ids[self.match_num])))
+      raise(ValueError('Could not retrieve match'))
     self.createParticipant()
     self.createTeam()
+    self.createMatchSummoners()
 
   def getNextMatch(self):
     if self.match_num == -1:
@@ -109,6 +108,7 @@ class Summoner(object):
       self.match_num += 1
       self.createParticipant()
       self.createTeam()
+      self.createMatchSummoners()
 
   def createLeague(self):
     self.league = self.interface.getLeagueBySummonerId(self.summoner['id'])
