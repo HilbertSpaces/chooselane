@@ -15,24 +15,20 @@ class Summoner(object):
     self.match = None
     self.matches = None
     self.match_num = -1
+    self.params = params
     self.league = []
     self.champ_id = 0
+    self.game_ids = []
     self.champion = None
     self.participant_stats = {}
     self.total_games = 0
     self.team_id = 0
+    self.summoner_name = summoner_name
     self.team = None
     self.timeline = None
     self.participant_id = 0
     self.participant_timeline = None
     self.length = params.get('endIndex',0) - params.get('beginIndex',0)
-    try:
-      self.summoner = self.interface.getSummonerByName(summoner_name)
-    except:
-      raise(ValueError('Could not retrieve summoner'))
-    self.summ_name = self.summoner['name']
-    self.matchlists = self.interface.getMatchlistsByAccountId(
-      self.summoner['accountId'], params)
 
   def description(self):
     desc = '''Takes a summoner name (str) or id(int), a sleep(float) and a
@@ -57,8 +53,7 @@ class Summoner(object):
     try:
       summoner_matches = self.matchlists['matches']
     except:
-      self.getNextMatch()
-      return 'match number:' + str(match_num) + 'failed to build'
+      return 'match number:' + str(self.match_num) + 'failed to build'
     self.matches_in_matchlist = summoner_matches
     self.length = len(self.matches_in_matchlist)
     return summoner_matches
@@ -72,15 +67,29 @@ class Summoner(object):
     return match_ids
 
   def getMatches(self):
-    game_ids = self.getAllMatchIdsInMatchList()
-    for game_id in game_ids:
+    self.game_ids = self.getAllMatchIdsInMatchList()
+    for game_id in self.game_ids:
       self.match = self.interface.getMatchesByGameId(game_id)
       yield self.match
 
   def createMatches(self):
+    try:
+      self.summoner = self.interface.getSummonerByName(self.summoner_name)
+    except ValueError:
+      raise(ValueError('Could not retrieve summoner'))
+    self.summ_name = self.summoner['name']
+    try:
+      self.matchlists = self.interface.getMatchlistsByAccountId(
+         self.summoner['accountId'], self.params)
+    except:
+      raise(ValueError('Could not retrieve matchlist'))
     self.match_num += 1
     self.matches = self.getMatches()
-    self.matches.__next__()
+    try:
+      self.matches.__next__()
+    except StopIteration:
+      raise(ValueError('Could not retrieve match id: ' + str(
+        self.game_ids[self.match_num])))
     self.createParticipant()
     self.createTeam()
 
@@ -88,7 +97,15 @@ class Summoner(object):
     if self.match_num == -1:
       self.createMatches()
     else:
-      self.matches.__next__()
+      try:
+        self.matches.__next__()
+      except ValueError:
+        raise(ValueError('Could not retrieve match id: '+str(
+          self.game_ids[self.match_num])))
+      except StopIteration:
+        raise(ValueError('Could not retrieve match number: '+str(
+          self.params.get(
+            'beginIndex',0) + self.match_num)+' for: ' + self.summoner_name))
       self.match_num += 1
       self.createParticipant()
       self.createTeam()
@@ -98,7 +115,7 @@ class Summoner(object):
 
   def createParticipant(self):
     self.total_games = self.matchlists['totalGames']
-    current_matchlist = self.matchlists['matches'][self.match_num]
+    current_matchlist = self.matchlists.get('matches', [None])[self.match_num]
     self.champ_id = current_matchlist['champion']
     participant_list = self.match['participants']
     for participant_data in participant_list:

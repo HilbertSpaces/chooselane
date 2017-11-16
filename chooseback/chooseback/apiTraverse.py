@@ -14,7 +14,14 @@ den = 0
 i = 0
 summoners = list()
 for s in range(2000):
-  rp.createMatches()
+  try:
+    rp.createMatches()
+  except ValueError:
+    i = 0
+    summoners.pop(rand_int)
+    rand_int = random.randint(0,len(summoners)-1)
+    rp = Summoner(summoners.pop(rand_int), sleep = 1, params = {'beginIndex':i, 'endIndex':i+1})
+    continue
   rp.createMatchSummoners()
   rp.createLeague()
   if rp.match['queueId'] in [420, 440]:
@@ -29,14 +36,44 @@ for s in range(2000):
       den += 1
     print(rp.summoner_list, num, den, rp.match['mapId'])
     print(rp.match_num)
-    try:
-      rp = Summoner(summoners.pop(rand_int),sleep=1,params = {'beginIndex':i, 'endIndex':i+1})
-    except ValueError:
-      i = 0
-      summoners.pop(rand_int)
-      rand_int = random.randint(0,len(summoners)-1)
-      rp = Summoner(summoners.pop(rand_int), sleep = 1, params = {'beginIndex':i, 'endIndex':i+1})
-      continue
+    rp = Summoner(summoners.pop(rand_int),sleep=1,params = {'beginIndex':i, 'endIndex':i+1})
   else:
+    rand_int = random.randint(0,len(summoners)-1)
     rp = Summoner(summoners.pop(rand_int), sleep=.3, params = {'beginIndex':i, 'endIndex':i+1})
   i = (i+1)%100
+'''
+class Traversal(object):
+
+  def __init__(self):
+    self.order = []
+
+  def traverseUp(self):
+    for s in range(2000):
+      try:
+        rp.createMatches()
+      except ValueError:
+        i = 0
+        summoners.pop(rand_int)
+        rand_int = random.randint(0,len(summoners)-1)
+        rp = Summoner(summoners.pop(rand_int), sleep = 1, params = {'beginIndex':i, 'endIndex':i+1})
+        continue
+      rp.createMatchSummoners()
+      rp.createLeague()
+      if rp.match['queueId'] in [420, 440]:
+        stats = rp.participant_stats
+        if len(summoners) < 4000:
+          new_summoners = set(rp.summoner_list) - set(rp.summ_name)
+          summoners = list(set(summoners).union(new_summoners))
+          rand_int = random.randint(0,len(summoners)-1)
+        if stats.get('firstTowerKill',False) or stats.get('firstTowerAssist',False):
+          if stats['win']:
+            num += 1
+          den += 1
+        print(rp.summoner_list, num, den, rp.match['mapId'])
+        print(rp.match_num)
+        rp = Summoner(summoners.pop(rand_int),sleep=1,params = {'beginIndex':i, 'endIndex':i+1})
+      else:
+        rand_int = random.randint(0,len(summoners)-1)
+        rp = Summoner(summoners.pop(rand_int), sleep=.3, params = {'beginIndex':i, 'endIndex':i+1})
+      i = (i+1)%100
+'''

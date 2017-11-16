@@ -31,10 +31,12 @@ class RiotInterface(object):
     print(summ_name)
     summ_name += '?'
     url = 'https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/'
-    summoner = requests.get(url + summ_name + self.api_key).json()
+    summoner = requests.get(url + summ_name + self.api_key)
+    if summoner.status_code != 200:
+      raise(ValueError('Could not retrieve summoner'))
     time.sleep(self.limiter)
     self.calls += 1
-    return summoner
+    return summoner.json()
 
   def getSummonerByAccountId(self, summ_account):
     summ_account = str(summ_account) + '?'
@@ -68,6 +70,8 @@ class RiotInterface(object):
     account_id = str(account_id) + '?'
     url = 'https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/'
     matchlists = requests.get(url + account_id + self.api_key).json()
+    if matchlists.status_code != 200:
+      raise(ValueError('Could not retrieve matchlist'))
     time.sleep(self.limiter)
     self.calls += 1
     return matchlists
@@ -81,10 +85,12 @@ class RiotInterface(object):
   def getMatchesByGameId(self, game_id):
     match_id = str(game_id) + '?'
     url = 'https://na1.api.riotgames.com/lol/match/v3/matches/'
-    match = requests.get(url + match_id + self.api_key).json()
+    match = requests.get(url + match_id + self.api_key)
+    if match.status_code != 200:
+      raise(ValueError('Could not retrieve match'))
     time.sleep(self.limiter)
     self.calls += 1
-    return match
+    return match.json()
 
   def getTimelinesByMatchId(self, match_id):
     match_id = str(match_id) + '?'
