@@ -1,7 +1,7 @@
 from riotApiCalls import RiotInterface
 import time
 
-key = 'RGAPI-934d8694-b049-48d1-935d-872a615762d5'
+key = 'RGAPI-72d0a431-a968-44c3-81cd-1339639f3df4'
 
 
 class Summoner(object):
@@ -53,7 +53,7 @@ class Summoner(object):
     try:
       summoner_matches = self.matchlists['matches']
     except:
-      return 'match number:' + str(self.match_num) + 'failed to build'
+      raise(ValueError('Could not build matchlist'))
     self.matches_in_matchlist = summoner_matches
     self.length = len(self.matches_in_matchlist)
     return summoner_matches
@@ -62,7 +62,10 @@ class Summoner(object):
     matchlist_matches = self.getMatchesInMatchlist()
     match_ids = []
     for match in matchlist_matches:
-        match_ids.append(match['gameId'])
+        try:
+          match_ids.append(match['gameId'])
+        except:
+          raise(ValueError('Match IDs failed to build'))
     self.game_ids = match_ids
     return match_ids
 
