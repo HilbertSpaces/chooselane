@@ -69,9 +69,10 @@ class RiotInterface(object):
   def getMatchlistsByAccountRecent(self, account_id):
     account_id = str(account_id) + '?'
     url = 'https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/'
-    matchlists = requests.get(url + account_id + self.api_key).json()
+    matchlists = requests.get(url + account_id + self.api_key)
     if matchlists.status_code != 200:
       raise(ValueError('Could not retrieve matchlist'))
+    matchlists = matchlists.json()
     time.sleep(self.limiter)
     self.calls += 1
     return matchlists
@@ -116,13 +117,12 @@ class RiotInterface(object):
     self.calls += 1
     return champions
 
-  def getChampionById(self, champ_id = '', locale = 'en_US', param_dict = {}):
+  def getChampionById(self, champ_id = '', param_dict = {}):
     if champ_id is not '':
       champ_id = str(champ_id) + '?'
     query = self.queryBuilder(param_dict)
-    url ='https://na1.api.riotgames.com/lol/static-data/v3/champions/'
-    locale = 'locale=' + locale + '&'
-    champion = requests.get(url + champ_id + locale + self.api_key).json()
+    url = 'https://na1.api.riotgames.com/lol/static-data/v3/champions?'
+    champion = requests.get(url + self.api_key, params = param_dict).json()
     time.sleep(self.limiter)
     self.calls += 1
     return champion

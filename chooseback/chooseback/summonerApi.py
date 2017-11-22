@@ -88,7 +88,7 @@ class Summoner(object):
     self.match_num += 1
     self.matches = self.getMatches()
     try:
-      self.matches.__next__()
+      next(self.matches)
     except StopIteration:
       raise(ValueError('Could not retrieve match'))
     self.createParticipant()
@@ -100,7 +100,7 @@ class Summoner(object):
       self.createMatches()
     else:
       try:
-        self.matches.__next__()
+        next(self.matches)
       except ValueError:
         raise(ValueError('Could not retrieve match id: '+str(
           self.game_ids[self.match_num])))
