@@ -4,22 +4,30 @@ import random
 from celery import Celery
 
 app = Celery('tasks', backend='redis://localhost', broker='pyamqp://guest@localhost//')
-key = 'RGAPI-72d0a431-a968-44c3-81cd-1339639f3df4'
+key = 'RGAPI-60ba35c9-27b6-461f-866c-2544a8d7f39d'
 
 interface = RiotInterface(key,1)
 champions = interface.getChampionById(param_dict = {'dataById':'true'})
 champ_lookup = champions['data']
-champ = champ_lookup['131']['name']
+roles = {
+'TOP': 0,
+'BOTTOM': 1,
+'MID': 2,
+'JUNGLE': 3
+}
 @app.task
 def traverse():
-  rp = Summoner('Peng Yiliang', .2, {})
+  rp = Summoner('RamanujanPrime', .2, {})
   num = 0
   den = 0
   i = 0
   total =0
   stat_dict = {}
   summoners = list()
-  for s in range(5):
+  for s in range(9000):
+    num = 0
+    den = 0
+    total = 0
     try:
       rp.createMatches()
     except ValueError:
@@ -33,15 +41,21 @@ def traverse():
       if len(summoners) < 4000:
         new_summoners = set(rp.summoner_list) - set(rp.summoner_name)
         summoners = list(set(summoners).union(new_summoners))
-      total += 1
-      if stats.get('firstTowerKill',False) or stats.get('firstTowerAssist',False):
-        if stats['win']:
-          num += 1
-        den += 1
+      total = 1
       rand_int = random.randint(0,len(summoners)-1)
       rp.createLeague()
       champ = champ_lookup[str(rp.champ_id)]['name']
-      stat_dict[champ] = [total,num,den]
+      if champ not in stat_dict:
+        stat_dict[champ] = {}
+        for key in stats:
+          stat_dict[champ][key] = {'gamesWon':[0,0,0,0], 'gamesTotal': [0,0,0,0], 'AverageValue':[0,0,0,0]}
+      else:
+        for key in stats:
+        if stats.get('firstTowerKill',False) or stats.get('firstTowerAssist',False):
+          if stats['win']:
+            stat_dict[champ]['gamesWon'] += 1
+          stat_dict[champ]['gameTotal'] += 1
+        stat_dict[champ]['total'] += 1
       print(stat_dict)
       #print(rp.summoner_list, num, den)
       #print(rp.league)

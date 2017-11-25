@@ -1,3 +1,4 @@
 *.pyc
 chooseback/db.sqlite3
-
+*.db
+*.rdb

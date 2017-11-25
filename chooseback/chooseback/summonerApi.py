@@ -1,7 +1,7 @@
 from riotApiCalls import RiotInterface
 import time
 
-key = 'RGAPI-72d0a431-a968-44c3-81cd-1339639f3df4'
+key = 'RGAPI-60ba35c9-27b6-461f-866c-2544a8d7f39d'
 
 
 class Summoner(object):
@@ -29,6 +29,8 @@ class Summoner(object):
     self.participant_id = 0
     self.participant_timeline = None
     self.length = params.get('endIndex',0) - params.get('beginIndex',0)
+    self.matchlists = []
+    self.lane = ''
 
   def description(self):
     desc = '''Takes a summoner name (str) or id(int), a sleep(float) and a
@@ -71,6 +73,7 @@ class Summoner(object):
 
   def getMatches(self):
     self.game_ids = self.getAllMatchIdsInMatchList()
+    self.match_nu
     for game_id in self.game_ids:
       self.match = self.interface.getMatchesByGameId(game_id)
       yield self.match
@@ -116,10 +119,14 @@ class Summoner(object):
   def createLeague(self):
     self.league = self.interface.getLeagueBySummonerId(self.summoner['id'])
 
+  def createLane(self):
+    self.lane = self.
+
   def createParticipant(self):
     self.total_games = self.matchlists['totalGames']
     current_matchlist = self.matchlists.get('matches', [None])[self.match_num]
     self.champ_id = current_matchlist['champion']
+    self.lane = current_matchlist['lane']
     participant_list = self.match['participants']
     for participant_data in participant_list:
       if participant_data['championId'] == self.champ_id:
