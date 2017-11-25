@@ -1,7 +1,7 @@
 from riotApiCalls import RiotInterface
 import time
 
-key = 'RGAPI-60ba35c9-27b6-461f-866c-2544a8d7f39d'
+key = 'RGAPI-ab55f697-ec42-4f93-ab8e-c6385f3c754a'
 
 
 class Summoner(object):
@@ -73,7 +73,6 @@ class Summoner(object):
 
   def getMatches(self):
     self.game_ids = self.getAllMatchIdsInMatchList()
-    self.match_nu
     for game_id in self.game_ids:
       self.match = self.interface.getMatchesByGameId(game_id)
       yield self.match
@@ -118,9 +117,6 @@ class Summoner(object):
 
   def createLeague(self):
     self.league = self.interface.getLeagueBySummonerId(self.summoner['id'])
-
-  def createLane(self):
-    self.lane = self.
 
   def createParticipant(self):
     self.total_games = self.matchlists['totalGames']
