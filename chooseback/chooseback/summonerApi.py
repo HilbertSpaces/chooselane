@@ -116,6 +116,10 @@ class Summoner(object):
       self.createMatchSummoners()
 
   def createLeague(self):
+    try:
+      self.summoner = self.interface.getSummonerByName(self.summoner_name)
+    except ValueError:
+      raise(ValueError('Could not retrieve summoner'))
     self.league = self.interface.getLeagueBySummonerId(self.summoner['id'])
 
   def createParticipant(self):

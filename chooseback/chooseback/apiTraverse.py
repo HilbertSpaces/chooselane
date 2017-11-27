@@ -3,9 +3,11 @@ from riotApiCalls import RiotInterface
 import random
 from celery import Celery
 import json
+import redis
 
-app = Celery('tasks', backend='redis://localhost', broker='pyamqp://guest@localhost//')
+app = Celery('tasks', broker='pyamqp://guest@localhost//')
 key = 'RGAPI-8bc28692-079c-4001-8b70-69ed20eddc3b'
+r = redis.StrictRedis('localhost')
 
 interface = RiotInterface(key,1)
 champions = interface.getChampionById(param_dict = {'dataById':'true'})
@@ -25,10 +27,12 @@ def traverse(sample_size = 100, summ_cache = 3000):
   summoners = list()
   least_played_champ = sample_size - 1
   summ.createLeague()
-  rank = summ.league
+  leagues = summ.league
+  for queue in leagues:
+    if queue['queueType'] == "RANKED_SOLO_5x5":
+      tier = queue['tier']
   #while least_played_champ < sample_size:
   while FILLER < 2:
-    iter_list = []
     try:
       summ.createMatches()
     except ValueError:
@@ -46,7 +50,7 @@ def traverse(sample_size = 100, summ_cache = 3000):
       rand_int = random.randint(0,len(summoners)-1)
       champ = champ_lookup[str(summ.champ_id)]['name']
       lane = roles[summ.lane]
-      print(least_played_champ, champ, end = ' ')
+      print(least_played_champ, champ)
       if champ not in stat_dict:
         stat_dict[champ] = {'sampleSize': 1}
         for key in stats:
@@ -83,7 +87,8 @@ def traverse(sample_size = 100, summ_cache = 3000):
             total_value = stat_dict[champ][key]['averageValue'][lane]
             stat_dict[champ][key]['averageValue'][lane] = total_value/stat_dict[champ][key]['totalGames'][lane]
     FILLER += 1
-  json_data = {'data': stat_dict,}
+  json_data = {'data': stat_dict,'tier': tier}
+  r.set(tier + 'league', json_data)
   return stat_dict
 
 '''
