@@ -2,9 +2,10 @@ from summonerApi import Summoner
 from riotApiCalls import RiotInterface
 import random
 from celery import Celery
+import json
 
 app = Celery('tasks', backend='redis://localhost', broker='pyamqp://guest@localhost//')
-key = 'RGAPI-ab55f697-ec42-4f93-ab8e-c6385f3c754a'
+key = 'RGAPI-8bc28692-079c-4001-8b70-69ed20eddc3b'
 
 interface = RiotInterface(key,1)
 champions = interface.getChampionById(param_dict = {'dataById':'true'})
@@ -19,10 +20,14 @@ roles = {
 def traverse(sample_size = 100, summ_cache = 3000):
   summ = Summoner('RamanujanPrime', .2, {})
   i = 0
+  FILLER = 0
   stat_dict = {}
   summoners = list()
   least_played_champ = sample_size - 1
-  while least_played_champ < sample_size:
+  summ.createLeague()
+  rank = summ.league
+  #while least_played_champ < sample_size:
+  while FILLER < 2:
     iter_list = []
     try:
       summ.createMatches()
@@ -39,10 +44,9 @@ def traverse(sample_size = 100, summ_cache = 3000):
         summoners = list(set(summoners).union(new_summoners))
       total = 1
       rand_int = random.randint(0,len(summoners)-1)
-      summ.createLeague()
       champ = champ_lookup[str(summ.champ_id)]['name']
       lane = roles[summ.lane]
-      print(least_played_champ, champ)
+      print(least_played_champ, champ, end = ' ')
       if champ not in stat_dict:
         stat_dict[champ] = {'sampleSize': 1}
         for key in stats:
@@ -62,6 +66,7 @@ def traverse(sample_size = 100, summ_cache = 3000):
             stat_dict[champ][key]['averageValue'][lane] += stats[key]
           else:
             continue
+      least_played_champ = stat_dict[champ]['sampleSize']
       for champion in stat_dict:
         if stat_dict[champion]['sampleSize'] < least_played_champ:
           least_played_champ = stat_dict[champion]['sampleSize']
@@ -77,6 +82,8 @@ def traverse(sample_size = 100, summ_cache = 3000):
           for lane in roles.values():
             total_value = stat_dict[champ][key]['averageValue'][lane]
             stat_dict[champ][key]['averageValue'][lane] = total_value/stat_dict[champ][key]['totalGames'][lane]
+    FILLER += 1
+  json_data = {'data': stat_dict,}
   return stat_dict
 
 '''
@@ -118,7 +125,7 @@ def traverse():
         for key in stats:
         if stats.get('firstTowerKill',False) or stats.get('firstTowerAssist',False):
           if stats['win']:
-            stat_dict[champ]['gamesWon'] += 1
+            stat_dict[champ]['game2qq+sWon'] += 1
           stat_dict[champ]['gameTotal'] += 1
         stat_dict[champ]['total'] += 1
       print(stat_dict)
