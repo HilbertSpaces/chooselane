@@ -19,8 +19,8 @@ roles = {
 'BOTTOM': 3
 }
 @app.task
-def traverse(sample_size = 100, summ_cache = 3000):
-  summ = Summoner('RamanujanPrime', .2, {})
+def traverse(summ_name, sample_size = 100, summ_cache = 3000):
+  summ = Summoner(summ_name, .2, {})
   i = 0
   FILLER = 0
   stat_dict = {}
@@ -54,22 +54,26 @@ def traverse(sample_size = 100, summ_cache = 3000):
       if champ not in stat_dict:
         stat_dict[champ] = {'sampleSize': 1}
         for key in stats:
-          stat_dict[champ][key] = {'averageValue': [0,0,0,0], 'totalGames': [1,1,1,1]}
-          if type(stats[key]) == int:
-            stat_dict[champ][key]['totalGames'][lane] += 1
-            stat_dict[champ][key]['averageValue'][lane] += stats[key]
-          else:
+          time_normalization_dict = {'perSecond': 0, 'perGame': 0}
+          stat_dict[champ][key] = {'averageValue': [time_normalization_dict]*4, 'totalGames': [1,1,1,1]}
+          if type(stats[key]) == bool:
             continue
+          else:
+            stat_dict[champ][key]['totalGames'][lane] += 1
+            stat_dict[champ][key]['averageValue'][lane]['perSecond'] += stats[key]/summ.match['gameDuration']
+            stat_dict[champ][key]['averageValue'][lane]['perGame'] += stats[key]
       else:
         stat_dict[champ]['sampleSize'] += 1
         for key in stats:
           if key not in stat_dict[champ]:
-            stat_dict[champ][key] = {'averageValue': [0,0,0,0], 'totalGames': [1,1,1,1]}
-          if type(stats[key]) == int:
-            stat_dict[champ][key]['totalGames'][lane] += 1
-            stat_dict[champ][key]['averageValue'][lane] += stats[key]
-          else:
+            time_normalization_dict = {'perSecond': 0, 'perGame': 0}
+            stat_dict[champ][key] = {'averageValue': [time_normalization_dict]*4, 'totalGames': [1,1,1,1]}
+          if type(stats[key]) == bool:
             continue
+          else:
+            stat_dict[champ][key]['totalGames'][lane] += 1
+            stat_dict[champ][key]['averageValue'][lane]['perSecond'] += stats[key]/summ.match['gameDuration']
+            stat_dict[champ][key]['averageValue'][lane]['perGame'] += stats[key]
       least_played_champ = stat_dict[champ]['sampleSize']
       for champion in stat_dict:
         if stat_dict[champion]['sampleSize'] < least_played_champ:
@@ -84,24 +88,27 @@ def traverse(sample_size = 100, summ_cache = 3000):
       for key in stat_dict[champ]:
         if key not in set(['sampleSize']):
           for lane in roles.values():
-            total_value = stat_dict[champ][key]['averageValue'][lane]
-            stat_dict[champ][key]['averageValue'][lane] = total_value/stat_dict[champ][key]['totalGames'][lane]
+            total_value_per_second = stat_dict[champ][key]['averageValue'][lane]['perSecond']
+            total_value_per_game = stat_dict[champ][key]['averageValue'][lane]['perGame']
+            stat_dict[champ][key]['averageValue'][lane]['perSecond'] = total_value_per_second/stat_dict[champ][key]['totalGames'][lane]
+            stat_dict[champ][key]['averageValue'][lane]['perGame'] = total_value_per_second/stat_dict[champ][key]['totalGames'][lane]
     FILLER += 1
   json_data = {'data': stat_dict,'tier': tier}
-  r.set(tier + 'league', json_data)
-  return stat_dict
+  r.set(tier + '_AVG_DICT', json_data)
+  return json_data
 
 '''
 @app.task
-def traverse():
-  summ = Summoner('RamanujanPrime', .2, {})
+def traverseData(summ_name, total_matches, sample_size = 100, cache = 3000):
+  summ = Summoner(summ_name, .2, {})
   num = 0
   den = 0
   i = 0
   total =0
   stat_dict = {}
   summoners = list()
-  for s in range(9000):
+  avg_dict = traverse(summ_name, sample_size = sample_size, summ_cache = cache)
+  for s in range(total_matches):
     num = 0
     den = 0
     total = 0
@@ -115,24 +122,38 @@ def traverse():
       continue
     if summ.match['queueId'] in [420, 440]:
       stats = summ.participant_stats
-      if len(summoners) < 4000:
+      if len(summoners) < cache:
         new_summoners = set(summ.summoner_list) - set(summ.summoner_name)
         summoners = list(set(summoners).union(new_summoners))
       total = 1
       rand_int = random.randint(0,len(summoners)-1)
       summ.createLeague()
       champ = champ_lookup[str(summ.champ_id)]['name']
+      lane = roles[summ.lane]
       if champ not in stat_dict:
-        stat_dict[champ] = {}
+        stat_dict[champ] = {'sampleSize': 1}
         for key in stats:
-          stat_dict[champ][key] = {'gamesWon':[0,0,0,0], 'gamesTotal': [0,0,0,0], 'AverageValue':[0,0,0,0]}
+          time_normalization_dict = {'perSecond': 0, 'perGame': 0}
+          stat_dict[champ][key] = {'gamesWon':[time_normalization_dict]*4, 'gamesTotal': [time_normalization_dict], 'total':[0,0,0,0]}
       else:
+        stat_dict[champ]['sampleSize'] += 1
         for key in stats:
-        if stats.get('firstTowerKill',False) or stats.get('firstTowerAssist',False):
-          if stats['win']:
-            stat_dict[champ]['game2qq+sWon'] += 1
-          stat_dict[champ]['gameTotal'] += 1
-        stat_dict[champ]['total'] += 1
+          stat_dict[champ][key]['total'][lane] += 1
+          if type(stats[key]) == bool:
+            if stats.get(key,False):
+              stat_dict[champ][key]['gameTotal'][lane] += 1
+              if stats['win']:
+                stat_dict[champ][key]['gamesWon'][lane] += 1
+          else:
+            if stats.get(key,False):
+              if stats[key]/summ.match['gameDuration'] > avg_dict[champ][key]['averageValue'][lane]['perSecond']:
+                stat_dict[champ][key]['gamesTotal'][lane]['perSecond'] += 1
+                if stats['win']:
+                  stat_dict[champ][key]['gamesWon'][lane]['perSecond'] += 1
+              if stats[key] > avg_dict[champ][key]['averageValue'][lane]['perGame']:
+                stat_dict[champ][key]['gamesTotal'][lane]['perGame'] += 1
+                if stats['win']:
+                  stat_dict[champ][key]['gamesWon'][lane]['perGame'] += 1
       print(stat_dict)
       #print(summ.summoner_list, num, den)
       #print(summ.league)
@@ -142,5 +163,7 @@ def traverse():
       rand_int = random.randint(0,len(summoners)-1)
       summ = Summoner(summoners.pop(rand_int), sleep=1, params = {'beginIndex':i, 'endIndex':i+1})
     i = (i+1)%30
+  json_data = {'data': stat_dict,'tier': avg_dict['tier']}
+  r.set(avg_dict['tier'] + '_DATA_DICT', json_data)
   return stat_dict
 '''
