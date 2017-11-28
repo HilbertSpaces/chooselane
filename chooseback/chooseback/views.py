@@ -6,6 +6,10 @@ import redis
 
 #class ShowChamp(APIView):
 r = redis.StrictRedis(host="localhost")
-full = r.get('BRONZEleague')
-def index(request):
-  return HttpResponse(full)
+avg_data = r.get('BRONZE_AVG_DICT')
+full_data = r.get('BRONZE_DATA_DICT')
+def avg(request):
+  return HttpResponse(avg_data)
+
+def full(request):
+  return HttpResponse(full_data)

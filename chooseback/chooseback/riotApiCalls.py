@@ -126,3 +126,14 @@ class RiotInterface(object):
     time.sleep(self.limiter)
     self.calls += 1
     return champion
+
+  def getLeagueById(self, league_id):
+    league_id = str(account_id) + '?'
+    url = 'https://na1.api.riotgames.com/lol/league/v3/leagues/'
+    league = requests.get(url + league_id + self.api_key)
+    if league.status_code != 200:
+      raise(ValueError('Could not retrieve league'))
+    league = league.json()
+    time.sleep(self.limiter)
+    self.calls += 1
+    return league

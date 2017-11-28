@@ -1,14 +1,13 @@
 from riotApiCalls import RiotInterface
 import time
 
-key = 'RGAPI-64fbd489-7047-4c61-bb06-86f1c59c13de'
-
+key = 'RGAPI-e5cd1e1c-93a2-4808-a456-bb44c077067d'
+interface = RiotInterface(key, 1)
 
 class Summoner(object):
 
   def __init__(self, summoner_name, sleep = .1, params = {}):
     self.sleep = sleep
-    self.interface = RiotInterface(key, sleep)
     self.matches_in_matchlist= []
     self.summoner_list = []
     self.game_ids = []
@@ -31,6 +30,7 @@ class Summoner(object):
     self.length = params.get('endIndex',0) - params.get('beginIndex',0)
     self.matchlists = []
     self.lane = ''
+    self.calls = interface.calls
 
   def description(self):
     desc = '''Takes a summoner name (str) or id(int), a sleep(float) and a
@@ -74,16 +74,16 @@ class Summoner(object):
   def getMatches(self):
     self.game_ids = self.getAllMatchIdsInMatchList()
     for game_id in self.game_ids:
-      self.match = self.interface.getMatchesByGameId(game_id)
+      self.match = interface.getMatchesByGameId(game_id)
       yield self.match
 
   def createMatches(self):
     try:
-      self.summoner = self.interface.getSummonerByName(self.summoner_name)
+      self.summoner = interface.getSummonerByName(self.summoner_name)
     except ValueError:
       raise(ValueError('Could not retrieve summoner'))
     try:
-      self.matchlists = self.interface.getMatchlistsByAccountId(
+      self.matchlists = interface.getMatchlistsByAccountId(
          self.summoner['accountId'], self.params)
     except:
       raise(ValueError('Could not retrieve matchlist'))
@@ -117,10 +117,10 @@ class Summoner(object):
 
   def createLeague(self):
     try:
-      self.summoner = self.interface.getSummonerByName(self.summoner_name)
+      self.summoner = interface.getSummonerByName(self.summoner_name)
     except ValueError:
       raise(ValueError('Could not retrieve summoner'))
-    self.league = self.interface.getLeagueBySummonerId(self.summoner['id'])
+    self.league = interface.getLeagueBySummonerId(self.summoner['id'])
 
   def createParticipant(self):
     self.total_games = self.matchlists['totalGames']
@@ -142,7 +142,7 @@ class Summoner(object):
         self.team = team
 
   def createChampion(self):
-    self.champion = self.interface.getChampionById(self.champ_id)
+    self.champion = interface.getChampionById(self.champ_id)
 
   def createMatchSummoners(self):
     participant_ids = self.match['participantIdentities']
