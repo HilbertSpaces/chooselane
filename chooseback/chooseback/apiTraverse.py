@@ -6,7 +6,7 @@ import json
 import redis
 
 app = Celery('tasks', broker='pyamqp://guest@localhost//')
-key = 'RGAPI-e5cd1e1c-93a2-4808-a456-bb44c077067d'
+key = 'RGAPI-23262767-161d-4f01-8762-03a0c93b0b10'
 r = redis.StrictRedis('localhost')
 
 interface = RiotInterface(key,1)
@@ -20,7 +20,7 @@ roles = {
 }
 
 def buildCache(league):
-  leauge_ids = {
+  league_ids = {
     'BRONZE': '86651600-c4e7-11e6-bff6-c81f66cf135e',
     'SILVER': '1ca60e40-d112-11e6-bf61-c81f66dbb56c',
     'GOLD': 'bc5c2010-4a51-11e7-9773-c81f66dbb56c',
@@ -35,8 +35,8 @@ def buildCache(league):
       summ_cache.append(entry['playerOrTeamName'])
   return summ_cache
 
-def traverse(league, sample_size = 100, summ_cache = 3000):
-  summoners = buildCache(league)
+def traverse(summoners, sample_size = 100, summ_cache = 3000):
+  summoners = summoners
   summ = Summoner(summoners.pop(), {})
   i = 3
   FILLER = 0
@@ -47,8 +47,7 @@ def traverse(league, sample_size = 100, summ_cache = 3000):
   for queue in leagues:
     if queue['queueType'] == "RANKED_SOLO_5x5":
       tier = queue['tier']
-  #while least_played_champ < sample_size:
-  while FILLER < 2:
+  while least_played_champ < sample_size:
     print(summ.calls)
     try:
       summ.createMatches()
@@ -117,16 +116,16 @@ def traverse(league, sample_size = 100, summ_cache = 3000):
 
 @app.task
 def traverseData(league, total_matches, sample_size = 100, cache = 3000):
-  avg_dict_full = traverse(summ_name, sample_size = sample_size, summ_cache = cache)
-  avg_dict = avg_dict_full['data']
   summoners = buildCache(league)
+  avg_dict_full = traverse(summoners, sample_size = sample_size, summ_cache = cache)
+  avg_dict = avg_dict_full['data']
   summ = Summoner(summoners.pop(), {})
+  print('length of summ!!!: ',len(summoners))
   num = 0
   den = 0
   i = 0
   total =0
   stat_dict = {}
-  summoners = list()
   for s in range(total_matches):
     num = 0
     den = 0
@@ -146,7 +145,7 @@ def traverseData(league, total_matches, sample_size = 100, cache = 3000):
         summoners = list(set(summoners).union(new_summoners))
       total = 1
       rand_int = random.randint(0,len(summoners)-1)
-      summ.createLeague()
+      #summ.createLeague()
       champ = champ_lookup[str(summ.champ_id)]['name']
       lane = roles[summ.lane]
       #INIT the dictionary
@@ -181,9 +180,9 @@ def traverseData(league, total_matches, sample_size = 100, cache = 3000):
       #print(summ.league)
       summ = Summoner(summoners.pop(rand_int),params = {'beginIndex':i, 'endIndex':i+1})
     else:
-      print('not in queue [420, 440]')
+      print('not in queue [420, 440]',len(summoners))
       rand_int = random.randint(0,len(summoners)-1)
-      summ = Summoner(summoners.pop(rand_int, params = {'beginIndex':i, 'endIndex':i+1}))
+      summ = Summoner(summoners.pop(rand_int), params = {'beginIndex':i, 'endIndex':i+1})
     i = (i+1)%30
   json_data = {'data': stat_dict,'tier': avg_dict_full['tier']}
   r.set(avg_dict_full['tier'] + '_DATA_DICT', json_data)

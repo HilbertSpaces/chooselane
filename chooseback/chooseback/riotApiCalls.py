@@ -128,7 +128,7 @@ class RiotInterface(object):
     return champion
 
   def getLeagueById(self, league_id):
-    league_id = str(account_id) + '?'
+    league_id = str(league_id) + '?'
     url = 'https://na1.api.riotgames.com/lol/league/v3/leagues/'
     league = requests.get(url + league_id + self.api_key)
     if league.status_code != 200:
