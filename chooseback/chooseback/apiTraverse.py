@@ -6,17 +6,18 @@ import json
 import redis
 
 app = Celery('tasks', broker='pyamqp://guest@localhost//')
-key = 'RGAPI-23262767-161d-4f01-8762-03a0c93b0b10'
+key = 'RGAPI-1d6224fd-2a87-4467-9993-a4e6bc27b9ee'
 r = redis.StrictRedis('localhost')
 
-interface = RiotInterface(key,1)
+interface = RiotInterface(key, .85)
 champions = interface.getChampionById(param_dict = {'dataById':'true'})
 champ_lookup = champions['data']
 roles = {
 'TOP': 0,
 'MID': 1,
 'JUNGLE': 2,
-'BOTTOM': 3
+'BOTTOM': 3,
+'SUPPORT':4,
 }
 
 def buildCache(league):
@@ -35,10 +36,10 @@ def buildCache(league):
       summ_cache.append(entry['playerOrTeamName'])
   return summ_cache
 
-def traverse(summoners, sample_size = 100, summ_cache = 3000):
+def traverse(summoners, sample_size = 4, summ_cache = 3000):
   summoners = summoners
   summ = Summoner(summoners.pop(), {})
-  i = 3
+  i = 0
   FILLER = 0
   stat_dict = {}
   least_played_champ = sample_size - 1
@@ -65,14 +66,15 @@ def traverse(summoners, sample_size = 100, summ_cache = 3000):
       total = 1
       rand_int = random.randint(0,len(summoners)-1)
       champ = champ_lookup[str(summ.champ_id)]['name']
-      lane = roles[summ.lane]
+      if summ.role == 'DUO':
+        lane = roles['SUPPORT']
+      else:
+        lane = roles[summ.lane]
       print(champ)
       if champ not in stat_dict:
         stat_dict[champ] = {'sampleSize': 1}
         for key in stats:
-          time_normalization_dict = {'perSecond': 0, 'perGame': 0}
-          stat_dict[champ][key] = {'averageValue': [{'perSecond': 0, 'perGame': 0},
-          {'perSecond': 0, 'perGame': 0},{'perSecond': 0, 'perGame': 0},{'perSecond': 0, 'perGame': 0}], 'totalGames': [1,1,1,1]}
+          stat_dict[champ][key] = {'averageValue': [{'perSecond': 0, 'perGame': 0} for x in range(5)], 'totalGames': [1,1,1,1,1]}
           if type(stats[key]) == bool:
             continue
           else:
@@ -84,8 +86,7 @@ def traverse(summoners, sample_size = 100, summ_cache = 3000):
         for key in stats:
           if key not in stat_dict[champ]:
             {'perSecond': 0, 'perGame': 0}
-            stat_dict[champ][key] = {'averageValue': [
-            {'perSecond': 0, 'perGame': 0},{'perSecond': 0, 'perGame': 0},{'perSecond': 0, 'perGame': 0},{'perSecond': 0, 'perGame': 0}], 'totalGames': [1,1,1,1]}
+            stat_dict[champ][key] = {'averageValue': [{'perSecond': 0, 'perGame': 0} for x in range(5)], 'totalGames': [1,1,1,1,1]}
           if type(stats[key]) == bool:
             continue
           else:
@@ -96,6 +97,7 @@ def traverse(summoners, sample_size = 100, summ_cache = 3000):
       for champion in stat_dict:
         if stat_dict[champion]['sampleSize'] < least_played_champ:
           least_played_champ = stat_dict[champion]['sampleSize']
+      print('Least Played Champ Currently: ' + str(least_played_champ))
       summ = Summoner(summoners.pop(rand_int),params = {'beginIndex':i, 'endIndex':i+1})
     else:
       print('not in queue [420, 440]')
@@ -115,7 +117,7 @@ def traverse(summoners, sample_size = 100, summ_cache = 3000):
 
 
 @app.task
-def traverseData(league, total_matches, sample_size = 100, cache = 3000):
+def traverseData(league, total_matches, sample_size = 4, cache = 3000):
   summoners = buildCache(league)
   avg_dict_full = traverse(summoners, sample_size = sample_size, summ_cache = cache)
   avg_dict = avg_dict_full['data']
@@ -153,9 +155,9 @@ def traverseData(league, total_matches, sample_size = 100, cache = 3000):
         stat_dict[champ] = {'sampleSize': 1}
         for key in stats:
           if type(stats[key])  == bool:
-            stat_dict[champ][key] = {'gamesWon':[0,0,0,0], 'gameTotal':[0,0,0,0], 'total':[0,0,0,0]}
+            stat_dict[champ][key] = {'gamesWon':[0,0,0,0,0], 'gameTotal':[0,0,0,0,0], 'total':[0,0,0,0,0]}
           else:
-            stat_dict[champ][key] = {'gamesWon':[{'perSecond': 0, 'perGame': 0} for x in range(4)], 'gameTotal': [{'perSecond': 0, 'perGame': 0} for x in range(4)], 'total':[0,0,0,0]}
+            stat_dict[champ][key] = {'gamesWon':[{'perSecond': 0, 'perGame': 0} for x in range(5)], 'gameTotal': [{'perSecond': 0, 'perGame': 0} for x in range(5)], 'total':[0,0,0,0,0]}
       #build the dictionary
       stat_dict[champ]['sampleSize'] += 1
       for key in stats:

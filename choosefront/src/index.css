@@ -1,3 +1,6 @@
+body, html {
+  height:100%;
+}
 
 body {
   font-family: sans-serif;
@@ -10,28 +13,40 @@ body {
 .lane_map {
   right: 0em;
   display: block;
-  height:1100em;
-  width: 1200em;
-  background-size: cover;
+  height:100%;
+  width: 100%;
+  background-size:auto 100%;
   background-repeat: no-repeat;
   background-color: black;
   background-position: center;
   position: absolute;
-  background-image:url('choose_lane_map1.png');
+  background:url('choose_lane_map.jpg');
   max-width: 100%;
   max-height: 100%;
 }
 
-.top_lane {
+.top {
   top: 10%;
-  right:75%;
+  right: 75%;
   position: absolute;
   background-size: cover;
   height:4em;
   width: 4em;
-  background-image: url('top_lane.png');
+  background-image: url('TOP.png');
   max-width: 2%;
   max-height: 4%;
+}
+
+.bottom {
+  top: 73%;
+  right: 65%;
+  position: absolute;
+  background-size: cover;
+  height: 11em;
+  width: 11em;
+  background-image: url('BOTTOM.png');
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .image {
@@ -44,4 +59,9 @@ body {
   position: absolute;
   max-width: 100%;
   max-height: 100%;
+}
+
+.champselect {
+  height: 30px;
+  width: 30px;
 }

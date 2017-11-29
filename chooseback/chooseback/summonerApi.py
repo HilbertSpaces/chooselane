@@ -1,13 +1,12 @@
 from riotApiCalls import RiotInterface
 import time
 
-key = 'RGAPI-23262767-161d-4f01-8762-03a0c93b0b10'
-interface = RiotInterface(key, 1)
+key = 'RGAPI-1d6224fd-2a87-4467-9993-a4e6bc27b9ee'
+interface = RiotInterface(key, .85)
 
 class Summoner(object):
 
-  def __init__(self, summoner_name, sleep = .1, params = {}):
-    self.sleep = sleep
+  def __init__(self, summoner_name, params = {}):
     self.matches_in_matchlist= []
     self.summoner_list = []
     self.game_ids = []
@@ -30,6 +29,7 @@ class Summoner(object):
     self.length = params.get('endIndex',0) - params.get('beginIndex',0)
     self.matchlists = []
     self.lane = ''
+    self.role = ''
     self.calls = interface.calls
 
   def description(self):
@@ -126,7 +126,14 @@ class Summoner(object):
     self.total_games = self.matchlists['totalGames']
     current_matchlist = self.matchlists.get('matches', [None])[self.match_num]
     self.champ_id = current_matchlist['champion']
-    self.lane = current_matchlist['lane']
+    try:
+      self.lane = current_matchlist['lane']
+    except:
+      raise(ValueError('Could not build lane'))
+    try:
+      self.role = current_matchlist['role']
+    except:
+      raise(ValueError('Could not build lane'))
     participant_list = self.match['participants']
     for participant_data in participant_list:
       if participant_data['championId'] == self.champ_id:

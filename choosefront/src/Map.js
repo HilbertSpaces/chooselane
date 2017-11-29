@@ -29,9 +29,13 @@ class LaneIcon extends Component {
 class Map extends Component {
   render() {
     return (
-      <div className='lane_map'>
-        <ChampName></ChampName>
-        <LaneIcon lane='top_lane' view='/champions'></LaneIcon>
+      <div>
+      <div className='lane_map'> </div>
+        <LaneIcon lane='top' view='/champions'></LaneIcon>
+        <LaneIcon lane='mid' view='/champions'></LaneIcon>
+        <LaneIcon lane='jungle' view='/champions'></LaneIcon>
+        <LaneIcon lane='support' view='/champions'></LaneIcon>
+        <LaneIcon lane='bottom' view='/champions'></LaneIcon>
       </div>
     )
   }
