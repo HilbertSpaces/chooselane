@@ -36,7 +36,7 @@ def buildCache(league):
       summ_cache.append(entry['playerOrTeamName'])
   return summ_cache
 
-def traverse(summoners, sample_size = 4, summ_cache = 3000):
+def traverse(summoners, sample_size = 2, summ_cache = 3000):
   summoners = summoners
   summ = Summoner(summoners.pop(), {})
   i = 0
@@ -117,7 +117,7 @@ def traverse(summoners, sample_size = 4, summ_cache = 3000):
 
 
 @app.task
-def traverseData(league, total_matches, sample_size = 4, cache = 3000):
+def traverseData(league, total_matches, sample_size = 2, cache = 3000):
   summoners = buildCache(league)
   avg_dict_full = traverse(summoners, sample_size = sample_size, summ_cache = cache)
   avg_dict = avg_dict_full['data']
