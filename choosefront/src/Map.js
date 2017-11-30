@@ -32,8 +32,12 @@ class Map extends Component {
       <div>
       <div className='lane_map'> </div>
         <div className='top_parent'>
-        <LaneIcon lane='top' view='/champions'><p>Top</p></LaneIcon>
+          <LaneIcon lane='top' view='/champions'></LaneIcon>
+          <div className='top_desc_parent'>
+            <Link className='top_desc' to={'/champions'}>Top</Link>
+          </div>
         </div>
+        <div className='diamond'></div>
         <LaneIcon lane='middle' view='/champions'></LaneIcon>
         <LaneIcon lane='jungle' view='/champions'></LaneIcon>
         <LaneIcon lane='support' view='/champions'></LaneIcon>

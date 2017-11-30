@@ -12,45 +12,69 @@
   max-width: 100%;
   max-height: 100%;
 }
+
+.top_parent:hover .top_desc_parent {
+  visibility: visible;
+  opacity: 1;
+  transform: scale(1.2);
+  transition: 1.5s;
+}
+
+.top_desc{
+  transition: 1.5s;
+  color:white;
+  margin:4em;
+}
+.top_desc_parent{
+  visibility: hidden;
+  opacity: 0;
+}
+.top_desc:hover{
+  color: white;
+  text-decoration: none;
+  margin: 4em;
+  transform: scale(1.2)
+}
 .top_parent {
+  transition: 1.5s;
   height: 4em;
   width: 4em;
-  top: 89%;
+  top: 17%;
   right: 75%;
   position: absolute;
-  overflow: hidden;
-  float: left;
-  display: inline-block;
-  cursor: pointer;
+  visibility: visible;
+  opacity: 1;
 }
-.top:before {
-    content: "";
-    display: none;
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: rgba(52,73,94,0.75);
-}
-.top_parent:hover .top:before, .parent:focus .child:before {
-    display: block;
-}
+
+
 .top_parent:hover {
   transform: scale(1.2);
-  display:block;
+  color: white;
+  z-index: 10;
 }
 
+#lane_names {
+  color: white;
+  width: 50em;
+  height: 50em;
+  position: absolute;
+  top:33%;
+  right:22%;
+}
 
+#top:hover{
+  transition: all 2.5s;
+  transform: scale(1.2);
+}
 #top {
-  transition: all .5s;
+  transition: all 2.5s;
+  height: 100%;
+  width: 100%;
   background-size: cover;
   background-position: center;
   position: absolute;
   background-repeat:no-repeat;
   background-image: url('TOP.png');
-  height:100%;
-  width: 100%;
 }
 
 #bottom {
