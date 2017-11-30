@@ -1,42 +1,61 @@
-
-body {
-  font-family: sans-serif;
-  background-color: black;
-  background-size: cover;
-  color:white;
-  text-align: center;
-}
-
 .lane_map {
   right: 0em;
   display: block;
   height:100%;
   width: 100%;
-  background-size:auto 100%;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   background-color: black;
   background-position: center;
   position: absolute;
-  background-image:url('choose_lane_map.jpg');
+  background-image:url('choose_lane_map1.png');
   max-width: 100%;
   max-height: 100%;
 }
-
-.top {
-  top: 10%;
+.top_parent {
+  height: 4em;
+  width: 4em;
+  top: 89%;
   right: 75%;
   position: absolute;
-  background-size: cover;
-  height:4em;
-  width: 4em;
-  background-image: url('TOP.png');
-  max-width: 2%;
-  max-height: 4%;
+  overflow: hidden;
+  float: left;
+  display: inline-block;
+  cursor: pointer;
+}
+.top:before {
+    content: "";
+    display: none;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(52,73,94,0.75);
+}
+.top_parent:hover .top:before, .parent:focus .child:before {
+    display: block;
+}
+.top_parent:hover {
+  transform: scale(1.2);
+  display:block;
 }
 
-.bottom {
-  top: 73%;
-  right: 65%;
+
+#top {
+  transition: all .5s;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  background-repeat:no-repeat;
+  background-image: url('TOP.png');
+  height:100%;
+  width: 100%;
+}
+
+#bottom {
+  top: 77%;
+  right: 19%;
   position: absolute;
   background-size: contain;
   height: 4em;
@@ -45,9 +64,10 @@ body {
   max-width: 100%;
   max-height: 100%;
 }
-.jungle {
-  top: 73%;
-  right: 65%;
+
+#jungle {
+  top: 43%;
+  right: 68%;
   position: absolute;
   background-size: contain;
   height: 4em;
@@ -56,6 +76,31 @@ body {
   max-width: 100%;
   max-height: 100%;
 }
+
+#middle {
+  top: 50%;
+  right: 50%;
+  position: absolute;
+  background-size: contain;
+  height: 4em;
+  width: 4em;
+  background-image: url('MIDDLE.png');
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#support {
+  top: 83%;
+  right: 25%;
+  position: absolute;
+  background-size: contain;
+  height: 4em;
+  width: 4em;
+  background-image: url('SUPPORT.png');
+  max-width: 100%;
+  max-height: 100%;
+}
+
 .image {
   height:1100em;
   width: 1200em;

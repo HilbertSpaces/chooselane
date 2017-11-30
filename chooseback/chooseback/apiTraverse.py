@@ -111,9 +111,10 @@ def traverse(summoners, sample_size = 2, summ_cache = 3000):
         for lne in roles.values():
           stat_dict[champ][key]['averageValue'][lne]['perSecond'] /= stat_dict[champ][key]['totalGames'][lne]
           stat_dict[champ][key]['averageValue'][lne]['perGame'] /= stat_dict[champ][key]['totalGames'][lne]
-  json_data = {'data': stat_dict,'tier': tier}
-  r.set(tier + '_AVG_DICT', json_data)
-  return json_data
+  data = {'data': stat_dict,'tier': tier}
+  json_data = json.dumps(data)
+  r.hmset(tier + '_AVG_DICT', json_data)
+  return data
 
 
 @app.task
@@ -187,5 +188,5 @@ def traverseData(league, total_matches, sample_size = 2, cache = 3000):
       summ = Summoner(summoners.pop(rand_int), params = {'beginIndex':i, 'endIndex':i+1})
     i = (i+1)%30
   json_data = {'data': stat_dict,'tier': avg_dict_full['tier']}
-  r.set(avg_dict_full['tier'] + '_DATA_DICT', json_data)
+  r.hmset(avg_dict_full['tier'] + '_DATA_DICT', json_data)
   return stat_dict

@@ -21,7 +21,7 @@ class LaneIcon extends Component {
   }
   render() {
     return (
-        <Link className={this.props.lane} to={this.props.view}></Link>
+        <Link className='lane' id={this.props.lane} to={this.props.view}></Link>
     )
   }
 }
@@ -31,8 +31,10 @@ class Map extends Component {
     return (
       <div>
       <div className='lane_map'> </div>
-        <LaneIcon lane='top' view='/champions'></LaneIcon>
-        <LaneIcon lane='mid' view='/champions'></LaneIcon>
+        <div className='top_parent'>
+        <LaneIcon lane='top' view='/champions'><p>Top</p></LaneIcon>
+        </div>
+        <LaneIcon lane='middle' view='/champions'></LaneIcon>
         <LaneIcon lane='jungle' view='/champions'></LaneIcon>
         <LaneIcon lane='support' view='/champions'></LaneIcon>
         <LaneIcon lane='bottom' view='/champions'></LaneIcon>
