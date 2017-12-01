@@ -21,7 +21,7 @@ class LaneIcon extends Component {
   }
   render() {
     return (
-        <Link className='lane' id={this.props.lane} to={this.props.view}></Link>
+        <Link className='lanes' id={this.props.lane} to={this.props.view}></Link>
     )
   }
 }
@@ -31,10 +31,10 @@ class Map extends Component {
     var lanes = ['top','middle','jungle','bottom','support']
     var lane_render = lanes.map(function(lane){
       return (
-        <div className = {lane + '_parent'}>
+        <div className ='lane_parent' id={lane + '_parent'}>
           <LaneIcon lane={lane} view='/champions'></LaneIcon>
-          <div className={lane +'_desc_parent'}>
-            <Link className={lane+'_desc'} to={'/champions'}>
+          <div className='lane_desc_parent'>
+            <Link className='lane_desc' to={'/champions'}>
               {lane.toUpperCase()}
             </Link>
           </div>
@@ -45,16 +45,6 @@ class Map extends Component {
       <div>
       <div className='lane_map'> </div>
         {lane_render}
-        /*<div className='top_parent'>
-          <LaneIcon lane='top' view='/champions'></LaneIcon>
-          <div className='top_desc_parent'>
-            <Link className='top_desc' to={'/champions'}>Top</Link>
-          </div>
-        </div>
-        <LaneIcon lane='middle' view='/champions'></LaneIcon>
-        <LaneIcon lane='jungle' view='/champions'></LaneIcon>
-        <LaneIcon lane='support' view='/champions'></LaneIcon>
-        <LaneIcon lane='bottom' view='/champions'></LaneIcon>*/
       </div>
     )
   }
