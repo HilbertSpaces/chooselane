@@ -28,20 +28,33 @@ class LaneIcon extends Component {
 
 class Map extends Component {
   render() {
+    var lanes = ['top','middle','jungle','bottom','support']
+    var lane_render = lanes.map(function(lane){
+      return (
+        <div className = {lane + '_parent'}>
+          <LaneIcon lane={lane} view='/champions'></LaneIcon>
+          <div className={lane +'_desc_parent'}>
+            <Link className={lane+'_desc'} to={'/champions'}>
+              {lane.toUpperCase()}
+            </Link>
+          </div>
+        </div>
+      )
+    })
     return (
       <div>
       <div className='lane_map'> </div>
-        <div className='top_parent'>
+        {lane_render}
+        /*<div className='top_parent'>
           <LaneIcon lane='top' view='/champions'></LaneIcon>
           <div className='top_desc_parent'>
             <Link className='top_desc' to={'/champions'}>Top</Link>
           </div>
         </div>
-        <div className='diamond'></div>
         <LaneIcon lane='middle' view='/champions'></LaneIcon>
         <LaneIcon lane='jungle' view='/champions'></LaneIcon>
         <LaneIcon lane='support' view='/champions'></LaneIcon>
-        <LaneIcon lane='bottom' view='/champions'></LaneIcon>
+        <LaneIcon lane='bottom' view='/champions'></LaneIcon>*/
       </div>
     )
   }
