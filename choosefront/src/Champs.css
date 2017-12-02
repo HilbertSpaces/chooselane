@@ -1,0 +1,82 @@
+.cham{
+  height: 5.5em;
+  width: 5.5em;
+  opacity: 1;
+  display: inline-grid;
+}
+.cham:hover{
+  transform: scale(1.2);
+  background: black;
+}
+.champs{
+  height: 5.5em;
+  width: 5.5em;
+}
+.champs:hover{
+  opacity: .4;
+  visibility: visible;
+  display: block;
+}
+.cham:hover .name{
+  visibility: visible;
+}
+.win_rate{
+  height: 2em;
+  position: relative;
+  text-align: center;
+  color: rgb(107,183,5);
+  display: block;
+  top: -3.5em
+}
+.name{
+  position: relative;
+  height: 2em;
+  visibility: hidden;
+}
+.win_rate:hover{
+  opacity: 1;
+}
+.name{
+  color: white;
+}
+.filler{
+  display: block;
+  height:100%;
+  width: 100%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-color: black;
+  background-position: center;
+  position: absolute;
+  max-width: 100%;
+  max-height: 100%;
+  background-image: url('choose_lane_map1.png');
+}
+.champT-enter {
+  opacity: 0.01;
+  position: absolute;
+}
+.champT-enter.champT-enter-active {
+  height: 70%;
+  width: 70%;
+  opacity: 1;
+  transition: opacity 900ms ease-in;
+  position: relative;
+  top: 10em;
+  right: -15em;
+}
+.containerd{
+  position: relative;
+  top: 10em;
+  right: -15em;
+  height:70%;
+  width: 70%;
+}
+.champT-leave {
+  opacity: 1;
+}
+
+.champT-leave.champT-leave-active {
+  opacity: 0.01;
+  transition: opacity 900ms ease-in;
+}

@@ -1,24 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
-import axios from 'axios';
+import './Map.css';
 import { Link } from 'react-router-dom';
-
-class ChampName extends Component {
-  constructor(){
-    super();
-    this.state = {name: 'Jon'};
-
-  }
-
-  render() {
-    return (<p></p>)
-  }
-}
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class LaneIcon extends Component {
-  constructor(props) {
-    super(props)
-  }
   render() {
     return (
         <Link className='lanes' id={this.props.lane} to={this.props.view}></Link>
@@ -26,12 +11,12 @@ class LaneIcon extends Component {
   }
 }
 
-class Map extends Component {
+class HomeComponent extends Component {
   render() {
     var lanes = ['top','middle','jungle','bottom','support']
-    var lane_render = lanes.map(function(lane){
+    var lane_render = lanes.map(function(lane,i){
       return (
-        <div className ='lane_parent' id={lane + '_parent'}>
+        <div key={i} className ='lane_parent' id={lane + '_parent'}>
           <LaneIcon lane={lane} view='/champions'></LaneIcon>
           <div className='lane_desc_parent'>
             <Link className='lane_desc' to={'/champions'}>
@@ -42,12 +27,13 @@ class Map extends Component {
       )
     })
     return (
-      <div>
-      <div className='lane_map'> </div>
-        {lane_render}
-      </div>
+
+        <div className='home'>
+          <div className='lane_map'> </div>
+          {lane_render}
+        </div>
     )
   }
 }
-
-export default Map;
+const Home = HomeComponent;
+export default Home;
