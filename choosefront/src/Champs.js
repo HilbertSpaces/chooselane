@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Champs.css';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { Link } from 'react-router-dom';
 
 class Champs extends React.Component {
   constructor(props) {
@@ -29,6 +30,7 @@ class Champs extends React.Component {
 
   render() {
     const champs = this.state.items.map((champ, i) => (
+    <Link className='lanes' id={champ} to={'/'}>
       <div className='cham' key={champ} onClick={() => this.handleRemove(i)}>
         <img className='champs'
           src={'http://ddragon.leagueoflegends.com/cdn/7.23.1/img/champion/' +
@@ -36,6 +38,7 @@ class Champs extends React.Component {
         <div className='name'>{champ}</div>
         <div className='win_rate'>{'55%'}</div>
       </div>
+      </Link>
     ));
     var trans = this.state.mounted ?
       <div className='containerd'>{champs}</div>: null;

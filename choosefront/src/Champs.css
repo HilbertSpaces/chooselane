@@ -41,8 +41,8 @@
 }
 .filler{
   display: block;
-  height:100%;
-  width: 100%;
+  height:1100em;
+  width: 1100em;
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-color: black;
