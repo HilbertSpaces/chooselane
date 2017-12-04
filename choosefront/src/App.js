@@ -3,6 +3,7 @@ import './App.css';
 import { BrowserRouter, Route } from 'react-router-dom';
 import  Champs  from './Champs';
 import Home from './Map'
+import ChampStats from './ChampStats'
 
 class App extends Component {
   render() {
@@ -16,6 +17,7 @@ class App extends Component {
         </nav>
           <Route exact path="/" render={() => <Home /> } />
           <Route path="/champions" render={ () => <Champs/> } />
+          <Route path="/statistics" render={ () => <ChampStats/> } />
         </div>
      </BrowserRouter>
     )

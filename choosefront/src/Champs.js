@@ -30,7 +30,7 @@ class Champs extends React.Component {
 
   render() {
     const champs = this.state.items.map((champ, i) => (
-    <Link className='lanes' id={champ} to={'/'}>
+    <Link key={champ} className='lanes' id={champ} to={'/statistics'}>
       <div className='cham' key={champ} onClick={() => this.handleRemove(i)}>
         <img className='champs'
           src={'http://ddragon.leagueoflegends.com/cdn/7.23.1/img/champion/' +
@@ -40,9 +40,13 @@ class Champs extends React.Component {
       </div>
       </Link>
     ));
-    var trans = this.state.mounted ?
+    const trans = this.state.mounted ?
       <div className='containerd'>{champs}</div>: null;
     return (
+      <ReactCSSTransitionGroup
+        transitionName="champOut"
+        transitionEnterTimeout={900}
+        transitionLeaveTimeout={1000}>
       <div className='filler'>
         <ReactCSSTransitionGroup
           transitionName="champT"
@@ -51,6 +55,7 @@ class Champs extends React.Component {
           {trans}
         </ReactCSSTransitionGroup>
       </div>
+      </ReactCSSTransitionGroup>
     );
   }
 }

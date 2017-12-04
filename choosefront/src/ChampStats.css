@@ -1,0 +1,56 @@
+.champimg{
+  height: 94%;
+  left: 0em;
+  top: 4em;
+  position: absolute;
+}
+
+.champ{
+  display: block;
+  height:900em;
+  width: 1100em;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-color: black;
+  background-position: center;
+  position: absolute;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.champIn-enter{
+  transform: translateY(100%);
+}
+
+.champIn-enter.champIn-enter-active {
+  height:1100em;
+  width: 1100em;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-color: black;
+  background-position: center;
+  position: absolute;
+  max-width: 100%;
+  max-height: 100%;
+  transform: translateY(0%);
+  transition: transform 1000ms ease-in-out;
+}
+
+.mapT-enter{
+  transform: translateY(0%);
+}
+
+.mapT-enter.mapT-enter-active {
+  height:1100em;
+  width: 1100em;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-color: black;
+  background-position: center;
+  background-image: url('choose_lane_map1.png');
+  position: absolute;
+  max-width: 100%;
+  max-height: 100%;
+  transform: translateY(-100%);
+  transition: transform 1000ms ease-in-out;
+}

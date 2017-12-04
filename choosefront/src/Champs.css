@@ -1,6 +1,6 @@
 .cham{
-  height: 5.5em;
-  width: 5.5em;
+  height: 4.5em;
+  width: 4.5em;
   opacity: 1;
   display: inline-grid;
 }
@@ -9,8 +9,8 @@
   background: black;
 }
 .champs{
-  height: 5.5em;
-  width: 5.5em;
+  height: 4.5em;
+  width: 4.5em;
 }
 .champs:hover{
   opacity: .4;
@@ -26,19 +26,18 @@
   text-align: center;
   color: rgb(107,183,5);
   display: block;
-  top: -3.5em
+  top: -3.5em;
 }
 .name{
   position: relative;
   height: 2em;
   visibility: hidden;
+  color: white;
 }
 .win_rate:hover{
   opacity: 1;
 }
-.name{
-  color: white;
-}
+
 .filler{
   display: block;
   height:1100em;
@@ -63,20 +62,29 @@
   transition: opacity 900ms ease-in;
   position: relative;
   top: 10em;
-  right: -15em;
+  right: -20em;
 }
 .containerd{
   position: relative;
   top: 10em;
-  right: -15em;
+  right: -20em;
   height:70%;
   width: 70%;
 }
-.champT-leave {
+.champT-leave{
   opacity: 1;
 }
-
 .champT-leave.champT-leave-active {
   opacity: 0.01;
   transition: opacity 900ms ease-in;
+}
+
+.champOut-leave{
+  transform: translate(0%);
+}
+
+
+.champOut-leave.champOut-leave-active {
+  transform: translate(-100%);
+  transition: transform 1000ms ease
 }
