@@ -1,8 +1,16 @@
 .champimg{
   height: 94%;
+  width: 100%;
   left: 0em;
   top: 4em;
   position: absolute;
+  background-size: 99% 99%;
+  background-repeat: no-repeat;
+  background-color: black;
+  background-position: center;
+  position: absolute;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .champ{
@@ -53,4 +61,49 @@
   max-height: 100%;
   transform: translateY(-100%);
   transition: transform 1000ms ease-in-out;
+}
+#cName{
+  font-size: 8.8em;
+  font-size: 8.8vw;
+  text-decoration: underline;
+}
+#firstStatHeader{
+  display: block;
+}
+.keyStatName{
+  font-size: .2em;
+  text-align: left;
+  position: relative;
+  display: inline;
+  top: -4em;
+  right: 40.87%;
+  margin-left: .5em;
+}
+.keyStats{
+  font-size: 5.8em;
+  font-size: 7.8vw;
+  position: absolute;
+  right: .1em;
+  top: -.01em;
+  text-decoration: underline;
+  height: 96%;
+  width: 47.7%;
+  text-align: right;
+}
+.cName{
+  height: 94.8%;
+  width: 100%;
+  left: 0em;
+  top:.3em;
+  position: absolute;
+  background-size: 99% 99%;
+  background-repeat: no-repeat;
+  background-color: black;
+  background-position: center;
+  position: absolute;
+  max-width: 100%;
+  max-height: 100%;
+  position: absolute;
+  opacity: .4;
+  color: white;
 }
