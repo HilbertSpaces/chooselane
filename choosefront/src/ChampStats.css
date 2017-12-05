@@ -63,35 +63,12 @@
   transition: transform 1000ms ease-in-out;
 }
 #cName{
-  font-size: 8.8em;
-  font-size: 8.8vw;
-  text-decoration: underline;
+  font-size: 6.8em;
+  font-size: 5.8vw;
 }
-#firstStatHeader{
-  display: block;
-}
-.keyStatName{
-  font-size: .2em;
-  text-align: left;
-  position: relative;
-  display: inline;
-  top: -4em;
-  right: 40.87%;
-  margin-left: .5em;
-}
-.keyStats{
-  font-size: 5.8em;
-  font-size: 7.8vw;
-  position: absolute;
-  right: .1em;
-  top: -.01em;
-  text-decoration: underline;
-  height: 96%;
-  width: 47.7%;
-  text-align: right;
-}
+
 .cName{
-  height: 94.8%;
+  height: 96.8%;
   width: 100%;
   left: 0em;
   top:.3em;
@@ -104,6 +81,26 @@
   max-width: 100%;
   max-height: 100%;
   position: absolute;
-  opacity: .4;
+  opacity: .1;
   color: white;
+}
+.vs{
+  position: relative;
+  top: 4em;
+  right: 0em;
+  height: 28em;
+  width: 32.5em;
+  opacity: 1;
+}
+#right{
+  right: -33em;
+  right: -80vw;
+}
+
+#d2{
+  position: absolute;
+  top:40em;
+  top: 10vw;
+  right: 10em;
+  right: 14vw;
 }
