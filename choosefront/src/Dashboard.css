@@ -1,21 +1,23 @@
 .dashboard{
   position: absolute;
-  top:30em;
-  top: 20vw;
+  top:20em;
+  top: 7em;
+}
+.op{
+  position: relative;
+  right: -40em;
 }
 .chart {
   display: inline-block;
   width: 35em;
 }
 #leftChart{
-  position: absolute;
-  top: 5em;
+  position: relative;
   right: -35em;
 }
 #rightChart{
-  position: absolute;
-  top: -20em;
-  right: -45em;
+  position: relative;
+  top: 20em;
 }
 .bar {
   transition: top .5s, background .5s;
@@ -43,10 +45,14 @@
   display: inline-block;
   height: .9em;
   transition: width .1s, background .1s;
+  color: transparent;
+  text-align: right;
+  font-size: 1.2em;
 }
 
 .highlighted .bar__mark {
   background: white;
+  color: salmon;
 }
 
 .switch__track {

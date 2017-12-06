@@ -85,46 +85,17 @@
   color: white;
 }
 .vs{
-  position: relative;
-  top: 4em;
-  right: em;
+  position: absolute;
   height: 18em;
   width: 24.5em;
   opacity: 1;
   border: black;
   border-width: thick;
+  top: 7em;
 }
-
-#d2{
-  position: absolute;
-  top:40em;
-  top: 2vw;
-  right: 10em;
-  right: -4vw;
+#left{
+  right: em;
 }
-
-.svg-wrapper {
-  position: absolute;
-  right: 12.6%;
-  top: 43.6%;
-  transform: translateY(-50%);
-	  margin: 0 auto;
-  height: 30em;
-  height: 70%;
-  width: 70%;
-}
-.shape {
-  stroke-dasharray: 110 2000;
-  stroke-dashoffset: 0;
-  stroke-width: 1em;
-  fill: transparent;
-  stroke: #84FFFF;
-  border-bottom: 2px solid black;
-  transition: stroke-width 1s, stroke-dashoffset 1s, stroke-dasharray 1s;
-}
-
-.svg-wrapper:hover .shape {
-  stroke-width: 1em;
-  stroke-dashoffset: 0;
-  stroke-dasharray: 0;
+#right{
+  right: .001em;
 }

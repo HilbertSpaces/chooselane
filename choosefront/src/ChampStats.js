@@ -66,13 +66,11 @@ class ChampStats extends React.Component{
         transitionEnterTimeout={1000}
         transitionLeaveTimeout={1000}>
         {trans}
-        <div class="svg-wrapper">
-          <svg height="800" width="1200" xmlns="http://www.w3.org/2000/svg">
-            <rect class="shape" height="800" width="1200" />
-          </svg>
-          <Dashboard id='d2' data={birthdeathrates.slice(0,10)} />
-        </div>
+          <Dashboard id='main' data={birthdeathrates.slice(0,10)} />
           <img id='left' className='vs' src={
+          'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
+          'Vayne_4' + '.jpg'}></img>
+          <img id='right' className='vs' src={
           'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
           'Ezreal_9' + '.jpg'}></img>
       </ReactCSSTransitionGroup>

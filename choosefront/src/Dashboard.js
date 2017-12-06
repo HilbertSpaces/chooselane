@@ -20,6 +20,7 @@ class Dashboard extends React.Component {
     } = this.state;
 
     return <div className='dashboard'>
+    <div className='main'>
       <Chart
         data = {data}
         highlight = {this.highlight}
@@ -36,6 +37,25 @@ class Dashboard extends React.Component {
         metric = 'death'
         id='rightChart'
       />
+      </div>
+      <div className='op'>
+      <Chart
+        data = {data}
+        highlight = {this.highlight}
+        highlighted = {highlighted}
+        label = 'Birth Rate'
+        metric = 'birth'
+        id = 'leftChart'
+      />
+      <Chart
+        data = {data}
+        highlight = {this.highlight}
+        highlighted = {highlighted}
+        label = 'Win Rate \n  When You Do'
+        metric = 'death'
+        id='rightChart'
+      />
+      </div>
      </div>;
   }
 }
@@ -84,7 +104,7 @@ function Bar({
   }
   style = {
       {
-        position: 'absolute',
+        position: 'relative',
         top: 40 + 20*rank,
         transition: 'top .5s'
       }
@@ -96,8 +116,7 @@ function Bar({
       width: 4 * value,
     }
   }
-  /> <
-  /div>;
+  >{value}</div></div>;
 }
 
 export default Dashboard
