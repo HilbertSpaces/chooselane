@@ -19,13 +19,14 @@ class Dashboard extends React.Component {
       highlighted
     } = this.state;
 
-    return <div id={this.props.id} className='dashboard'>
+    return <div className='dashboard'>
       <Chart
         data = {data}
         highlight = {this.highlight}
         highlighted = {highlighted}
         label = 'Birth Rate'
         metric = 'birth'
+        id = 'leftChart'
       />
       <Chart
         data = {data}
@@ -33,6 +34,7 @@ class Dashboard extends React.Component {
         highlighted = {highlighted}
         label = 'Win Rate \n  When You Do'
         metric = 'death'
+        id='rightChart'
       />
      </div>;
   }
@@ -43,13 +45,14 @@ function Chart({
   highlight,
   highlighted,
   label,
-  metric
+  metric,
+  id
 }) {
   const barData = data.sort((a, b) => b[metric] - a[metric])
     .map((d, i) => ({...d,
       rank: i
     }))
-  return <div className='chart'>
+  return <div id={id} className='chart'>
       {[
        <div className='label'>{label}</div>,
        <div>
@@ -82,7 +85,7 @@ function Bar({
   style = {
       {
         position: 'absolute',
-        top: 30 + 20 * rank,
+        top: 40 + 20*rank,
         transition: 'top .5s'
       }
     } >

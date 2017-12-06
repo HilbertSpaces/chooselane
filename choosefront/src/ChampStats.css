@@ -87,20 +87,44 @@
 .vs{
   position: relative;
   top: 4em;
-  right: 0em;
-  height: 28em;
-  width: 32.5em;
+  right: em;
+  height: 18em;
+  width: 24.5em;
   opacity: 1;
-}
-#right{
-  right: -33em;
-  right: -80vw;
+  border: black;
+  border-width: thick;
 }
 
 #d2{
   position: absolute;
   top:40em;
-  top: 10vw;
+  top: 2vw;
   right: 10em;
-  right: 14vw;
+  right: -4vw;
+}
+
+.svg-wrapper {
+  position: absolute;
+  right: 12.6%;
+  top: 43.6%;
+  transform: translateY(-50%);
+	  margin: 0 auto;
+  height: 30em;
+  height: 70%;
+  width: 70%;
+}
+.shape {
+  stroke-dasharray: 110 2000;
+  stroke-dashoffset: 0;
+  stroke-width: 1em;
+  fill: transparent;
+  stroke: #84FFFF;
+  border-bottom: 2px solid black;
+  transition: stroke-width 1s, stroke-dashoffset 1s, stroke-dasharray 1s;
+}
+
+.svg-wrapper:hover .shape {
+  stroke-width: 1em;
+  stroke-dashoffset: 0;
+  stroke-dasharray: 0;
 }

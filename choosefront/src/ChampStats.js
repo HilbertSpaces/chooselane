@@ -31,7 +31,7 @@ class ChampStats extends React.Component{
       <div  key={4} className='mapT'></div>: null;
     const birthdeathrates = [
 {country:"alg", birth:36.4,death:14.6}, {country:"con", birth:37.3,death:8}, {country:"egy", birth:42.1,death:15.3},
- {country:"gha", birth:55.8,death:25.6},  {country:"ict", birth:56.1,death:33.1},  {country:"mag", birth:41.8,death:15.8},
+ {country:"gha", birth:55.8,death:25.6},  {country:"First Blood", birth:56.1,death:33.1},  {country:"mag", birth:41.8,death:15.8},
  {country:"mor", birth:46.1,death:18.7},  {country:"tun", birth:41.7,death:10.1},  {country:"cam", birth:41.4,death:19.7},
  {country:"cey", birth:35.8,death:8.5},  {country:"chi", birth:34,death:11},  {country:"tai", birth:36.3,death:6.1},
  {country:"hkg", birth:32.1,death:5.5},  {country:"ind", birth:20.9,death:8.8},  {country:"ids", birth:27.7,death:10.2},
@@ -66,9 +66,13 @@ class ChampStats extends React.Component{
         transitionEnterTimeout={1000}
         transitionLeaveTimeout={1000}>
         {trans}
-        <Dashboard id='d2' data={birthdeathrates.slice(0,10)} />
-        <Dashboard data={birthdeathrates.slice(0,15)} />
-          <img id='right' className='vs' src={
+        <div class="svg-wrapper">
+          <svg height="800" width="1200" xmlns="http://www.w3.org/2000/svg">
+            <rect class="shape" height="800" width="1200" />
+          </svg>
+          <Dashboard id='d2' data={birthdeathrates.slice(0,10)} />
+        </div>
+          <img id='left' className='vs' src={
           'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
           'Ezreal_9' + '.jpg'}></img>
       </ReactCSSTransitionGroup>

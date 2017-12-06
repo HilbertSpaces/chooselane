@@ -2,68 +2,77 @@
   position: absolute;
   top:30em;
   top: 20vw;
-  right: 10em;
-  right: 10vw;
 }
 .chart {
   display: inline-block;
-  width: 30em;
+  width: 35em;
+}
+#leftChart{
+  position: absolute;
+  top: 5em;
+  right: -35em;
+}
+#rightChart{
+  position: absolute;
+  top: -20em;
+  right: -45em;
 }
 .bar {
   transition: top .5s, background .5s;
+  height: 100%;
+  width: 100%;
 }
 .bar__label, .label {
   display: inline-block;
   font-family: sans-serif;
-  font-size: 10px;
-  line-height: 20px;
+  font-size: 1em;
+  line-height: .5em;
+  color: 	#19f6e8;
   text-transform: uppercase;
   vertical-align: top;
 }
 .bar__label {
   text-align: right;
-  width: 50px;
+  display: inline;
 }
 .highlighted .bar__label {
   font-weight: bold;
 }
 .bar__mark {
-  background: orange;
+  background: #69F0AE;
   display: inline-block;
-  height: 16px;
-  margin-left: 10px;
-  margin-top: 2px;
+  height: .9em;
   transition: width .1s, background .1s;
 }
 
 .highlighted .bar__mark {
-  background: red;
+  background: white;
 }
 
 .switch__track {
-  border-radius: 10px;
-  box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.50);
+  border-radius: 2em;
+  box-shadow: inset 0em 1em .8em .9em black;
   display: inline-block;
-  margin: 0 20px;
+  margin: 0 1em;
   position: relative;
-  width: 60px;
-  height: 20px;
+  width: 2em;
+  height: 2em;
   background: #c0c0c0;
 }
 
 .switch__thumb {
   background: #d6d6d5;
-  border-radius: 10px;
+  border-radius: 1em;
   position: relative;
-  left: 1px;
-  top: 1px;
-  width: 18px;
-  height: 18px;
+  left: 1em;
+  top: 1em;
+  width: 1em;
+  height: 1em;
   transition: left .5s;
 }
 
 .switch__thumb.death {
-  left: 41px;
+  left: 1em;
 }
 
 .label {
