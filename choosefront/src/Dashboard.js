@@ -20,14 +20,14 @@ class Dashboard extends React.Component {
     } = this.state;
 
     return <div className='dashboard'>
-    <div className='main'>
+    <div className='op'>
       <Chart
         data = {data}
         highlight = {this.highlight}
         highlighted = {highlighted}
         label = 'Birth Rate'
         metric = 'birth'
-        id = 'leftChart'
+        id = 'topChart'
       />
       <Chart
         data = {data}
@@ -35,17 +35,17 @@ class Dashboard extends React.Component {
         highlighted = {highlighted}
         label = 'Win Rate \n  When You Do'
         metric = 'death'
-        id='rightChart'
+        id='botChart'
       />
       </div>
-      <div className='op'>
+      <div className='main'>
       <Chart
         data = {data}
         highlight = {this.highlight}
         highlighted = {highlighted}
         label = 'Birth Rate'
         metric = 'birth'
-        id = 'leftChart'
+        id = 'topChart'
       />
       <Chart
         data = {data}
@@ -53,7 +53,7 @@ class Dashboard extends React.Component {
         highlighted = {highlighted}
         label = 'Win Rate \n  When You Do'
         metric = 'death'
-        id='rightChart'
+        id='botChart'
       />
       </div>
      </div>;
@@ -104,8 +104,8 @@ function Bar({
   }
   style = {
       {
-        position: 'relative',
-        top: 40 + 20*rank,
+        position: 'absolute',
+        top: 6+ 6*rank+'%',
         transition: 'top .5s'
       }
     } >
@@ -113,7 +113,7 @@ function Bar({
     div className = 'bar__mark'
   style = {
     {
-      width: 4 * value,
+      width: value*1.2+'%',
     }
   }
   >{value}</div></div>;

@@ -16,19 +16,6 @@ class ChampStats extends React.Component{
       this.setState({ mounted: true });
     }
   render(){
-    const champ =
-      <div>
-        <img className='champimg' src={
-        'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
-        'Vayne_11' + '.jpg'}>
-        </img>
-        <div id='cName' className='cName'>
-        </div>
-      </div>
-    const trans = this.state.mounted ?
-      <div  key={3} className='champ'>{champ}</div>: null;
-    const trans1 = this.state.mounted ?
-      <div  key={4} className='mapT'></div>: null;
     const birthdeathrates = [
 {country:"alg", birth:36.4,death:14.6}, {country:"con", birth:37.3,death:8}, {country:"egy", birth:42.1,death:15.3},
  {country:"gha", birth:55.8,death:25.6},  {country:"First Blood", birth:56.1,death:33.1},  {country:"mag", birth:41.8,death:15.8},
@@ -53,6 +40,26 @@ class ChampStats extends React.Component{
  {country:"rom", birth:15.7,death:8.3},  {country:"spa", birth:21.5,death:9.1},  {country:"swe", birth:14.8,death:10.1},
  {country:"swz", birth:18.9,death:9.6},  {country:"rus", birth:21.2,death:7.2},  {country:"yug", birth:21.4,death:8.9},
  {country:"ast", birth:21.6,death:8.7},  {country:"nzl", birth:25.5,death:8.8}];
+    const champ =
+      <div className='full'>
+        <img className='champimg' src={
+        'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
+        'Vayne_11' + '.jpg'}>
+        </img>
+        <div id='cName' className='cName'>
+        </div>
+          <Dashboard id='main' data={birthdeathrates.slice(0,10)} />
+          <img id='left' className='vs' src={
+          'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
+          'Vayne_4' + '.jpg'}></img>
+          <img id='right' className='vs' src={
+          'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
+          'Ezreal_9' + '.jpg'}></img>
+      </div>
+      const trans = this.state.mounted ?
+        <div  key={3} className='champ'>{champ}</div>: null;
+      const trans1 = this.state.mounted ?
+        <div  key={4} className='mapT'></div>: null;
     return(
       <div>
       <ReactCSSTransitionGroup
@@ -66,13 +73,6 @@ class ChampStats extends React.Component{
         transitionEnterTimeout={1000}
         transitionLeaveTimeout={1000}>
         {trans}
-          <Dashboard id='main' data={birthdeathrates.slice(0,10)} />
-          <img id='left' className='vs' src={
-          'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
-          'Vayne_4' + '.jpg'}></img>
-          <img id='right' className='vs' src={
-          'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
-          'Ezreal_9' + '.jpg'}></img>
       </ReactCSSTransitionGroup>
       </div>
   )}
