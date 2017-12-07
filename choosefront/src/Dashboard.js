@@ -116,7 +116,7 @@ function Bar({
       width: value*1.2+'%',
     }
   }
-  >{value}</div></div>;
+  >{value + '%'}</div></div>;
 }
 
 export default Dashboard

@@ -4,17 +4,13 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import  Champs  from './Champs';
 import Home from './Map'
 import ChampStats from './ChampStats'
-
+import Nav from './Nav'
 class App extends Component {
   render() {
     return (
       <BrowserRouter>
         <div>
-        <nav>
-          <p>Home</p>
-          <p>Lane Statistics</p>
-          <p>About Us</p>
-        </nav>
+          <Nav />
           <Route exact path="/" render={() => <Home /> } />
           <Route path="/champions" render={ () => <Champs/> } />
           <Route path="/statistics" render={ () => <ChampStats/> } />

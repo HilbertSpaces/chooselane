@@ -4,6 +4,8 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link } from 'react-router-dom';
 import Home from './Map'
 import Dashboard from './Dashboard'
+import {Dropdown, Table} from 'semantic-ui-react'
+
 class ChampStats extends React.Component{
   constructor(props) {
     super();
@@ -40,13 +42,62 @@ class ChampStats extends React.Component{
  {country:"rom", birth:15.7,death:8.3},  {country:"spa", birth:21.5,death:9.1},  {country:"swe", birth:14.8,death:10.1},
  {country:"swz", birth:18.9,death:9.6},  {country:"rus", birth:21.2,death:7.2},  {country:"yug", birth:21.4,death:8.9},
  {country:"ast", birth:21.6,death:8.7},  {country:"nzl", birth:25.5,death:8.8}];
+ const options = [
+   { value: 'all', text: 'All',image: {avatar:true, src:'http://ddragon.leagueoflegends.com/cdn/7.23.1/img/champion/' +'Ezreal' + '.png'} },
+   { value: 'articles', text: 'Articles' },
+   { value: 'products', text: 'Products' },
+   { value: 'products', text: 'Products' },
+   { value: 'products', text: 'Products' },
+   { value: 'products', text: 'Products' },
+   { value: 'products', text: 'Products' },
+   { value: 'products', text: 'Products' },
+   { value: 'products', text: 'Products' },
+   { value: 'products', text: 'Products' },
+   { value: 'products', text: 'Products' },
+   { value: 'products', text: 'Products' },
+   { value: 'products', text: 'Products' },
+   { value: 'products', text: 'Products' },
+   { value: 'products', text: 'Products' },
+   { value: 'products', text: 'Products' },
+ ]
+    const table =
+    <div className='table'>
+    <Table inverted selectable>
+    <Table.Header>
+      <Table.Row>
+        <Table.HeaderCell>Vayne</Table.HeaderCell>
+        <Table.HeaderCell>Stat</Table.HeaderCell>
+        <Table.HeaderCell>Ezreal</Table.HeaderCell>
+      </Table.Row>
+    </Table.Header>
+
+    <Table.Body>
+      <Table.Row>
+        <Table.Cell>33.4</Table.Cell>
+        <Table.Cell>TotalDamage per/s</Table.Cell>
+        <Table.Cell>59</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>Jamie</Table.Cell>
+        <Table.Cell>Approved</Table.Cell>
+        <Table.Cell>Requires call</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>Jill</Table.Cell>
+        <Table.Cell>Denied</Table.Cell>
+        <Table.Cell>None</Table.Cell>
+      </Table.Row>
+    </Table.Body>
+  </Table>
+  </div>
     const champ =
       <div className='full'>
         <img className='champimg' src={
         'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
         'Vayne_11' + '.jpg'}>
         </img>
-        <div id='cName' className='cName'>
+        <div className='dropdown'>
+        <Dropdown fluid color='black' placeholder='Select...' selection scrolling search options={options}/>
         </div>
           <Dashboard id='main' data={birthdeathrates.slice(0,10)} />
           <img id='left' className='vs' src={
@@ -55,6 +106,7 @@ class ChampStats extends React.Component{
           <img id='right' className='vs' src={
           'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
           'Ezreal_9' + '.jpg'}></img>
+          {table}
       </div>
       const trans = this.state.mounted ?
         <div  key={3} className='champ'>{champ}</div>: null;
