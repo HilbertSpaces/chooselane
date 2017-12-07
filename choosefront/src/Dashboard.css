@@ -6,7 +6,7 @@
 }
 .op{
   left: 1%;
-  position: relative;
+  position: absolute;
   height: 100%;
   width: 30%;
   margin: none;
@@ -14,14 +14,14 @@
 }
 .chart {
   display: inline;
-  width: 20%;
+  width: 100%;
   height: 50%;
 }
 .main{
-  position: relative;
-  height: 50%;
-  width: 50%;
-  right:-34%;
+  position: absolute;
+  height: 100%;
+  width: 35%;
+  left:70%;
   display: inline;
 }
 #topChart{
@@ -31,8 +31,6 @@
 #botChart{
   display: inline-block;
   position: relative;
-  top: 57%;
-  right: 20%;
 }
 .bar {
   transition: top .5s, background .5s;
