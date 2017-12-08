@@ -3,6 +3,8 @@
   top: 34%;
   width: 100%;
   height: 59%;
+  overflow-x: scroll;
+  overflow-y: scroll;
 }
 .op{
   left: 1%;
