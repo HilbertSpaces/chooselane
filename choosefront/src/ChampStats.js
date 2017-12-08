@@ -62,7 +62,7 @@ class ChampStats extends React.Component{
  ]
     const table =
     <div className='table'>
-    <Table inverted selectable>
+    <Table unstackable inverted selectable>
     <Table.Header>
       <Table.Row>
         <Table.HeaderCell>Vayne</Table.HeaderCell>

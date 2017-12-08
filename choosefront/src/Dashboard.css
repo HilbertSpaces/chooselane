@@ -36,7 +36,7 @@
   transition: top .5s, background .5s;
   height: 6%;
   padding-bottom: 1%;
-  width: 99%;
+  width: 400px;
 }
 .bar__label, .label {
   display: inline-block;
