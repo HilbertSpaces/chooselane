@@ -49,15 +49,15 @@
 }
 
 #top_parent{
-  top: 17%;
+  top: 22%;
   right: 75%;
 }
 #bottom_parent{
-  top: 77%;
+  top: 82%;
   right: 19%;
 }
 #middle_parent{
-  top: 50%;
+  top: 52%;
   right: 50%;
 }
 #jungle_parent{
@@ -65,7 +65,7 @@
   right: 68%;
 }
 #support_parent{
-  top: 83%;
+  top: 88%;
   right: 25%;
 }
 .lane:hover{

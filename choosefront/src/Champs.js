@@ -41,7 +41,7 @@ class Champs extends React.Component {
       </Link>
     ));
     const trans = this.state.mounted ?
-      <div className='containerd'>{champs}</div>: null;
+      <div className='container'>{champs}</div>: null;
     return (
       <ReactCSSTransitionGroup
         transitionName="champOut"
