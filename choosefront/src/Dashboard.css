@@ -1,44 +1,51 @@
 .dashboard{
   position: absolute;
-  top: 34%;
+  top: 26.6%;
   width: 100%;
   height: 59%;
   overflow-x: scroll;
   overflow-y: scroll;
 }
-.op{
-  left: 1%;
-  position: absolute;
+
+.main{
+  position: relative;
   height: 100%;
-  width: 30%;
+  width: 27.6%;
   margin: none;
-  display: inline;
+  display: inline-block;
+  left: 2%;
+
+}
+.op{
+  position: relative;
+  height: 100%;
+  width: 27.6%;
+  display: inline-block;
+  left: 42.3%;
 }
 .chart {
-  display: inline;
-  width: 100%;
-  height: 50%;
+  display: inline-block;
+  width: 90%;
+  height: 45%;
+  position: relative;
 }
-.main{
-  position: absolute;
-  height: 100%;
-  width: 35%;
-  left:70%;
-  display: inline;
-}
+
 #topChart{
   position: relative;
   display: inline-block;
 }
 #botChart{
-  display: inline-block;
+  top: 10%;
   position: relative;
+  display: inline-block;
 }
 .bar {
   transition: top .5s, background .5s;
+  display: inline-block;
   height: 6%;
   padding-bottom: 1%;
-  width: 400px;
+  width: 100%;
+  font-size: 100%;
 }
 .bar__label, .label {
   display: inline-block;
@@ -50,7 +57,7 @@
 }
 .bar__label {
   text-align: right;
-  display: inline;
+  display: inline-block;
 }
 .highlighted .bar__label {
   font-weight: bold;
@@ -68,4 +75,11 @@
 .highlighted .bar__mark {
   background: white;
   color: salmon;
+}
+
+.table{
+  position: relative;
+  display: inline-block;
+  height: 40%;
+  left: 44%;
 }

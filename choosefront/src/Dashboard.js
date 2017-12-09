@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './Dashboard.css'
+import {Table} from 'semantic-ui-react'
+
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -20,7 +22,10 @@ class Dashboard extends React.Component {
     } = this.state;
 
     return <div className='dashboard'>
-    <div className='op'>
+    <Table collapsing unstackable inverted selectable>
+
+  </Table>
+    <div className='main'>
       <Chart
         data = {data}
         highlight = {this.highlight}
@@ -38,7 +43,7 @@ class Dashboard extends React.Component {
         id='botChart'
       />
       </div>
-      <div className='main'>
+      <div className='op'>
       <Chart
         data = {data}
         highlight = {this.highlight}
@@ -104,8 +109,8 @@ function Bar({
   }
   style = {
       {
-        position: 'absolute',
-        top: 6+ 6*rank+'%',
+        position: 'relative',
+        top: rank/2+'%',
         transition: 'top .5s'
       }
     } >

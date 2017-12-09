@@ -60,36 +60,6 @@ class ChampStats extends React.Component{
    { value: 'products', text: 'Products' },
    { value: 'products', text: 'Products' },
  ]
-    const table =
-    <div className='table'>
-    <Table unstackable inverted selectable>
-    <Table.Header>
-      <Table.Row>
-        <Table.HeaderCell>Vayne</Table.HeaderCell>
-        <Table.HeaderCell>Stat</Table.HeaderCell>
-        <Table.HeaderCell>Ezreal</Table.HeaderCell>
-      </Table.Row>
-    </Table.Header>
-
-    <Table.Body>
-      <Table.Row>
-        <Table.Cell>33.4</Table.Cell>
-        <Table.Cell>TotalDamage per/s</Table.Cell>
-        <Table.Cell>59</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>Jamie</Table.Cell>
-        <Table.Cell>Approved</Table.Cell>
-        <Table.Cell>Requires call</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>Jill</Table.Cell>
-        <Table.Cell>Denied</Table.Cell>
-        <Table.Cell>None</Table.Cell>
-      </Table.Row>
-    </Table.Body>
-  </Table>
-  </div>
     const champ =
       <div className='full'>
         <img className='champimg' src={
@@ -106,7 +76,6 @@ class ChampStats extends React.Component{
           <img id='right' className='vs' src={
           'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
           'Ezreal_9' + '.jpg'}></img>
-          {table}
       </div>
       const trans = this.state.mounted ?
         <div  key={3} className='champ'>{champ}</div>: null;
