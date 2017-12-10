@@ -41,7 +41,6 @@ class Dashboard extends React.Component {
         id='botChart'
       />
       </div>
-      <div className='fiTable'>
       <Table inverted unstackable selectable>
       <Table.Header>
         <Table.Row>
@@ -69,7 +68,6 @@ class Dashboard extends React.Component {
         </Table.Row>
       </Table.Body>
     </Table>
-    </div>
       <div className='op'>
       <Chart
         data = {data}
