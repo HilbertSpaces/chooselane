@@ -21,7 +21,7 @@
   height: 100%;
   width: 27.6%;
   display: inline-block;
-  left: 42.3%;
+  left: 14.5%;
 }
 .chart {
   display: inline-block;
@@ -81,4 +81,5 @@
   position: relative;
   display: inline-block;
   width: 30%;
+  left: 6%;
 }
