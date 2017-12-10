@@ -22,9 +22,7 @@ class Dashboard extends React.Component {
     } = this.state;
 
     return <div className='dashboard'>
-    <Table collapsing unstackable inverted selectable>
 
-  </Table>
     <div className='main'>
       <Chart
         data = {data}
@@ -43,6 +41,35 @@ class Dashboard extends React.Component {
         id='botChart'
       />
       </div>
+      <div className='fiTable'>
+      <Table inverted unstackable selectable>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Vayne</Table.HeaderCell>
+          <Table.HeaderCell>Stat</Table.HeaderCell>
+          <Table.HeaderCell>Ezreal</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell>33.4</Table.Cell>
+          <Table.Cell>TotalDamage per/s</Table.Cell>
+          <Table.Cell>59</Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Jamie</Table.Cell>
+          <Table.Cell>Approved</Table.Cell>
+          <Table.Cell>Requires call</Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Jill</Table.Cell>
+          <Table.Cell>Denied</Table.Cell>
+          <Table.Cell>None</Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    </Table>
+    </div>
       <div className='op'>
       <Chart
         data = {data}

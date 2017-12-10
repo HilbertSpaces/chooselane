@@ -77,9 +77,8 @@
   color: salmon;
 }
 
-.table{
+.fiTable{
   position: relative;
   display: inline-block;
-  height: 40%;
-  left: 44%;
+  width: 30%;
 }
