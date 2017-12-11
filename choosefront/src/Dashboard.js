@@ -41,7 +41,7 @@ class Dashboard extends React.Component {
         id='botChart'
       />
       </div>
-      <Table inverted unstackable selectable>
+      <Table inverted padded unstackable selectable>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>Vayne</Table.HeaderCell>

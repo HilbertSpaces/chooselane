@@ -13,15 +13,13 @@
   width: 27.6%;
   margin: none;
   display: inline-block;
-  left: 2%;
-
 }
 .op{
   position: relative;
   height: 100%;
   width: 27.6%;
   display: inline-block;
-  left: 26.5%;
+  left: 44.8%;
 }
 .chart {
   display: inline-block;
@@ -35,7 +33,7 @@
   display: inline-block;
 }
 #botChart{
-  top: 10%;
+  top: 4%;
   position: relative;
   display: inline-block;
 }
@@ -78,10 +76,10 @@
 }
 
 .table{
-  position: relative;
-  display: inline-block;
-  width: 17%;
-  max-width: 17%;
-  left: 8%;
+  position: absolute;
+  width: 41%;
+  max-width: 41%;
+  left: 28%;
+  top: 5%;
   font-size: 40%;
 }
