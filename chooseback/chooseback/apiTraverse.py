@@ -6,7 +6,7 @@ import json
 import redis
 
 app = Celery('tasks', broker='pyamqp://guest@localhost//')
-key = 'RGAPI-27e36738-af23-4e1f-8bc2-a29cd548354e'
+key = 'RGAPI-e13d901c-2e6d-4e8c-8fb1-541d18e2554b'
 r = redis.StrictRedis('localhost')
 
 interface = RiotInterface(key, .85)
@@ -40,6 +40,7 @@ def traverse(summoners, sample_size = 2, summ_cache = 3000):
   summoners = summoners
   summ = Summoner(summoners.pop(), {})
   i = 0
+  fake = 0
   FILLER = 0
   stat_dict = {}
   least_played_champ = sample_size - 1
@@ -104,17 +105,15 @@ def traverse(summoners, sample_size = 2, summ_cache = 3000):
       rand_int = random.randint(0,len(summoners)-1)
       summ = Summoner(summoners.pop(rand_int),params = {'beginIndex':i, 'endIndex':i+1})
     i = (i+1)%30
-    FILLER += 1
   for champ in stat_dict:
     for key in stat_dict[champ]:
       if key not in set(['sampleSize']):
         for lne in roles.values():
           stat_dict[champ][key]['averageValue'][lne]['perSecond'] /= stat_dict[champ][key]['totalGames'][lne]
           stat_dict[champ][key]['averageValue'][lne]['perGame'] /= stat_dict[champ][key]['totalGames'][lne]
-  data = {'data': stat_dict,'tier': tier}
-  json_data = json.dumps(data)
-  r.hmset(tier + '_AVG_DICT', json_data)
-  return data
+  avg_dict = {'data': stat_dict,'tier': tier}
+  r.hmset(tier + '_AVG_DICT', avg_dict)
+  return avg_dict
 
 
 @app.task
@@ -187,6 +186,6 @@ def traverseData(league, total_matches, sample_size = 2, cache = 3000):
       rand_int = random.randint(0,len(summoners)-1)
       summ = Summoner(summoners.pop(rand_int), params = {'beginIndex':i, 'endIndex':i+1})
     i = (i+1)%30
-  json_data = {'data': stat_dict,'tier': avg_dict_full['tier']}
-  r.hmset(avg_dict_full['tier'] + '_DATA_DICT', json_data)
+  stat_dict = {'data': stat_dict,'tier': avg_dict_full['tier']}
+  r.hmset(avg_dict_full['tier'] + '_DATA_DICT', stat_dict)
   return stat_dict

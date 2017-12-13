@@ -124,6 +124,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 #Rest Framework
 REST_FRAMEWORK ={
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '15/second',
+        'user': '15/second'
+    },
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
     ),

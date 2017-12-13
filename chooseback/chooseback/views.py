@@ -3,13 +3,19 @@ from rest_framework.response import Response
 from django.http import HttpResponse
 import requests
 import redis
+r = redis.StrictRedis(host="localhost",port=6379, db=0,decode_responses=True)
 
 #class ShowChamp(APIView):
-r = redis.StrictRedis(host="localhost")
-avg_data = r.get('BRONZE_AVG_DICT')
-full_data = r.get('BRONZE_DATA_DICT')
-def avg(request):
-  return HttpResponse(avg_data)
+class Data(APIView):
 
-def full(request):
-  return HttpResponse(full_data)
+  def get(self, request, league, data_type, format=None):
+    if data_type == 'avg':
+      query = league.upper() + '_AVG_DICT'
+      avg_data = r.hgetall(query)
+      return Response(avg_data)
+    elif data_type == 'stat':
+      query = league.upper() + '_DATA_DICT'
+      stat_data = r.hgetall(query)
+      return Response(stat_data)
+    else:
+      return Response(status=404)
