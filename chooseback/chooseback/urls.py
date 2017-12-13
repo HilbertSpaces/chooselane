@@ -19,7 +19,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$','django.contrib.staticfiles.views.serve', kwargs={
-            'path': 'hi.html', 'document_root': settings.STATIC_ROOT})
+            'path': 'hi.html', 'document_root': settings.STATIC_ROOT}),
     url(r'^admin/', admin.site.urls),
     url(r'api-auth/', include('rest_framework.urls',
         namespace='rest_framework')),
