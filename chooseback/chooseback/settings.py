@@ -13,13 +13,13 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 PROJECT_DIR = os.path.join(PROJECT_ROOT,'../chooseback')
-STATIC_ROOT = os.path.join(PROJECT_ROOT,'staticfiles/')
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_DIR,'static/'),
+    os.path.join(PROJECT_DIR,'static'),
 )
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -144,4 +144,12 @@ REST_FRAMEWORK ={
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     )
 }
+#shouldnt need cors soon
 CORS_ORIGIN_WHITELIST = ('localhost:3000')
+
+MIDDLEWARE_CLASSES = (
+    # Simplified static file serving.
+    # https://warehouse.python.org/project/whitenoise/
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
