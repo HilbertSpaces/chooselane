@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 STATIC_URL = '/static/'
-STATIC_ROOT = "/back/"
+STATIC_ROOT = "/static/"
 # Application definition
 
 INSTALLED_APPS = [
