@@ -31,7 +31,7 @@ SECRET_KEY = 'k_*l9q()c9vj9(t=o18@m2o9%mn%x*ryh935xt*j@ne3*f0ujb'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['lanesevenback.herokuapp.com']
 
 # Application definition
 
