@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 PROJECT_DIR = os.path.join(PROJECT_ROOT,'../chooselane')
-[...]
 STATIC_ROOT = os.path.join(PROJECT_ROOT,'staticfiles/')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
