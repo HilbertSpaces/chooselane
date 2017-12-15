@@ -1,11 +1,16 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import HttpResponse
+from django.shortcuts import render
+from django.template import Context, loader
 import requests
 import redis
 r = redis.StrictRedis(host="localhost",port=6379, db=0,decode_responses=True)
 
 #class ShowChamp(APIView):
+def index(request):
+   return render(request, 'index.html')
+
 class Data(APIView):
 
   def get(self, request, league, data_type, format=None):

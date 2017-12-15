@@ -12,13 +12,14 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
-PROJECT_DIR = os.path.join(PROJECT_ROOT,'../chooseback')
+PROJECT_DIR = os.path.join(PROJECT_ROOT,'chooseback')
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(PROJECT_DIR,'static'),
 )
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
 
@@ -31,7 +32,7 @@ SECRET_KEY = 'k_*l9q()c9vj9(t=o18@m2o9%mn%x*ryh935xt*j@ne3*f0ujb'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['lanesevenback.herokuapp.com']
+ALLOWED_HOSTS = [u'localhost','lanesevenback.herokuapp.com']
 
 # Application definition
 
@@ -42,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'webpack_loader',
+    'chooseback',
     'rest_framework',
     'corsheaders',
 ]
@@ -126,7 +129,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
 #Rest Framework
 REST_FRAMEWORK ={
     'DEFAULT_THROTTLE_CLASSES': (
@@ -153,3 +155,9 @@ MIDDLEWARE_CLASSES = (
     'whitenoise.middleware.WhiteNoiseMiddleware',
 )
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'templates/build/',  # end with slash
+        'STATS_FILE': os.path.join(BASE_DIR, 'chooseback/templates/build/asset-manifest.json'),
+    }
+}

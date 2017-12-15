@@ -18,8 +18,7 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
-    url(r'^$','django.contrib.staticfiles.views.serve', kwargs={
-            'path': 'hi.html'),
+    url(r'^$', views.index, name = 'index'),
     url(r'^admin/', admin.site.urls),
     url(r'api-auth/', include('rest_framework.urls',
         namespace='rest_framework')),
