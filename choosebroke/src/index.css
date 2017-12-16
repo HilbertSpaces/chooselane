@@ -1,0 +1,16 @@
+nav {
+  background-color: #34495d;
+  height: 4em;
+  position: fixed;
+  width: 100vw;
+  top: 0;
+  z-index: 999;
+  opacity:.8;
+  color:white;
+  display: inline;
+}
+
+p{
+  display: inline;
+  margin-left: 29em;
+}
