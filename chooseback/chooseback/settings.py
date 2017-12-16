@@ -13,13 +13,14 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 PROJECT_DIR = os.path.join(PROJECT_ROOT,'chooseback')
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
-STATIC_URL = '/static/'
+STATIC_URL ='/static/'
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_DIR,'static'),
+    os.path.join(PROJECT_ROOT,'templates'),
 )
-
+MEDIA_ROOT = '/build/media/'
+MEDIA_URL = '/build/media/'
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
 
@@ -59,6 +60,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'chooseback.urls'
@@ -148,16 +150,3 @@ REST_FRAMEWORK ={
 }
 #shouldnt need cors soon
 CORS_ORIGIN_WHITELIST = ('localhost:3000')
-
-MIDDLEWARE_CLASSES = (
-    # Simplified static file serving.
-    # https://warehouse.python.org/project/whitenoise/
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-)
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-WEBPACK_LOADER = {
-    'DEFAULT': {
-        'BUNDLE_DIR_NAME': 'templates/build/',  # end with slash
-        'STATS_FILE': os.path.join(BASE_DIR, 'chooseback/templates/build/asset-manifest.json'),
-    }
-}

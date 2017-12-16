@@ -9,7 +9,7 @@ r = redis.StrictRedis(host="localhost",port=6379, db=0,decode_responses=True)
 
 #class ShowChamp(APIView):
 def index(request):
-   return render(request, 'index.html')
+   return render(request, 'build/index.html')
 
 class Data(APIView):
 
