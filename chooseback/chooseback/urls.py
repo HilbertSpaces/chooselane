@@ -27,4 +27,3 @@ urlpatterns = [
     url(r'^api/v1/data/(?P<league>\D+)/(?P<data_type>\D+)/$', views.Data.as_view(), name='data'),
     url(r'^.*/$', views.index, name='index'),
 ]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

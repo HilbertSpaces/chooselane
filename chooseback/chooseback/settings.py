@@ -19,8 +19,7 @@ STATIC_URL ='/static/'
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT,'templates'),
 )
-MEDIA_ROOT = '/build/media/'
-MEDIA_URL = '/build/media/'
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
 
@@ -49,7 +48,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
 ]
-
+MIDDLEWARE_CLASSES = (
+  'whitenoise.middleware.WhiteNoiseMiddleware',
+)
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
