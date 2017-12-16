@@ -3,6 +3,7 @@ import './Map.css';
 import { Link } from 'react-router-dom';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import axios from 'axios'
+import LeagueMenu from './LeagueMenu'
 
 class LaneIcon extends Component {
   render() {
@@ -37,7 +38,7 @@ class HomeComponent extends Component {
     return (
 
         <div className='home'>
-          <div className='lane_map'> </div>
+          <div className='lane_map'> <LeagueMenu></LeagueMenu></div>
           {lane_render}
         </div>
     )
