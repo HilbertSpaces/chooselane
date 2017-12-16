@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Map.css';
 import { Link } from 'react-router-dom';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import axios from 'axios'
 
 class LaneIcon extends Component {
   render() {
@@ -12,6 +13,13 @@ class LaneIcon extends Component {
 }
 
 class HomeComponent extends Component {
+
+  componentDidMount() {
+    axios.get('http://localhost:8000/api/v1/data/bronze/avg/?format=json').then(function(response){
+      console.log(response.data)
+    })
+  }
+
   render() {
     var lanes = ['top','middle','jungle','bottom','support']
     var lane_render = lanes.map(function(lane,i){
