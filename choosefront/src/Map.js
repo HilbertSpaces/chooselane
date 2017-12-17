@@ -4,29 +4,37 @@ import { Link } from 'react-router-dom';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import axios from 'axios'
 import LeagueMenu from './LeagueMenu'
+import { Button } from 'semantic-ui-react'
 
 class LaneIcon extends Component {
   render() {
     return (
-        <Link className='lanes' id={this.props.lane} to={this.props.view}></Link>
+        <Link key={this.props.lane} className='lanes' id={this.props.lane} to={this.props.view}></Link>
     )
   }
 }
 
 class HomeComponent extends Component {
+  state={activeItem:'bronze'};
 
-  componentDidMount() {
-    axios.get('http://localhost:8000/api/v1/data/bronze/avg/?format=json').then(function(response){
-      console.log(response.data)
-    })
-  }
+  handleItemClick = (e, { name }) => this.setState({activeItem:name});
 
   render() {
+    const activeItem = this.state.activeItem
+    const league_button=
+        <Button.Group>
+          <Button name='bronze' active={activeItem === 'bronze'} onClick={this.handleItemClick} inverted basic color='brown'>Bronze</Button>
+          <Button name='silver' active={activeItem === 'silver'} onClick={this.handleItemClick} inverted basic color='teal'>Silver</Button>
+          <Button name='gold' active={activeItem === 'gold'} onClick={this.handleItemClick} inverted basic color='yellow'>Gold</Button>
+          <Button name='platinum' active={activeItem === 'platinum'} onClick={this.handleItemClick} inverted basic color='violet'>Platinum ^</Button>
+        </Button.Group>
     var lanes = ['top','middle','jungle','bottom','support']
-    var lane_render = lanes.map(function(lane,i){
+    var lane_render = lanes.map((lane,i) =>{
       return (
         <div key={i} className ='lane_parent' id={lane + '_parent'}>
-          <LaneIcon lane={lane} view='/champions'></LaneIcon>
+          <LaneIcon lane={lane}
+            view={'/champions/'+ this.state.activeItem + '/' + lane}>
+          </LaneIcon>
           <div className='lane_desc_parent'>
             <Link className='lane_desc' to={'/champions'}>
               {lane.toUpperCase()}
@@ -38,7 +46,7 @@ class HomeComponent extends Component {
     return (
 
         <div className='home'>
-          <div className='lane_map'> <LeagueMenu></LeagueMenu></div>
+          <div className='lane_map'>{league_button}</div>
           {lane_render}
         </div>
     )

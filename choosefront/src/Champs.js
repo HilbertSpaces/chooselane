@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Champs.css';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
 class Champs extends React.Component {
   constructor(props) {
     super(props);
@@ -13,15 +13,20 @@ class Champs extends React.Component {
     'Orianna','Ornn','Pantheon','Poppy','Quinn','Rakan','Rammus','RekSai','Renekton','Rengar','Riven','Rumble','Ryze','Sejuani','Shaco','Shen','Shyvana','Singed','Sion','Sivir','Skarner','Sona','Soraka','Swain','Syndra',
     'TahmKench','Taliyah','Talon','Taric','Teemo','Thresh','Tristana','Trundle','Tryndamere','TwistedFate','Twitch','Udyr','Urgot','Varus','Vayne','Veigar','Velkoz','Vi','Viktor',
     'Vladimir','Volibear','Warwick','MonkeyKing','Xayah','Xerath','XinZhao','Yasuo','Yorick','Zac','Zed','Ziggs','Zilean','Zoe','Zyra'
-    ]};
+  ], data:[]};
+
   }
   getInitialState() {
       return { mounted: false };
     }
     componentDidMount() {
       this.setState({ mounted: true });
-    }
-
+      axios.get('http://localhost:8000/api/v1/data/bronze/avg/?format=json').then((response)=>{
+          this.setState({
+            data:response.data
+        });
+    })
+  }
   handleRemove(i) {
     let newItems = this.state.items.slice();
     newItems.splice(i, 1);
@@ -36,7 +41,7 @@ class Champs extends React.Component {
           src={'http://ddragon.leagueoflegends.com/cdn/7.23.1/img/champion/' +
           champ + '.png'}></img>
         <div className='name'>{champ}</div>
-        <div className='win_rate'>{'55%'}</div>
+        <div className='win_rate'>{this.state.data.tier}</div>
       </div>
       </Link>
     ));
