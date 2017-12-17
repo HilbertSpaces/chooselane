@@ -12,6 +12,7 @@ export default class Nav extends Component {
     return (
       <Menu inverted stackable>
         <Menu.Item
+          key={'Home'}
           name='Home'
           active={activeItem === 'Home'}
           onClick={this.handleItemClick}
@@ -19,10 +20,13 @@ export default class Nav extends Component {
           Home
         </Menu.Item>
         <Menu.Item
+          key={'Lane Seven'}
+          color={'violet'}
           active={activeItem === 'Blank'}
-        >
+        > Lane Seven
         </Menu.Item>
         <Menu.Item
+          key={'About Us'}
           name='About Us'
           active={activeItem === 'About Us'}
           onClick={this.handleItemClick}
