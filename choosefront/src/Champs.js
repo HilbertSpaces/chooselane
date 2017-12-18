@@ -21,19 +21,20 @@ class Champs extends React.Component {
     }
     componentDidMount() {
       this.setState({ mounted: true });
-
+      const { match: {params} } = this.props;
+      axios.get(`http://localhost:8000/api/v1/data/${params.league}/avg/?format=json`).then((response)=>{
+          this.setState({
+            tier:response.data.tier,
+            data: response.data.data
+        });
+    })
   }
   componentWillMount() {
-    const { match: {params} } = this.props;
-    axios.get(`http://localhost:8000/api/v1/data/${params.league}/avg/?format=json`).then((response)=>{
-        console.log(response.data)
-        this.setState({
-          data:response.data
-      });
-  })
+
   }
   render() {
-    const clean_data = {this.state.data.tier}
+    const ok = this.state.data
+    console.log(ok)
     const champs = this.state.items.map((champ, i) => (
     <Link key={champ} className='lanes' id={champ} to={'/statistics'}>
       <div className='cham' key={champ}>
@@ -41,7 +42,7 @@ class Champs extends React.Component {
           src={'http://ddragon.leagueoflegends.com/cdn/7.23.1/img/champion/' +
           champ + '.png'}></img>
         <div className='name'>{champ}</div>
-        <div className='win_rate'>{clean_data[champ]['win']}</div>
+        <div className='win_rate'>{this.state.tier}</div>
       </div>
       </Link>
     ));
