@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './Map.css';
 import { Link } from 'react-router-dom';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import axios from 'axios'
 import LeagueMenu from './LeagueMenu'
 import { Button } from 'semantic-ui-react'
 

@@ -14,7 +14,7 @@ class App extends Component {
         <div>
           <Nav />
           <Route exact path="/" render={() => <Home /> } />
-          <Route path="/champions/:league/:lane" render={ () => <Champs/> } />
+          <Route path="/champions/:league/:lane" component={ Champs } />
           <Route path="/statistics" render={ () => <ChampStats/> } />
           <Route path='//riot.txt' render={ () => <Riot/> } />
         </div>
