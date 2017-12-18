@@ -6,14 +6,14 @@ import axios from 'axios';
 class Champs extends React.Component {
   constructor(props) {
     super();
-    this.state = {items: ['Aatrox','Ahri','Akali','Alistar','Amumu','Anivia','Annie','Ashe','AurelionSol','Azir','Bard','Blitzcrank','Brand','Braum','Caitlyn','Camille','Cassiopeia','Chogath','Corki','Darius','Diana','DrMundo','Draven','Ekko',
+    this.state = {items: ['Aatrox','Ahri','Akali'/*,'Alistar','Amumu','Anivia','Annie','Ashe','AurelionSol','Azir','Bard','Blitzcrank','Brand','Braum','Caitlyn','Camille','Cassiopeia','Chogath','Corki','Darius','Diana','DrMundo','Draven','Ekko',
     'Elise','Evelynn','Ezreal','Fiddlesticks','Fiora','Fizz','Galio','Gangplank','Garen','Gnar','Gragas','Graves','Hecarim','Heimerdinger','Illaoi','Ivern','Irelia','Janna','JarvanIV','Jax','Jayce','Jhin','Jinx','Kalista','Karma',
     'Karthus','Kassadin','Katarina','Kayle','Kayn','Kennen','Khazix',
     'Kindred','Kled','KogMaw','Leblanc','LeeSin','Leona','Lissandra','Lucian','Lulu','Lux','Malphite','Malzahar','Maokai','MasterYi','MissFortune','Mordekaiser','Morgana','Nami','Nasus','Nautilus','Nidalee','Nocturne','Nunu','Olaf',
     'Orianna','Ornn','Pantheon','Poppy','Quinn','Rakan','Rammus','RekSai','Renekton','Rengar','Riven','Rumble','Ryze','Sejuani','Shaco','Shen','Shyvana','Singed','Sion','Sivir','Skarner','Sona','Soraka','Swain','Syndra',
     'TahmKench','Taliyah','Talon','Taric','Teemo','Thresh','Tristana','Trundle','Tryndamere','TwistedFate','Twitch','Udyr','Urgot','Varus','Vayne','Veigar','Velkoz','Vi','Viktor',
-    'Vladimir','Volibear','Warwick','MonkeyKing','Xayah','Xerath','XinZhao','Yasuo','Yorick','Zac','Zed','Ziggs','Zilean','Zoe','Zyra'
-  ], data:{}};
+    'Vladimir','Volibear','Warwick','MonkeyKing','Xayah','Xerath','XinZhao','Yasuo','Yorick','Zac','Zed','Ziggs','Zilean','Zoe','Zyra'*/
+  ]};
 
   }
   getInitialState() {
@@ -33,8 +33,7 @@ class Champs extends React.Component {
 
   }
   render() {
-    const ok = this.state.data
-    console.log(ok)
+    const load_data = this.state.data ? this.state.data: null;
     const champs = this.state.items.map((champ, i) => (
     <Link key={champ} className='lanes' id={champ} to={'/statistics'}>
       <div className='cham' key={champ}>
@@ -42,7 +41,7 @@ class Champs extends React.Component {
           src={'http://ddragon.leagueoflegends.com/cdn/7.23.1/img/champion/' +
           champ + '.png'}></img>
         <div className='name'>{champ}</div>
-        <div className='win_rate'>{this.state.tier}</div>
+        <div className='win_rate'>{this.state.data[champ]['win']}</div>
       </div>
       </Link>
     ));
