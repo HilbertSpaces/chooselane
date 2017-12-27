@@ -31,7 +31,8 @@ class Summoner(object):
     self.lane = ''
     self.role = ''
     self.calls = interface.calls
-
+    self.createMatches()
+    
   def description(self):
     desc = '''Takes a summoner name (str) or id(int), a sleep(float) and a
         query dictionary(dict). The summoner name or id is the name (id)

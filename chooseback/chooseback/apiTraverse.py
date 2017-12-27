@@ -5,6 +5,7 @@ import random
 from celery import Celery
 import json
 import redis
+import concurrent.futures
 
 app = Celery('tasks', broker='pyamqp://guest@localhost//')
 key = 'RGAPI-4d7c4d2a-bf9a-4163-b803-bf7ba00e5962'
@@ -20,7 +21,9 @@ roles = {
 'BOTTOM': 3,
 'SUPPORT':4,
 }
-
+summ_objects = []
+summ_iter = 0
+summ_list = []
 def buildCache(league):
   league_ids = {
     'BRONZE': '86651600-c4e7-11e6-bff6-c81f66cf135e',
@@ -37,6 +40,28 @@ def buildCache(league):
       summ_cache.append(entry['playerOrTeamName'])
   return summ_cache
 
+def getSummoner(summ, i):
+  return Summoner(summ, params={'beginIndex':i, 'endIndex':i+1})
+
+def summFromThread(summ_list_full, i):
+  global summ_iter, summ_objects, summ_list
+  if summ_iter == 20 or summ_list == []:
+    summ_iter = 0
+    summ_list = []
+    summ_objects = []
+    for sm in range(20):
+      rand_int = random.randint(0,len(summ_list_full)-1)
+      summ_list.append(summ_list_full.pop(rand_int))
+    with concurrent.futures.ProcessPoolExecutor(max_workers=60) as executor:
+      # Start the load operations and mark each future with its URL
+      future_to_summ = {executor.submit(getSummoner, summ, i): summ for summ in summ_list}
+      for future in concurrent.futures.as_completed(future_to_summ):
+        summ_objects.append(future.result())
+  summ_from_thread = summ_objects[summ_iter]
+  print summ_iter
+  summ_iter += 1
+  return summ_from_thread
+
 def traverse(summoners, sample_size = 1000, summ_cache = 3000):
   summoners = summoners
   summ = Summoner(summoners.pop(), {})
@@ -47,6 +72,7 @@ def traverse(summoners, sample_size = 1000, summ_cache = 3000):
   least_played_champ = sample_size - 1
   summ.createLeague()
   leagues = summ.league
+  summ_iter = 0
   for queue in leagues:
     if queue['queueType'] == "RANKED_SOLO_5x5":
       tier = queue['tier']
@@ -56,8 +82,7 @@ def traverse(summoners, sample_size = 1000, summ_cache = 3000):
       summ.createMatches()
     except ValueError:
       i = (i+1)%30
-      rand_int = random.randint(0,len(summoners)-1)
-      summ = Summoner(summoners.pop(rand_int), params = {'beginIndex':i, 'endIndex':i+1})
+      summ = summFromThread(summoners, i)
       print('could not create matches')
       continue
     if summ.match['queueId'] in [420, 440]:
@@ -100,11 +125,11 @@ def traverse(summoners, sample_size = 1000, summ_cache = 3000):
         if stat_dict[champion]['sampleSize'] < least_played_champ:
           least_played_champ = stat_dict[champion]['sampleSize']
       print('Least Played Champ Currently: ' + str(least_played_champ))
-      summ = Summoner(summoners.pop(rand_int),params = {'beginIndex':i, 'endIndex':i+1})
+      summ = summFromThread(summoners, i)
+      i = (i+1)%30
     else:
       print('not in queue [420, 440]')
-      rand_int = random.randint(0,len(summoners)-1)
-      summ = Summoner(summoners.pop(rand_int),params = {'beginIndex':i, 'endIndex':i+1})
+      summ = summFromThread(summoners, i)
     i = (i+1)%30
   for champ in stat_dict:
     for key in stat_dict[champ]:
