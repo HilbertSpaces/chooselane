@@ -24,6 +24,7 @@ roles = {
 summ_objects = []
 summ_iter = 0
 summ_list = []
+skips = []
 def buildCache(league):
   league_ids = {
     'BRONZE': '86651600-c4e7-11e6-bff6-c81f66cf135e',
@@ -44,19 +45,24 @@ def getSummoner(summ, i):
   return Summoner(summ, params={'beginIndex':i, 'endIndex':i+1})
 
 def summFromThread(summ_list_full, i):
-  global summ_iter, summ_objects, summ_list
-  if summ_iter == 20 or summ_list == []:
+  global summ_iter, summ_objects, summ_list, skips
+  if summ_iter == len(summ_objects):
     summ_iter = 0
     summ_list = []
     summ_objects = []
+    skips = []
     for sm in range(20):
       rand_int = random.randint(0,len(summ_list_full)-1)
       summ_list.append(summ_list_full.pop(rand_int))
-    with concurrent.futures.ProcessPoolExecutor(max_workers=60) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
       # Start the load operations and mark each future with its URL
       future_to_summ = {executor.submit(getSummoner, summ, i): summ for summ in summ_list}
+      i = (i+1)%30
       for future in concurrent.futures.as_completed(future_to_summ):
-        summ_objects.append(future.result())
+        try:
+          summ_objects.append(future.result())
+        except:
+          continue
   summ_from_thread = summ_objects[summ_iter]
   print summ_iter
   summ_iter += 1
@@ -78,13 +84,7 @@ def traverse(summoners, sample_size = 1000, summ_cache = 3000):
       tier = queue['tier']
   while least_played_champ < sample_size:
     print(summ.calls)
-    try:
-      summ.createMatches()
-    except ValueError:
-      i = (i+1)%30
-      summ = summFromThread(summoners, i)
-      print('could not create matches')
-      continue
+    summ = summFromThread(summoners, i)
     if summ.match['queueId'] in [420, 440]:
       stats = summ.participant_stats
       if len(summoners) < summ_cache:
