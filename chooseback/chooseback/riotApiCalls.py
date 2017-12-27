@@ -27,6 +27,7 @@ class RiotInterface(object):
   #return a summoner object containing: profileIconId (int), name(str),
   #summonerLevel(int), revisionDate(str), id(int), and accountId(int)
   def getSummonerByName(self, summ_name):
+    summ_name = summ_name
     summ_name = quote(summ_name)
     print(summ_name)
     summ_name += '?'

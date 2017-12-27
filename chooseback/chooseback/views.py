@@ -16,11 +16,11 @@ class Data(APIView):
   def get(self, request, league, data_type, format=None):
     if data_type == 'avg':
       query = league.upper() + '_AVG_DICT'
-      avg_data = r.hgetall(query)
+      avg_data = r.get(query)
       return Response(avg_data)
     elif data_type == 'stat':
       query = league.upper() + '_DATA_DICT'
-      stat_data = r.hgetall(query)
+      stat_data = r.get(query)
       return Response(stat_data)
     else:
       return Response(status=404)

@@ -23,7 +23,7 @@ export default class Nav extends Component {
           key={'Lane Seven'}
           color={'violet'}
           active={activeItem === 'Blank'}
-        > Lane Seven
+        > The Lane Seven Project
         </Menu.Item>
         <Menu.Item
           key={'About Us'}

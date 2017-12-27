@@ -1,3 +1,4 @@
+from __future__ import division
 from summonerApi import Summoner
 from riotApiCalls import RiotInterface
 import random
@@ -6,10 +7,10 @@ import json
 import redis
 
 app = Celery('tasks', broker='pyamqp://guest@localhost//')
-key = 'RGAPI-e13d901c-2e6d-4e8c-8fb1-541d18e2554b'
+key = 'RGAPI-4d7c4d2a-bf9a-4163-b803-bf7ba00e5962'
 r = redis.StrictRedis('localhost')
 
-interface = RiotInterface(key, .85)
+interface = RiotInterface(key, .000001)
 champions = interface.getChampionById(param_dict = {'dataById':'true'})
 champ_lookup = champions['data']
 roles = {
@@ -36,7 +37,7 @@ def buildCache(league):
       summ_cache.append(entry['playerOrTeamName'])
   return summ_cache
 
-def traverse(summoners, sample_size = 2, summ_cache = 3000):
+def traverse(summoners, sample_size = 1000, summ_cache = 3000):
   summoners = summoners
   summ = Summoner(summoners.pop(), {})
   i = 0
@@ -57,7 +58,7 @@ def traverse(summoners, sample_size = 2, summ_cache = 3000):
       i = (i+1)%30
       rand_int = random.randint(0,len(summoners)-1)
       summ = Summoner(summoners.pop(rand_int), params = {'beginIndex':i, 'endIndex':i+1})
-      print('couldn\'t create matches')
+      print('could not create matches')
       continue
     if summ.match['queueId'] in [420, 440]:
       stats = summ.participant_stats
@@ -112,14 +113,15 @@ def traverse(summoners, sample_size = 2, summ_cache = 3000):
           stat_dict[champ][key]['averageValue'][lne]['perSecond'] /= stat_dict[champ][key]['totalGames'][lne]
           stat_dict[champ][key]['averageValue'][lne]['perGame'] /= stat_dict[champ][key]['totalGames'][lne]
   avg_dict = {'data': stat_dict,'tier': tier}
-  r.hmset(tier + '_AVG_DICT', avg_dict)
+  avg_dict =json.dumps(avg_dict)
+  r.set(tier + '_AVG_DICT', avg_dict)
   return avg_dict
 
 
 @app.task
-def traverseData(league, total_matches, sample_size = 2, cache = 3000):
+def traverseData(league, total_matches, sample_size = 1000, cache = 3000):
   summoners = buildCache(league)
-  avg_dict_full = traverse(summoners, sample_size = sample_size, summ_cache = cache)
+  avg_dict_full = json.loads(traverse(summoners, sample_size = sample_size, summ_cache = cache))
   avg_dict = avg_dict_full['data']
   summ = Summoner(summoners.pop(), {})
   print('length of summ!!!: ',len(summoners))
@@ -138,7 +140,7 @@ def traverseData(league, total_matches, sample_size = 2, cache = 3000):
       i = (i+1)%30
       rand_int = random.randint(0,len(summoners)-1)
       summ = Summoner(summoners.pop(rand_int), params = {'beginIndex':i, 'endIndex':i+1})
-      print('couldn\'t create matches')
+      print('could not create matches')
       continue
     if summ.match['queueId'] in [420, 440]:
       stats = summ.participant_stats
@@ -187,5 +189,6 @@ def traverseData(league, total_matches, sample_size = 2, cache = 3000):
       summ = Summoner(summoners.pop(rand_int), params = {'beginIndex':i, 'endIndex':i+1})
     i = (i+1)%30
   stat_dict = {'data': stat_dict,'tier': avg_dict_full['tier']}
-  r.hmset(avg_dict_full['tier'] + '_DATA_DICT', stat_dict)
+  stat_dict = json.dumps(stat_dict)
+  r.set(avg_dict_full['tier'] + '_DATA_DICT', stat_dict)
   return stat_dict

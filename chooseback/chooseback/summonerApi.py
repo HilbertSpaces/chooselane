@@ -1,8 +1,8 @@
 from riotApiCalls import RiotInterface
 import time
 
-key = 'RGAPI-e13d901c-2e6d-4e8c-8fb1-541d18e2554b'
-interface = RiotInterface(key, .85)
+key = 'RGAPI-4d7c4d2a-bf9a-4163-b803-bf7ba00e5962'
+interface = RiotInterface(key, .00001)
 
 class Summoner(object):
 

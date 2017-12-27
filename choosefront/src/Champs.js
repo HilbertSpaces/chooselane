@@ -13,27 +13,27 @@ class Champs extends React.Component {
     'Orianna','Ornn','Pantheon','Poppy','Quinn','Rakan','Rammus','RekSai','Renekton','Rengar','Riven','Rumble','Ryze','Sejuani','Shaco','Shen','Shyvana','Singed','Sion','Sivir','Skarner','Sona','Soraka','Swain','Syndra',
     'TahmKench','Taliyah','Talon','Taric','Teemo','Thresh','Tristana','Trundle','Tryndamere','TwistedFate','Twitch','Udyr','Urgot','Varus','Vayne','Veigar','Velkoz','Vi','Viktor',
     'Vladimir','Volibear','Warwick','MonkeyKing','Xayah','Xerath','XinZhao','Yasuo','Yorick','Zac','Zed','Ziggs','Zilean','Zoe','Zyra'*/
-  ]};
+  ], mounted: false, data: {}, 'tier':'',loading:false};
 
   }
-  getInitialState() {
-      return { mounted: false };
-    }
+componentWillMount() {
+  const { match: {params} } = this.props;
+  this.setState({loading:true})
+  axios.get(`http://localhost:8000/api/v1/data/${params.league}/stat/`)
+    .then(response => {
+      this.setState({ data: JSON.parse(response.data).data,
+        tier: response.data.tier,
+        mounted: true,
+        loading: false,
+      })});
+}
     componentDidMount() {
-      this.setState({ mounted: true });
-      const { match: {params} } = this.props;
-      axios.get(`http://localhost:8000/api/v1/data/${params.league}/avg/?format=json`).then((response)=>{
-          this.setState({
-            tier:response.data.tier,
-            data: response.data.data
-        });
-    })
-  }
-  componentWillMount() {
 
-  }
+    }
+
+
   render() {
-    const load_data = this.state.data ? this.state.data: null;
+    const dta = this.state.data
     const champs = this.state.items.map((champ, i) => (
     <Link key={champ} className='lanes' id={champ} to={'/statistics'}>
       <div className='cham' key={champ}>
@@ -41,7 +41,7 @@ class Champs extends React.Component {
           src={'http://ddragon.leagueoflegends.com/cdn/7.23.1/img/champion/' +
           champ + '.png'}></img>
         <div className='name'>{champ}</div>
-        <div className='win_rate'>{this.state.data[champ]['win']}</div>
+        <div key={champ+'wr'} className='win_rate'>{}</div>
       </div>
       </Link>
     ));
@@ -58,6 +58,7 @@ class Champs extends React.Component {
           transitionEnterTimeout={900}
           transitionLeaveTimeout={900}>
           {trans}
+          {console.log(this.state.data)}
         </ReactCSSTransitionGroup>
       </div>
       </ReactCSSTransitionGroup>
