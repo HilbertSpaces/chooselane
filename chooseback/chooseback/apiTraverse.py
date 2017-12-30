@@ -6,6 +6,7 @@ from celery import Celery
 import json
 import redis
 import concurrent.futures
+import time
 
 app = Celery('tasks', broker='pyamqp://guest@localhost//')
 key = 'RGAPI-4d7c4d2a-bf9a-4163-b803-bf7ba00e5962'
@@ -46,15 +47,33 @@ def getSummoner(summ, i):
 
 def summFromThread(summ_list_full, i):
   global summ_iter, summ_objects, summ_list, skips
-  if summ_iter == len(summ_objects):
+  if summ_iter >= len(summ_objects):
     summ_iter = 0
     summ_list = []
     summ_objects = []
     skips = []
-    for sm in range(20):
+    for sm in range(40):
       rand_int = random.randint(0,len(summ_list_full)-1)
       summ_list.append(summ_list_full.pop(rand_int))
-    with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=40) as executor:
+      # Start the load operations and mark each future with its URL
+      future_to_summ = {executor.submit(getSummoner, summ, i): summ for summ in summ_list}
+      i = (i+1)%30
+      for future in concurrent.futures.as_completed(future_to_summ):
+        try:
+          summ_objects.append(future.result())
+        except:
+          continue
+  if len(summ_objects) == 0:
+    time.sleep(2)
+    summ_iter = 0
+    summ_list = []
+    summ_objects = []
+    skips = []
+    for sm in range(40):
+      rand_int = random.randint(0,len(summ_list_full)-1)
+      summ_list.append(summ_list_full.pop(rand_int))
+    with concurrent.futures.ThreadPoolExecutor(max_workers=40) as executor:
       # Start the load operations and mark each future with its URL
       future_to_summ = {executor.submit(getSummoner, summ, i): summ for summ in summ_list}
       i = (i+1)%30
@@ -68,7 +87,7 @@ def summFromThread(summ_list_full, i):
   summ_iter += 1
   return summ_from_thread
 
-def traverse(summoners, sample_size = 1000, summ_cache = 3000):
+def traverse(summoners, sample_size = 250, summ_cache = 3000):
   summoners = summoners
   summ = Summoner(summoners.pop(), {})
   i = 0
@@ -144,7 +163,7 @@ def traverse(summoners, sample_size = 1000, summ_cache = 3000):
 
 
 @app.task
-def traverseData(league, total_matches, sample_size = 1000, cache = 3000):
+def traverseData(league, total_matches, sample_size = 250, cache = 3000):
   summoners = buildCache(league)
   avg_dict_full = json.loads(traverse(summoners, sample_size = sample_size, summ_cache = cache))
   avg_dict = avg_dict_full['data']
@@ -164,7 +183,7 @@ def traverseData(league, total_matches, sample_size = 1000, cache = 3000):
     except ValueError:
       i = (i+1)%30
       rand_int = random.randint(0,len(summoners)-1)
-      summ = Summoner(summoners.pop(rand_int), params = {'beginIndex':i, 'endIndex':i+1})
+      summ = summFromThread(summoners, i)
       print('could not create matches')
       continue
     if summ.match['queueId'] in [420, 440]:
@@ -207,11 +226,11 @@ def traverseData(league, total_matches, sample_size = 1000, cache = 3000):
       print(summ.calls)
       #print(summ.summoner_list, num, den)
       #print(summ.league)
-      summ = Summoner(summoners.pop(rand_int),params = {'beginIndex':i, 'endIndex':i+1})
+      summ = summFromThread(summoners,i)
     else:
       print('not in queue [420, 440]',len(summoners))
       rand_int = random.randint(0,len(summoners)-1)
-      summ = Summoner(summoners.pop(rand_int), params = {'beginIndex':i, 'endIndex':i+1})
+      summ = summFromThread(summoners,i)
     i = (i+1)%30
   stat_dict = {'data': stat_dict,'tier': avg_dict_full['tier']}
   stat_dict = json.dumps(stat_dict)

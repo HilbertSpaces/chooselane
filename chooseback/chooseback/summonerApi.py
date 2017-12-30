@@ -25,6 +25,7 @@ class Summoner(object):
     self.team = None
     self.timeline = None
     self.participant_id = 0
+    self.participants = []
     self.participant_timeline = None
     self.length = params.get('endIndex',0) - params.get('beginIndex',0)
     self.matchlists = []
@@ -32,7 +33,7 @@ class Summoner(object):
     self.role = ''
     self.calls = interface.calls
     self.createMatches()
-    
+
   def description(self):
     desc = '''Takes a summoner name (str) or id(int), a sleep(float) and a
         query dictionary(dict). The summoner name or id is the name (id)
@@ -124,9 +125,15 @@ class Summoner(object):
     self.league = interface.getLeagueBySummonerId(self.summoner['id'])
 
   def createParticipant(self):
-    self.total_games = self.matchlists['totalGames']
+    try:
+      self.total_games = self.matchlists['totalGames']
+    except ValueError:
+      raise(ValueError('Could not retrieve matchlist Games'))
     current_matchlist = self.matchlists.get('matches', [None])[self.match_num]
-    self.champ_id = current_matchlist['champion']
+    try:
+      self.champ_id = current_matchlist['champion']
+    except:
+      raise(ValueError('Could not retrieve champion'))
     try:
       self.lane = current_matchlist['lane']
     except:
@@ -137,6 +144,7 @@ class Summoner(object):
       raise(ValueError('Could not build lane'))
     participant_list = self.match['participants']
     for participant_data in participant_list:
+      self.participants.append(participant_data['championId'])
       if participant_data['championId'] == self.champ_id:
         self.participant_stats = participant_data['stats']
         self.participant_timeline = participant_data['timeline']
