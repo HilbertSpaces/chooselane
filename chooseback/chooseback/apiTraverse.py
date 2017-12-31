@@ -9,7 +9,7 @@ import concurrent.futures
 import time
 
 app = Celery('tasks', broker='pyamqp://guest@localhost//')
-key = 'RGAPI-4d7c4d2a-bf9a-4163-b803-bf7ba00e5962'
+key = 'RGAPI-b6fd0764-8616-4156-a15d-6c1be45ba1db'
 r = redis.StrictRedis('localhost')
 
 interface = RiotInterface(key, .000001)
@@ -17,7 +17,7 @@ champions = interface.getChampionById(param_dict = {'dataById':'true'})
 champ_lookup = champions['data']
 roles = {
 'TOP': 0,
-'MID': 1,
+'MIDDLE': 1,
 'JUNGLE': 2,
 'BOTTOM': 3,
 'SUPPORT':4,
@@ -64,8 +64,7 @@ def summFromThread(summ_list_full, i):
           summ_objects.append(future.result())
         except:
           continue
-  if len(summ_objects) == 0:
-    time.sleep(2)
+  while len(summ_objects) == 0:
     summ_iter = 0
     summ_list = []
     summ_objects = []
@@ -105,40 +104,41 @@ def traverse(summoners, sample_size = 250, summ_cache = 3000):
     print(summ.calls)
     summ = summFromThread(summoners, i)
     if summ.match['queueId'] in [420, 440]:
-      stats = summ.participant_stats
       if len(summoners) < summ_cache:
         new_summoners = set(summ.summoner_list) - set(summ.summoner_name)
         summoners = list(set(summoners).union(new_summoners))
-      total = 1
-      rand_int = random.randint(0,len(summoners)-1)
-      champ = champ_lookup[str(summ.champ_id)]['name']
-      if summ.role == 'DUO':
-        lane = roles['SUPPORT']
-      else:
-        lane = roles[summ.lane]
-      print(champ)
-      if champ not in stat_dict:
-        stat_dict[champ] = {'sampleSize': 1}
-        for key in stats:
-          stat_dict[champ][key] = {'averageValue': [{'perSecond': 0, 'perGame': 0} for x in range(5)], 'totalGames': [1,1,1,1,1]}
-          if type(stats[key]) == bool:
-            continue
-          else:
-            stat_dict[champ][key]['totalGames'][lane] += 1
-            stat_dict[champ][key]['averageValue'][lane]['perSecond'] += stats[key]/summ.match['gameDuration']
-            stat_dict[champ][key]['averageValue'][lane]['perGame'] += stats[key]
-      else:
-        stat_dict[champ]['sampleSize'] += 1
-        for key in stats:
-          if key not in stat_dict[champ]:
-            {'perSecond': 0, 'perGame': 0}
+      for participant in summ.participant_list:
+        stats = participant['stats']
+        total = 1
+        champ = champ_lookup[str(participant['championId'])]['name']
+        if participant['timeline']['lane'] == 'DUO':
+          lane = roles['SUPPORT']
+        else:
+          lane = roles[participant['timeline']['lane']]
+          print lane
+        print(champ)
+        if champ not in stat_dict:
+          stat_dict[champ] = {'sampleSize': 1}
+          for key in stats:
             stat_dict[champ][key] = {'averageValue': [{'perSecond': 0, 'perGame': 0} for x in range(5)], 'totalGames': [1,1,1,1,1]}
-          if type(stats[key]) == bool:
-            continue
-          else:
-            stat_dict[champ][key]['totalGames'][lane] += 1
-            stat_dict[champ][key]['averageValue'][lane]['perSecond'] += stats[key]/summ.match['gameDuration']
-            stat_dict[champ][key]['averageValue'][lane]['perGame'] += stats[key]
+            if type(stats[key]) == bool:
+              continue
+            else:
+              stat_dict[champ][key]['totalGames'][lane] += 1
+              stat_dict[champ][key]['averageValue'][lane]['perSecond'] += stats[key]/summ.match['gameDuration']
+              stat_dict[champ][key]['averageValue'][lane]['perGame'] += stats[key]
+        else:
+          stat_dict[champ]['sampleSize'] += 1
+          for key in stats:
+            if key not in stat_dict[champ]:
+              {'perSecond': 0, 'perGame': 0}
+              stat_dict[champ][key] = {'averageValue': [{'perSecond': 0, 'perGame': 0} for x in range(5)], 'totalGames': [1,1,1,1,1]}
+            if type(stats[key]) == bool:
+              continue
+            else:
+              stat_dict[champ][key]['totalGames'][lane] += 1
+              stat_dict[champ][key]['averageValue'][lane]['perSecond'] += stats[key]/summ.match['gameDuration']
+              stat_dict[champ][key]['averageValue'][lane]['perGame'] += stats[key]
       least_played_champ = stat_dict[champ]['sampleSize']
       for champion in stat_dict:
         if stat_dict[champion]['sampleSize'] < least_played_champ:
@@ -163,11 +163,10 @@ def traverse(summoners, sample_size = 250, summ_cache = 3000):
 
 
 @app.task
-def traverseData(league, total_matches, sample_size = 250, cache = 3000):
+def traverseData(league, total_matches, sample_size = 2, cache = 3000):
   summoners = buildCache(league)
   avg_dict_full = json.loads(traverse(summoners, sample_size = sample_size, summ_cache = cache))
   avg_dict = avg_dict_full['data']
-  summ = Summoner(summoners.pop(), {})
   print('length of summ!!!: ',len(summoners))
   num = 0
   den = 0
@@ -178,54 +177,48 @@ def traverseData(league, total_matches, sample_size = 250, cache = 3000):
     num = 0
     den = 0
     total = 0
-    try:
-      summ.createMatches()
-    except ValueError:
-      i = (i+1)%30
-      rand_int = random.randint(0,len(summoners)-1)
-      summ = summFromThread(summoners, i)
-      print('could not create matches')
-      continue
+    i = (i+1)%30
+    summ = summFromThread(summoners, i)
     if summ.match['queueId'] in [420, 440]:
-      stats = summ.participant_stats
       if len(summoners) < cache:
         new_summoners = set(summ.summoner_list) - set(summ.summoner_name)
         summoners = list(set(summoners).union(new_summoners))
-      total = 1
-      rand_int = random.randint(0,len(summoners)-1)
-      #summ.createLeague()
-      champ = champ_lookup[str(summ.champ_id)]['name']
-      lane = roles[summ.lane]
-      #INIT the dictionary
-      if champ not in stat_dict:
-        stat_dict[champ] = {'sampleSize': 1}
-        for key in stats:
-          if type(stats[key])  == bool:
-            stat_dict[champ][key] = {'gamesWon':[0,0,0,0,0], 'gameTotal':[0,0,0,0,0], 'total':[0,0,0,0,0]}
-          else:
-            stat_dict[champ][key] = {'gamesWon':[{'perSecond': 0, 'perGame': 0} for x in range(5)], 'gameTotal': [{'perSecond': 0, 'perGame': 0} for x in range(5)], 'total':[0,0,0,0,0]}
-      #build the dictionary
-      stat_dict[champ]['sampleSize'] += 1
-      for key in stats:
-        stat_dict[champ][key]['total'][lane] += 1
-        if type(stats[key]) == bool:
-          if stats.get(key,False):
-            stat_dict[champ][key]['gameTotal'][lane] += 1
-            if stats['win']:
-              stat_dict[champ][key]['gamesWon'][lane] += 1
+      for participant in summ.participant_list:
+        stats = participant['stats']
+        total = 1
+        champ = champ_lookup[str(participant['championId'])]['name']
+        if participant['timeline']['role'] == 'DUO':
+          lane = roles['SUPPORT']
         else:
-          if stats.get(key,False):
-            if stats[key]/summ.match['gameDuration'] > avg_dict[champ][key]['averageValue'][lane]['perSecond']:
-              stat_dict[champ][key]['gameTotal'][lane]['perSecond'] += 1
+          lane = participant['timeline']['role']
+        #INIT the dictionary
+        if champ not in stat_dict:
+          stat_dict[champ] = {'sampleSize': 1}
+          for key in stats:
+            if type(stats[key])  == bool:
+              stat_dict[champ][key] = {'gamesWon':[0,0,0,0,0], 'gameTotal':[0,0,0,0,0], 'total':[0,0,0,0,0]}
+            else:
+              stat_dict[champ][key] = {'gamesWon':[{'perSecond': 0, 'perGame': 0} for x in range(5)], 'gameTotal': [{'perSecond': 0, 'perGame': 0} for x in range(5)], 'total':[0,0,0,0,0]}
+        #build the dictionary
+        stat_dict[champ]['sampleSize'] += 1
+        for key in stats:
+          stat_dict[champ][key]['total'][lane] += 1
+          if type(stats[key]) == bool:
+            if stats.get(key,False):
+              stat_dict[champ][key]['gameTotal'][lane] += 1
               if stats['win']:
-                stat_dict[champ][key]['gamesWon'][lane]['perSecond'] += 1
-            if stats[key] > avg_dict[champ][key]['averageValue'][lane]['perGame']:
-              stat_dict[champ][key]['gameTotal'][lane]['perGame'] += 1
-              if stats['win']:
-                stat_dict[champ][key]['gamesWon'][lane]['perGame'] += 1
-      print(summ.calls)
-      #print(summ.summoner_list, num, den)
-      #print(summ.league)
+                stat_dict[champ][key]['gamesWon'][lane] += 1
+          else:
+            if stats.get(key,False):
+              if stats[key]/summ.match['gameDuration'] > avg_dict[champ][key]['averageValue'][lane]['perSecond']:
+                stat_dict[champ][key]['gameTotal'][lane]['perSecond'] += 1
+                if stats['win']:
+                  stat_dict[champ][key]['gamesWon'][lane]['perSecond'] += 1
+              if stats[key] > avg_dict[champ][key]['averageValue'][lane]['perGame']:
+                stat_dict[champ][key]['gameTotal'][lane]['perGame'] += 1
+                if stats['win']:
+                  stat_dict[champ][key]['gamesWon'][lane]['perGame'] += 1
+        print(summ.calls)
       summ = summFromThread(summoners,i)
     else:
       print('not in queue [420, 440]',len(summoners))

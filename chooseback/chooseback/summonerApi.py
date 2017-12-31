@@ -1,7 +1,7 @@
 from riotApiCalls import RiotInterface
 import time
 
-key = 'RGAPI-4d7c4d2a-bf9a-4163-b803-bf7ba00e5962'
+key = 'RGAPI-b6fd0764-8616-4156-a15d-6c1be45ba1db'
 interface = RiotInterface(key, .00001)
 
 class Summoner(object):
@@ -25,7 +25,7 @@ class Summoner(object):
     self.team = None
     self.timeline = None
     self.participant_id = 0
-    self.participants = []
+    self.participant_list = []
     self.participant_timeline = None
     self.length = params.get('endIndex',0) - params.get('beginIndex',0)
     self.matchlists = []
@@ -142,9 +142,8 @@ class Summoner(object):
       self.role = current_matchlist['role']
     except:
       raise(ValueError('Could not build lane'))
-    participant_list = self.match['participants']
-    for participant_data in participant_list:
-      self.participants.append(participant_data['championId'])
+    self.participant_list = self.match['participants']
+    for participant_data in self.participant_list:
       if participant_data['championId'] == self.champ_id:
         self.participant_stats = participant_data['stats']
         self.participant_timeline = participant_data['timeline']
