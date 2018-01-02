@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Champs.css';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link } from 'react-router-dom';
@@ -13,8 +13,7 @@ class Champs extends React.Component {
     'Orianna','Ornn','Pantheon','Poppy','Quinn','Rakan','Rammus','RekSai','Renekton','Rengar','Riven','Rumble','Ryze','Sejuani','Shaco','Shen','Shyvana','Singed','Sion','Sivir','Skarner','Sona','Soraka','Swain','Syndra',
     'TahmKench','Taliyah','Talon','Taric','Teemo','Thresh','Tristana','Trundle','Tryndamere','TwistedFate','Twitch','Udyr','Urgot','Varus','Vayne','Veigar','Velkoz','Vi','Viktor',
     'Vladimir','Volibear','Warwick','MonkeyKing','Xayah','Xerath','XinZhao','Yasuo','Yorick','Zac','Zed','Ziggs','Zilean','Zoe','Zyra'*/
-  ], mounted: false, data: {}, 'tier':'',loading:false};
-
+  ], lane: false, data: false, tier:'',loading:false};
   }
 componentWillMount() {
   const { match: {params} } = this.props;
@@ -23,25 +22,22 @@ componentWillMount() {
     .then(response => {
       this.setState({ data: JSON.parse(response.data).data,
         tier: response.data.tier,
-        mounted: true,
+        lane: params.lane,
         loading: false,
       })});
 }
-    componentDidMount() {
-
-    }
 
 
   render() {
-    const dta = this.state.data
-    const champs = this.state.items.map((champ, i) => (
+    const champs = this.state && this.state.data && this.state.items.map((champ, i) => (
     <Link key={champ} className='lanes' id={champ} to={'/statistics'}>
       <div className='cham' key={champ}>
         <img className='champs'
-          src={'http://ddragon.leagueoflegends.com/cdn/7.23.1/img/champion/' +
+          alt={champ}
+          src={'http://ddragon.leagueoflegends.com/cdn/7.24.2/img/champion/' +
           champ + '.png'}></img>
         <div className='name'>{champ}</div>
-        <div key={champ+'wr'} className='win_rate'>{}</div>
+        <div key={champ+'wr'} className='win_rate'>{Math.floor((this.state.data['Ahri']['win']['gamesWon'][1]/this.state.data['Ahri']['win']['total'][1])*100).toString() + '%'}</div>
       </div>
       </Link>
     ));
@@ -58,7 +54,7 @@ componentWillMount() {
           transitionEnterTimeout={900}
           transitionLeaveTimeout={900}>
           {trans}
-          {console.log(this.state.data)}
+          {this.state.lane && console.log(this.state.lane)}
         </ReactCSSTransitionGroup>
       </div>
       </ReactCSSTransitionGroup>

@@ -52,10 +52,11 @@ def summFromThread(summ_list_full, i):
     summ_list = []
     summ_objects = []
     skips = []
-    for sm in range(40):
+    time.sleep(.4)
+    for sm in range(16):
       rand_int = random.randint(0,len(summ_list_full)-1)
       summ_list.append(summ_list_full.pop(rand_int))
-    with concurrent.futures.ThreadPoolExecutor(max_workers=40) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=16) as executor:
       # Start the load operations and mark each future with its URL
       future_to_summ = {executor.submit(getSummoner, summ, i): summ for summ in summ_list}
       i = (i+1)%30
@@ -69,10 +70,11 @@ def summFromThread(summ_list_full, i):
     summ_list = []
     summ_objects = []
     skips = []
-    for sm in range(40):
+    time.sleep(3)
+    for sm in range(16):
       rand_int = random.randint(0,len(summ_list_full)-1)
       summ_list.append(summ_list_full.pop(rand_int))
-    with concurrent.futures.ThreadPoolExecutor(max_workers=40) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=16) as executor:
       # Start the load operations and mark each future with its URL
       future_to_summ = {executor.submit(getSummoner, summ, i): summ for summ in summ_list}
       i = (i+1)%30
@@ -131,7 +133,6 @@ def traverse(summoners, sample_size = 250, summ_cache = 3000):
           stat_dict[champ]['sampleSize'] += 1
           for key in stats:
             if key not in stat_dict[champ]:
-              {'perSecond': 0, 'perGame': 0}
               stat_dict[champ][key] = {'averageValue': [{'perSecond': 0, 'perGame': 0} for x in range(5)], 'totalGames': [1,1,1,1,1]}
             if type(stats[key]) == bool:
               continue
@@ -163,7 +164,7 @@ def traverse(summoners, sample_size = 250, summ_cache = 3000):
 
 
 @app.task
-def traverseData(league, total_matches, sample_size = 2, cache = 3000):
+def traverseData(league, total_matches, sample_size = 750, cache = 3000):
   summoners = buildCache(league)
   avg_dict_full = json.loads(traverse(summoners, sample_size = sample_size, summ_cache = cache))
   avg_dict = avg_dict_full['data']
@@ -190,7 +191,7 @@ def traverseData(league, total_matches, sample_size = 2, cache = 3000):
         if participant['timeline']['role'] == 'DUO':
           lane = roles['SUPPORT']
         else:
-          lane = participant['timeline']['role']
+          lane = roles[participant['timeline']['lane']]
         #INIT the dictionary
         if champ not in stat_dict:
           stat_dict[champ] = {'sampleSize': 1}
@@ -202,6 +203,11 @@ def traverseData(league, total_matches, sample_size = 2, cache = 3000):
         #build the dictionary
         stat_dict[champ]['sampleSize'] += 1
         for key in stats:
+          if key not in stat_dict[champ]:
+            if type(stats[key])  == bool:
+              stat_dict[champ][key] = {'gamesWon':[0,0,0,0,0], 'gameTotal':[0,0,0,0,0], 'total':[0,0,0,0,0]}
+            else:
+              stat_dict[champ][key] = {'gamesWon':[{'perSecond': 0, 'perGame': 0} for x in range(5)], 'gameTotal': [{'perSecond': 0, 'perGame': 0} for x in range(5)], 'total':[0,0,0,0,0]}
           stat_dict[champ][key]['total'][lane] += 1
           if type(stats[key]) == bool:
             if stats.get(key,False):
@@ -219,12 +225,8 @@ def traverseData(league, total_matches, sample_size = 2, cache = 3000):
                 if stats['win']:
                   stat_dict[champ][key]['gamesWon'][lane]['perGame'] += 1
         print(summ.calls)
-      summ = summFromThread(summoners,i)
     else:
       print('not in queue [420, 440]',len(summoners))
-      rand_int = random.randint(0,len(summoners)-1)
-      summ = summFromThread(summoners,i)
-    i = (i+1)%30
   stat_dict = {'data': stat_dict,'tier': avg_dict_full['tier']}
   stat_dict = json.dumps(stat_dict)
   r.set(avg_dict_full['tier'] + '_DATA_DICT', stat_dict)

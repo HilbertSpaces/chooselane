@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './Map.css';
 import { Link } from 'react-router-dom';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import LeagueMenu from './LeagueMenu'
 import { Button } from 'semantic-ui-react'
 
 class LaneIcon extends Component {
