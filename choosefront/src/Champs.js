@@ -13,7 +13,7 @@ class Champs extends React.Component {
     'Orianna','Ornn','Pantheon','Poppy','Quinn','Rakan','Rammus','RekSai','Renekton','Rengar','Riven','Rumble','Ryze','Sejuani','Shaco','Shen','Shyvana','Singed','Sion','Sivir','Skarner','Sona','Soraka','Swain','Syndra',
     'TahmKench','Taliyah','Talon','Taric','Teemo','Thresh','Tristana','Trundle','Tryndamere','TwistedFate','Twitch','Udyr','Urgot','Varus','Vayne','Veigar','Velkoz','Vi','Viktor',
     'Vladimir','Volibear','Warwick','MonkeyKing','Xayah','Xerath','XinZhao','Yasuo','Yorick','Zac','Zed','Ziggs','Zilean','Zoe','Zyra'*/
-  ], lane: false, data: false, tier:'',loading:false};
+  ], lane: false, data: false, tier:'',loading:false, mounted:false};
   }
 componentWillMount() {
   const { match: {params} } = this.props;
@@ -23,21 +23,24 @@ componentWillMount() {
       this.setState({ data: JSON.parse(response.data).data,
         tier: response.data.tier,
         lane: params.lane,
+        league: params.league,
         loading: false,
+        mounted:true,
       })});
 }
 
 
   render() {
+    const roles = {'top':0,'middle':1,'jungle':2,'bottom':3,'support':4}
     const champs = this.state && this.state.data && this.state.items.map((champ, i) => (
-    <Link key={champ} className='lanes' id={champ} to={'/statistics'}>
+    <Link key={champ} className='lanes' id={champ} to={'/statistics/' + this.state.league +'/' +this.state.lane + '/'+ champ}>
       <div className='cham' key={champ}>
         <img className='champs'
           alt={champ}
           src={'http://ddragon.leagueoflegends.com/cdn/7.24.2/img/champion/' +
           champ + '.png'}></img>
         <div className='name'>{champ}</div>
-        <div key={champ+'wr'} className='win_rate'>{Math.floor((this.state.data['Ahri']['win']['gamesWon'][1]/this.state.data['Ahri']['win']['total'][1])*100).toString() + '%'}</div>
+        <div key={champ+'wr'} className='win_rate'>{Math.floor((this.state.data['Ahri']['win']['gamesWon'][roles[this.state.lane]]/this.state.data['Ahri']['win']['total'][1  ])*100).toString() + '%'}</div>
       </div>
       </Link>
     ));

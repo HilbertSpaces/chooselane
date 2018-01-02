@@ -28,7 +28,7 @@ class Dashboard extends React.Component {
         data = {data}
         highlight = {this.highlight}
         highlighted = {highlighted}
-        label = 'Birth Rate'
+        label = 'Key Statistics'
         metric = 'birth'
         id = 'topChart'
       />
@@ -36,7 +36,7 @@ class Dashboard extends React.Component {
         data = {data}
         highlight = {this.highlight}
         highlighted = {highlighted}
-        label = 'Win Rate \n  When You Do'
+        label = 'Win Rate When You Do'
         metric = 'death'
         id='botChart'
       />
@@ -73,7 +73,7 @@ class Dashboard extends React.Component {
         data = {data}
         highlight = {this.highlight}
         highlighted = {highlighted}
-        label = 'Birth Rate'
+        label = 'Key Statistics'
         metric = 'birth'
         id = 'topChart'
       />
@@ -81,7 +81,7 @@ class Dashboard extends React.Component {
         data = {data}
         highlight = {this.highlight}
         highlighted = {highlighted}
-        label = 'Win Rate \n  When You Do'
+        label = 'Win Rate When You Do'
         metric = 'death'
         id='botChart'
       />

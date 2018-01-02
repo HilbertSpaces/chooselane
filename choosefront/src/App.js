@@ -15,7 +15,7 @@ class App extends Component {
           <Nav />
           <Route exact path="/" render={() => <Home /> } />
           <Route path="/champions/:league/:lane" component={ Champs } />
-          <Route path="/statistics" render={ () => <ChampStats/> } />
+          <Route path="/statistics/:league/:lane/:champion" component = { ChampStats } />
           <Route path='//riot.txt' render={ () => <Riot/> } />
         </div>
      </BrowserRouter>
