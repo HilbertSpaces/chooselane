@@ -5,21 +5,66 @@ import { Link } from 'react-router-dom';
 import Home from './Map'
 import Dashboard from './Dashboard'
 import {Dropdown, Table} from 'semantic-ui-react'
-
+import axios from 'axios';
 class ChampStats extends React.Component{
   constructor(props) {
     super();
-    this.state = {};
+    this.state = {data: false,
+      tier: false,
+      lane: false,
+      league: false,
+      champion: false,
+      loading: true};
+    this.buildStats = this.buildStats.bind(this);
   }
   getInitialState() {
       return { mounted: false };
     }
     componentDidMount() {
-      this.setState({ mounted: true });
     }
+    componentWillMount() {
+      const { match: {params} } = this.props;
+      this.setState({loading:true})
+      axios.get(`http://localhost:8000/api/v1/data/${params.league}/stat/`)
+        .then(response => {
+          this.setState({ data: JSON.parse(response.data).data,
+            tier: response.data.tier,
+            lane: params.lane,
+            league: params.league,
+            champion: params.champion,
+            loading: false,
+            mounted: true ,
+          }, this.buildStats)});
+    }
+  buildStats(){
+    const data = this.state.data;
+    const roles = {'top':0,'middle':1,'jungle':2,'bottom':3,'support':4};
+    var stats = ['firstTowerKill','firstTowerAssist','firstInhibitorKill','firstBloodKill','firstBloodAssist']
+    const champion = this.state.champion;
+    const stat_list = []
+    for (var i=0; i<stats.length; i++) {
+      if (data[champion].hasOwnProperty(stats[i])) {
+        const key_stat = data[champion][stats[i]]['gameTotal'][roles[this.state.lane]]/data[champion][stats[i]]['total'][roles[this.state.lane]]*100
+        const win_stat = data[champion][stats[i]]['gamesWon'][roles[this.state.lane]]/data[champion][stats[i]]['gameTotal'][roles[this.state.lane]]*100
+        if (isNaN(key_stat) || isNaN(win_stat)){
+          continue
+        }
+            stat_list.push(
+              {
+                country:stats[i],
+                birth: key_stat,
+                death: win_stat
+              })
+          }
+    }
+    return stat_list
+  }
   render(){
+    const champ_list = this.state.data && this.state && Object.keys(this.state.data)
+    var stat_list = this.state.data && this.buildStats()
+    console.log(stat_list)
     const birthdeathrates = [
-{country:"alg", birth:36.4,death:14.6}, {country:"con", birth:37.3,death:8}, {country:"egy", birth:42.1,death:15.3},
+{country:"alg", birth:36.4,death:14.6}, {country:"con", birth:37.3,death:8}, {country:"egy", birth:42.1,death:75.3},
  {country:"gha", birth:55.8,death:25.6},  {country:"First Blood", birth:56.1,death:33.1},  {country:"mag", birth:41.8,death:15.8},
  {country:"mor", birth:46.1,death:18.7},  {country:"tun", birth:41.7,death:10.1},  {country:"cam", birth:41.4,death:19.7},
  {country:"cey", birth:35.8,death:8.5},  {country:"chi", birth:34,death:11},  {country:"tai", birth:36.3,death:6.1},
@@ -42,6 +87,7 @@ class ChampStats extends React.Component{
  {country:"rom", birth:15.7,death:8.3},  {country:"spa", birth:21.5,death:9.1},  {country:"swe", birth:14.8,death:10.1},
  {country:"swz", birth:18.9,death:9.6},  {country:"rus", birth:21.2,death:7.2},  {country:"yug", birth:21.4,death:8.9},
  {country:"ast", birth:21.6,death:8.7},  {country:"nzl", birth:25.5,death:8.8}];
+
  const options = [
    { value: 'all', text: 'All',image: {avatar:true, src:'http://ddragon.leagueoflegends.com/cdn/7.23.1/img/champion/' +'Ezreal' + '.png'} },
    { value: 'articles', text: 'Articles' },
@@ -69,7 +115,7 @@ class ChampStats extends React.Component{
         <div className='dropdown'>
         <Dropdown fluid color='black' placeholder='Select...' selection scrolling search options={options}/>
         </div>
-          <Dashboard id='main' data={birthdeathrates.slice(0,10)} />
+          <Dashboard id='main' data={this.state.data && stat_list.slice(0,5)} />
           <img id='left' className='vs' src={
           'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
           'Vayne_4' + '.jpg'}></img>

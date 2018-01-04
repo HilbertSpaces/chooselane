@@ -113,12 +113,13 @@ def traverse(summoners, sample_size = 250, summ_cache = 3000):
         stats = participant['stats']
         total = 1
         champ = champ_lookup[str(participant['championId'])]['name']
-        if participant['timeline']['lane'] == 'DUO':
+        if participant['timeline']['role'] == 'DUO_SUPPORT':
           lane = roles['SUPPORT']
         else:
           lane = roles[participant['timeline']['lane']]
-          print lane
         print(champ)
+        print participant['timeline']['role']
+        print participant['timeline']['lane']
         if champ not in stat_dict:
           stat_dict[champ] = {'sampleSize': 1}
           for key in stats:
@@ -188,7 +189,7 @@ def traverseData(league, total_matches, sample_size = 750, cache = 3000):
         stats = participant['stats']
         total = 1
         champ = champ_lookup[str(participant['championId'])]['name']
-        if participant['timeline']['role'] == 'DUO':
+        if participant['timeline']['role'] == 'DUO_SUPPORT':
           lane = roles['SUPPORT']
         else:
           lane = roles[participant['timeline']['lane']]
