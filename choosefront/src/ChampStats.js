@@ -40,6 +40,7 @@ class ChampStats extends React.Component{
     const data = this.state.data;
     const roles = {'top':0,'middle':1,'jungle':2,'bottom':3,'support':4};
     var stats = ['firstTowerKill','firstTowerAssist','firstInhibitorKill','firstBloodKill','firstBloodAssist']
+    var statts = ['firstTowerKill','firstTowerAsst','firstInhibKill','firstBloodKill','firstBloodAsst']
     const champion = this.state.champion;
     const stat_list = []
     for (var i=0; i<=stats.length; i++) {
@@ -51,7 +52,7 @@ class ChampStats extends React.Component{
         }
             stat_list.push(
               {
-                country:stats[i],
+                country:statts[i],
                 birth: key_stat,
                 death: win_stat
               })

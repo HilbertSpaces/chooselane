@@ -143,7 +143,7 @@ function Bar({
     div className = 'bar__mark'
   style = {
     {
-      width: value+'%',
+      width: value/1.3+'%',
     }
   }
   >{value + '%'}</div></div>;
