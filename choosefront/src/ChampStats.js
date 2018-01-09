@@ -68,7 +68,7 @@ class ChampStats extends React.Component{
 
 
  const options = [
-   { value: 'all', text: 'All',image: {avatar:true, src:'http://ddragon.leagueoflegends.com/cdn/7.23.1/img/champion/' +'Ezreal' + '.png'} },
+   { value: 'all', text: 'All',image: {avatar:true, src:'http://ddragon.leagueoflegends.com/cdn/7.24.2/img/champion/' +'Ezreal' + '.png'} },
    { value: 'articles', text: 'Articles' },
    { value: 'products', text: 'Products' },
    { value: 'products', text: 'Products' },
@@ -89,7 +89,7 @@ class ChampStats extends React.Component{
       <div className='full'>
         <img className='champimg' src={
         'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
-        'Vayne_11' + '.jpg'}>
+        this.state.champion + '_1.jpg'}>
         </img>
         <div className='dropdown'>
         <Dropdown fluid color='black' placeholder='Select...' selection scrolling search options={options}/>
@@ -97,7 +97,7 @@ class ChampStats extends React.Component{
           <Dashboard id='main' data={this.state.data && stat_list.slice(0,5)} />
           <img id='left' className='vs' src={
           'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
-          'Vayne_4' + '.jpg'}></img>
+          this.state.champion + '_0.jpg'}></img>
           <img id='right' className='vs' src={
           'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
           'Ezreal_9' + '.jpg'}></img>
