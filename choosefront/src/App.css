@@ -1,0 +1,13 @@
+.lane_map {
+  display: block;
+  height:100%;
+  width: 100%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-color: black;
+  background-position: center;
+  position: absolute;
+  background-image:url('choose_lane_map1.png');
+  max-width: 100%;
+  max-height: 100%;
+}

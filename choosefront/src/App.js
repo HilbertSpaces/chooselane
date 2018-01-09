@@ -11,7 +11,7 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <div>
+        <div className='lane_map'>
           <Nav />
           <Route exact path="/" render={() => <Home /> } />
           <Route path="/champions/:league/:lane" component={ Champs } />
