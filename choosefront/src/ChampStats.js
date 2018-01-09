@@ -14,6 +14,7 @@ class ChampStats extends React.Component{
       lane: false,
       league: false,
       champion: false,
+      currentValues:false,
       loading: true};
     this.buildStats = this.buildStats.bind(this);
   }
@@ -36,6 +37,7 @@ class ChampStats extends React.Component{
             mounted: true ,
           }, this.buildStats)});
     }
+  dropChange = (e, { value }) => this.setState({ currentValues: value })
   buildStats(){
     const data = this.state.data;
     const roles = {'top':0,'middle':1,'jungle':2,'bottom':3,'support':4};
@@ -69,22 +71,10 @@ class ChampStats extends React.Component{
 
  const options = [
    { value: 'all', text: 'All',image: {avatar:true, src:'http://ddragon.leagueoflegends.com/cdn/7.24.2/img/champion/' +'Ezreal' + '.png'} },
-   { value: 'articles', text: 'Articles' },
-   { value: 'products', text: 'Products' },
-   { value: 'products', text: 'Products' },
-   { value: 'products', text: 'Products' },
-   { value: 'products', text: 'Products' },
-   { value: 'products', text: 'Products' },
-   { value: 'products', text: 'Products' },
-   { value: 'products', text: 'Products' },
-   { value: 'products', text: 'Products' },
-   { value: 'products', text: 'Products' },
-   { value: 'products', text: 'Products' },
-   { value: 'products', text: 'Products' },
-   { value: 'products', text: 'Products' },
-   { value: 'products', text: 'Products' },
-   { value: 'products', text: 'Products' },
+   { value: 'Ezreal', text: 'Ezreal',image: {avatar:true, src:'http://ddragon.leagueoflegends.com/cdn/7.24.2/img/champion/' +'Ezreal' + '.png'} },
  ]
+
+    const currentValues = this.state.currentValues
     const champ =
       <div className='full'>
         <img className='champimg' src={
@@ -92,7 +82,7 @@ class ChampStats extends React.Component{
         this.state.champion + '_1.jpg'}>
         </img>
         <div className='dropdown'>
-        <Dropdown fluid color='black' placeholder='Select...' selection scrolling search options={options}/>
+        <Dropdown fluid color='black' value={currentValues} onChange={this.dropChange} placeholder='Select...' selection scrolling search options={options}/>
         </div>
           <Dashboard id='main' data={this.state.data && stat_list.slice(0,5)} />
           <img id='left' className='vs' src={
@@ -113,6 +103,7 @@ class ChampStats extends React.Component{
         transitionEnterTimeout={1000}
         transitionLeaveTimeout={1000}>
         {trans1}
+        {console.log(this.state.currentValues)}
       </ReactCSSTransitionGroup>
       <ReactCSSTransitionGroup
         transitionName="champIn"
