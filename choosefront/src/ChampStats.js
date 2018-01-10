@@ -47,9 +47,9 @@ class ChampStats extends React.Component{
     const champion = this.state.champion;
     const stat_list = []
     for (var i=0; i<=stats.length; i++) {
-      if (data[champion].hasOwnProperty(stats[i])) {
-        const key_stat = (data[champion][stats[i]]['gameTotal'][roles[this.state.lane]]/data[champion][stats[i]]['total'][roles[this.state.lane]]*100).toFixed(2)
-        const win_stat = (data[champion][stats[i]]['gamesWon'][roles[this.state.lane]]/data[champion][stats[i]]['gameTotal'][roles[this.state.lane]]*100).toFixed(2)
+      if (data[this.unfixName(champion)].hasOwnProperty(stats[i])) {
+        const key_stat = (data[this.unfixName(champion)][stats[i]]['gameTotal'][roles[this.state.lane]]/data[this.unfixName(champion)][stats[i]]['total'][roles[this.state.lane]]*100).toFixed(2)
+        const win_stat = (data[this.unfixName(champion)][stats[i]]['gamesWon'][roles[this.state.lane]]/data[this.unfixName(champion)][stats[i]]['gameTotal'][roles[this.state.lane]]*100).toFixed(2)
         if (isNaN(key_stat) || isNaN(win_stat)){
           continue
         }
@@ -64,16 +64,141 @@ class ChampStats extends React.Component{
     console.log(this.state.data)
     return stat_list
   }
+  fixName(name) {
+    if (name==="Vel'Koz"){
+      return "Velkoz"
+    }
+    if (name==="Aurelion Sol"){
+      return "AurelionSol"
+    }
+    if (name==="Cho'Gath"){
+      return "Chogath"
+    }
+    if (name==="Dr. Mundo"){
+      return "DrMundo"
+    }
+    if (name==="Jarvan IV"){
+      return "JarvanIV"
+    }
+    if (name==="Kha'Zix"){
+      return "Khazix"
+    }
+    if (name==="Kog'Maw"){
+      return "KogMaw"
+    }
+    if (name==="LeBlanc"){
+      return "Leblanc"
+    }
+    if (name==="Lee Sin"){
+      return "LeeSin"
+    }
+    if (name==="Master Yi"){
+      return "MasterYi"
+    }
+    if (name==="Miss Fortune"){
+      return "MissFortune"
+    }
+    if (name==="Rek'Sai"){
+      return "RekSai"
+    }
+    if (name==="Tahm Kench"){
+      return "TahmKench"
+    }
+    if (name==="Twisted Fate"){
+      return "TwistedFate"
+    }
+    if (name==="Wukong"){
+      return "MonkeyKing"
+    }
+    if (name==="Xin Zhao"){
+      return "XinZhao"
+    }
+    else {
+      return name
+    }
+  }
+  unfixName(name) {
+    if (name==="Velkoz"){
+      return "Vel'Koz"
+    }
+    if (name==="AurelionSol"){
+      return "Aurelion Sol"
+    }
+    if (name==="Chogath"){
+      return "Cho'Gath"
+    }
+    if (name==="DrMundo"){
+      return "Dr. Mundo"
+    }
+    if (name==="JarvanIV"){
+      return "Jarvan IV"
+    }
+    if (name==="Khazix"){
+      return "Kha'Zix"
+    }
+    if (name==="KogMaw"){
+      return "Kog'Maw"
+    }
+    if (name==="Leblanc"){
+      return "LeBlanc"
+    }
+    if (name==="LeeSin"){
+      return "Lee Sin"
+    }
+    if (name==="MasterYi"){
+      return "Master Yi"
+    }
+    if (name==="MissFortune"){
+      return "Miss Fortune"
+    }
+    if (name==="RekSai"){
+      return "Rek'Sai"
+    }
+    if (name==="TahmKench"){
+      return "Tahm Kench"
+    }
+    if (name==="TwistedFate"){
+      return "Twisted Fate"
+    }
+    if (name==="MonkeyKing"){
+      return "Wukong"
+    }
+    if (name==="XinZhao"){
+      return "Xin Zhao"
+    }
+    else {
+      return name
+    }
+  }
+  adjustList() {
+    var data = this.state.data && this.state.data
+    const roles = {'top':0,'middle':1,'jungle':2,'bottom':3,'support':4}
+    var lst = []
+    const items = this.state.items && Object.keys(this.state.data)
+    this.state.data && items.sort((champ1,champ2) => {
+      return data[champ1]['win']['gamesWon'][roles[this.state.lane]]/data[champ1]['win']['total'][roles[this.state.lane]]-
+        data[champ2]['win']['gamesWon'][roles[this.state.lane]]/data[champ2]['win']['total'][roles[this.state.lane]]
+    })
+    for (var i=0; i<items.length; i++){
+      const num = this.state.data && this.state.data[items[i]]['goldEarned']['total'][roles[this.state.lane]]
+      const den = this.state.data && this.state.data[items[i]]['sampleSize']
+      if (num/den > .22){
+        lst.push(items[i]);
+      }
+    }
+    return lst.reverse()
+  }
+
   render(){
     const champ_list = this.state.data && this.state && Object.keys(this.state.data)
     var stat_list = this.state.data && this.buildStats()
     console.log(stat_list)
-
-
- const options = [
-   { value: 'AurelionSol', text: 'AurelionSol',image: {avatar:true, src:'http://ddragon.leagueoflegends.com/cdn/7.24.2/img/champion/' +'AurelionSol' + '.png'} },
-   { value: 'Ezreal', text: 'Ezreal',image: {avatar:true, src:'http://ddragon.leagueoflegends.com/cdn/7.24.2/img/champion/' +'Ezreal' + '.png'} },
- ]
+    const options = []
+   for(var i=0;i<champ_list.length;i++){
+     options.push({ value: champ_list[i], text: champ_list[i],
+     image: {avatar:true, src:'http://ddragon.leagueoflegends.com/cdn/7.24.2/img/champion/' +this.fixName(champ_list[i]) + '.png'}
+   })
+   }
 
     const currentValues = this.state.currentValues
     const champ =
@@ -91,7 +216,7 @@ class ChampStats extends React.Component{
           this.state.champion + '_0.jpg'}></img>
           <img id='right' className='vs' src={
           'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
-          this.state.currentValues + '_0.jpg'}></img>
+          this.fixName(this.state.currentValues) + '_0.jpg'}></img>
       </div>
       const trans = this.state.mounted ?
         <div  key={3} className='champ'>{champ}</div>: null;

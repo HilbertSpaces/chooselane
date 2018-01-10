@@ -84,18 +84,25 @@ componentWillMount() {
   }
 
   adjustList() {
-    const mappr = this.state.items
+    var data = this.state.data && this.state.data
+    const mappr = []
+    for (var key in data){
+      if (data.hasOwnProperty(key)) {
+        mappr.push(this.fixName(key))
+      }
+    }
     const roles = {'top':0,'middle':1,'jungle':2,'bottom':3,'support':4}
     var lst = []
-    this.state.data && mappr.sort((champ1,champ2) => {
-      return this.state.data[champ1]['win']['gamesWon'][roles[this.state.lane]]/this.state.data[champ1]['win']['total'][roles[this.state.lane]]-
-        this.state.data[champ2]['win']['gamesWon'][roles[this.state.lane]]/this.state.data[champ2]['win']['total'][roles[this.state.lane]]
+    const items = this.state.items && Object.keys(this.state.data)
+    this.state.data && items.sort((champ1,champ2) => {
+      return data[champ1]['win']['gamesWon'][roles[this.state.lane]]/data[champ1]['win']['total'][roles[this.state.lane]]-
+        data[champ2]['win']['gamesWon'][roles[this.state.lane]]/data[champ2]['win']['total'][roles[this.state.lane]]
     })
     for (var i=0; i<mappr.length; i++){
-      const num = this.state.data && this.state.data[mappr[i]]['goldEarned']['total'][roles[this.state.lane]]
-      const den = this.state.data && this.state.data[mappr[i]]['sampleSize']
+      const num = this.state.data && this.state.data[items[i]]['goldEarned']['total'][roles[this.state.lane]]
+      const den = this.state.data && this.state.data[items[i]]['sampleSize']
       if (num/den > .22){
-        lst.push(mappr[i]);
+        lst.push(items[i]);
       }
     }
     return lst.reverse()
@@ -105,7 +112,7 @@ componentWillMount() {
     this.adjustList.bind(this)
     const lst = this.adjustList()
     const champs = this.state && this.state.data && lst.map((champ, i) => (
-    <Link key={champ} className='lanes' id={champ} to={'/statistics/' + this.state.league +'/' +this.state.lane + '/'+ champ}>
+    <Link key={champ} className='lanes' id={champ} to={'/statistics/' + this.state.league +'/' +this.state.lane + '/'+ this.fixName(champ)}>
       <div className='cham' key={champ}>
         <img className='champs'
           alt={champ}
