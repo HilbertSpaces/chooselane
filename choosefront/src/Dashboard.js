@@ -13,6 +13,59 @@ class Dashboard extends React.Component {
   highlight(country) {
     this.setState({highlighted: country});
   }
+  buildTable(){
+    console.log(this.props.stat)
+    var roles = {
+    'top': 0,
+    'middle': 1,
+    'jungle': 2,
+    'bottom': 3,
+    'support':4,
+    }
+    var role = roles[this.props.lane]
+    var trows = ['kills', 'deaths', 'totalDamageDealtToChampions', 'assists', 'damageDealtToObjectives', 'wardsPlaced','turretKills', 'totalMinionsKilled', 'totalDamageTaken']
+    var html = []
+    for (var i=0; i<trows.length; i++){
+      var num = this.props.stat[this.props.main][trows[i]]['gamesWon'][role]['perGame']
+      var den = this.props.stat[this.props.main][trows[i]]['gameTotal'][role]['perGame']
+      var ratio = (num/den*100).toFixed(2).toString() +' %'
+      var num_op = this.props.stat[this.props.op][trows[i]]['gamesWon'][role]['perGame']
+      var den_op = this.props.stat[this.props.op][trows[i]]['gameTotal'][role]['perGame']
+      var ratio_op = (num_op/den_op*100).toFixed(2).toString() +' %'
+      html.push(
+        <Table.Row key={'row' + i.toString()}>
+          <Table.Cell>{(this.props.avg[this.props.main][trows[i]]['averageValue'][role]['perGame']).toFixed(2)}</Table.Cell>
+          <Table.Cell>{ratio}</Table.Cell>
+          <Table.Cell>{trows[i]}</Table.Cell>
+          <Table.Cell>{ratio_op}</Table.Cell>
+          <Table.Cell>{(this.props.avg[this.props.op][trows[i]]['averageValue'][role]['perGame']).toFixed(2)}</Table.Cell>
+        </Table.Row>
+
+      )
+    }
+    return(
+      <Table inverted padded unstackable selectable>
+        <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>{this.props.main}</Table.HeaderCell>
+            <Table.HeaderCell></Table.HeaderCell>
+            <Table.HeaderCell></Table.HeaderCell>
+            <Table.HeaderCell>{this.props.op}</Table.HeaderCell>
+            <Table.HeaderCell></Table.HeaderCell>
+          </Table.Row>
+          <Table.Row>
+            <Table.HeaderCell>Average</Table.HeaderCell>
+            <Table.HeaderCell>Win Rate When Above Avg</Table.HeaderCell>
+            <Table.HeaderCell>Stat</Table.HeaderCell>
+            <Table.HeaderCell>Win Rate When Above Avg</Table.HeaderCell>
+            <Table.HeaderCell>Average</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {html}
+        </Table.Body>
+      </Table>)
+  }
   render() {
     const {
       data
@@ -41,51 +94,10 @@ class Dashboard extends React.Component {
         id='botChart'
       />
       </div>
-      <Table inverted padded unstackable selectable>
-      <Table.Header>
-        <Table.Row>
-          <Table.HeaderCell>Vayne</Table.HeaderCell>
-          <Table.HeaderCell></Table.HeaderCell>
-          <Table.HeaderCell></Table.HeaderCell>
-          <Table.HeaderCell>Ezreal</Table.HeaderCell>
-          <Table.HeaderCell></Table.HeaderCell>
-        </Table.Row>
-        <Table.Row>
-          <Table.HeaderCell>Average</Table.HeaderCell>
-          <Table.HeaderCell>Win Rate When Above Avg</Table.HeaderCell>
-          <Table.HeaderCell>Stat</Table.HeaderCell>
-          <Table.HeaderCell>Win Rate When Above Avg</Table.HeaderCell>
-          <Table.HeaderCell>Average</Table.HeaderCell>
-        </Table.Row>
-      </Table.Header>
-
-      <Table.Body>
-        <Table.Row>
-          <Table.Cell>33.4</Table.Cell>
-          <Table.Cell>42.1</Table.Cell>
-          <Table.Cell>TotalDamage per/s</Table.Cell>
-          <Table.Cell>59</Table.Cell>
-          <Table.Cell>59</Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>33.4</Table.Cell>
-          <Table.Cell>42.1%</Table.Cell>
-          <Table.Cell>TotalDamage per/s</Table.Cell>
-          <Table.Cell>59</Table.Cell>
-          <Table.Cell>59</Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>33.4</Table.Cell>
-          <Table.Cell>42.1</Table.Cell>
-          <Table.Cell>TotalDamage per/s</Table.Cell>
-          <Table.Cell>59</Table.Cell>
-          <Table.Cell>59</Table.Cell>
-        </Table.Row>
-      </Table.Body>
-    </Table>
+       {this.buildTable()}
       <div className='op'>
       <Chart
-        data = {data}
+        data = {this.props.data_op}
         highlight = {this.highlight}
         highlighted = {highlighted}
         label = 'Key Statistics'
@@ -93,7 +105,7 @@ class Dashboard extends React.Component {
         id = 'topChart'
       />
       <Chart
-        data = {data}
+        data = {this.props.data_op}
         highlight = {this.highlight}
         highlighted = {highlighted}
         label = 'Win Rate When You Do'
@@ -117,12 +129,13 @@ function Chart({
     .map((d, i) => ({...d,
       rank: i
     }))
-  return <div id={id} className='chart'>
+  return <div key={label+'tp'} id={id} className='chart'>
       {[
-       <div className='label'>{label}</div>,
-       <div>
+       <div key = {data[0].country} className='label'>{label}</div>,
+       <div key={label+'jp'}>
          {barData.map(d =>
           <Bar
+            key = {d.country+d.rank}
             country={d.country}
             value={d[metric]}
             rank={d.rank}
@@ -158,7 +171,7 @@ function Bar({
     div className = 'bar__mark'
   style = {
     {
-      width: value/1.3+'%',
+      width: value/1.6+'%',
     }
   }
   >{value + '%'}</div></div>;

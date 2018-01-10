@@ -101,7 +101,7 @@ componentWillMount() {
     for (var i=0; i<mappr.length; i++){
       const num = this.state.data && this.state.data[items[i]]['goldEarned']['total'][roles[this.state.lane]]
       const den = this.state.data && this.state.data[items[i]]['sampleSize']
-      if (num/den > .22){
+      if (num/den > .32){
         lst.push(items[i]);
       }
     }

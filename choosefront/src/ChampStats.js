@@ -36,15 +36,19 @@ class ChampStats extends React.Component{
             loading: false,
             currentValues:params.champion,
             mounted: true ,
-          }, this.buildStats)});
+          }, this.adjustList, this.buildStats)});
+      axios.get(`http://localhost:8000/api/v1/data/${params.league}/avg/`)
+        .then(response => {
+          this.setState({
+            avg: JSON.parse(response.data).data}, this.adjustList, this.buildStats
+          )});
     }
   dropChange = (e, { value }) => this.setState({ currentValues: value })
-  buildStats(){
+  buildStats(champion){
     const data = this.state.data;
     const roles = {'top':0,'middle':1,'jungle':2,'bottom':3,'support':4};
     var stats = ['firstTowerKill','firstTowerAssist','firstInhibitorKill','firstBloodKill','firstBloodAssist']
     var statts = ['firstTowerKill','firstTowerAsst','firstInhibKill','firstBloodKill','firstBloodAsst']
-    const champion = this.state.champion;
     const stat_list = []
     for (var i=0; i<=stats.length; i++) {
       if (data[this.unfixName(champion)].hasOwnProperty(stats[i])) {
@@ -174,7 +178,7 @@ class ChampStats extends React.Component{
     var data = this.state.data && this.state.data
     const roles = {'top':0,'middle':1,'jungle':2,'bottom':3,'support':4}
     var lst = []
-    const items = this.state.items && Object.keys(this.state.data)
+    const items = this.state.data && Object.keys(this.state.data)
     this.state.data && items.sort((champ1,champ2) => {
       return data[champ1]['win']['gamesWon'][roles[this.state.lane]]/data[champ1]['win']['total'][roles[this.state.lane]]-
         data[champ2]['win']['gamesWon'][roles[this.state.lane]]/data[champ2]['win']['total'][roles[this.state.lane]]
@@ -182,7 +186,7 @@ class ChampStats extends React.Component{
     for (var i=0; i<items.length; i++){
       const num = this.state.data && this.state.data[items[i]]['goldEarned']['total'][roles[this.state.lane]]
       const den = this.state.data && this.state.data[items[i]]['sampleSize']
-      if (num/den > .22){
+      if (num/den > .32){
         lst.push(items[i]);
       }
     }
@@ -190,8 +194,9 @@ class ChampStats extends React.Component{
   }
 
   render(){
-    const champ_list = this.state.data && this.state && Object.keys(this.state.data)
-    var stat_list = this.state.data && this.buildStats()
+    const champ_list = this.state.data && this.adjustList()
+    var stat_list = this.state.data && this.buildStats(this.state.champion)
+    var stat_list_op = this.state.data && this.buildStats(this.state.currentValues)
     console.log(stat_list)
     const options = []
    for(var i=0;i<champ_list.length;i++){
@@ -208,9 +213,9 @@ class ChampStats extends React.Component{
         this.state.champion + '_1.jpg'}>
         </img>
         <div className='dropdwn'>
-        <Dropdown placeholder='Ezreal' defaultSelectedLabel={'Ezreal'} value={currentValues} onChange={this.dropChange} selection fluid options={options}/>
+        <Dropdown onChange={this.dropChange} selection fluid options={options}/>
         </div>
-          <Dashboard id='main' data={this.state.data && stat_list.slice(0,5)} />
+          <Dashboard main = {this.unfixName(this.state.champion)} lane={this.state.lane} stat={this.state.data} avg={this.state.avg} op={this.unfixName(this.state.currentValues)} id='main' data={this.state.data && stat_list.slice(0,5)} data_op={this.state.data && stat_list_op.slice(0,5)}/>
           <img id='left' className='vs' src={
           'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
           this.state.champion + '_0.jpg'}></img>
@@ -229,7 +234,7 @@ class ChampStats extends React.Component{
         transitionEnterTimeout={1000}
         transitionLeaveTimeout={1000}>
         {trans1}
-        {console.log(this.state.currentValues)}
+        {console.log(this.state.avg)}
       </ReactCSSTransitionGroup>
       <ReactCSSTransitionGroup
         transitionName="champIn"
