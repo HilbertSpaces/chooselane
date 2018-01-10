@@ -34,6 +34,7 @@ class ChampStats extends React.Component{
             league: params.league,
             champion: params.champion,
             loading: false,
+            currentValues:params.champion,
             mounted: true ,
           }, this.buildStats)});
     }
@@ -70,7 +71,7 @@ class ChampStats extends React.Component{
 
 
  const options = [
-   { value: 'all', text: 'All',image: {avatar:true, src:'http://ddragon.leagueoflegends.com/cdn/7.24.2/img/champion/' +'Ezreal' + '.png'} },
+   { value: 'AurelionSol', text: 'AurelionSol',image: {avatar:true, src:'http://ddragon.leagueoflegends.com/cdn/7.24.2/img/champion/' +'AurelionSol' + '.png'} },
    { value: 'Ezreal', text: 'Ezreal',image: {avatar:true, src:'http://ddragon.leagueoflegends.com/cdn/7.24.2/img/champion/' +'Ezreal' + '.png'} },
  ]
 
@@ -81,8 +82,8 @@ class ChampStats extends React.Component{
         'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
         this.state.champion + '_1.jpg'}>
         </img>
-        <div className='dropdown'>
-        <Dropdown fluid color='black' value={currentValues} onChange={this.dropChange} placeholder='Select...' selection scrolling search options={options}/>
+        <div className='dropdwn'>
+        <Dropdown placeholder='Ezreal' defaultSelectedLabel={'Ezreal'} value={currentValues} onChange={this.dropChange} selection fluid options={options}/>
         </div>
           <Dashboard id='main' data={this.state.data && stat_list.slice(0,5)} />
           <img id='left' className='vs' src={
@@ -90,7 +91,7 @@ class ChampStats extends React.Component{
           this.state.champion + '_0.jpg'}></img>
           <img id='right' className='vs' src={
           'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
-          'Ezreal_9' + '.jpg'}></img>
+          this.state.currentValues + '_0.jpg'}></img>
       </div>
       const trans = this.state.mounted ?
         <div  key={3} className='champ'>{champ}</div>: null;
