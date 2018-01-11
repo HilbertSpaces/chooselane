@@ -206,6 +206,7 @@ class ChampStats extends React.Component{
    }
 
     const currentValues = this.state.currentValues
+    const avg = this.state.avg && this.state.avg
     const champ =
       <div className='full'>
         <img className='champimg' src={
@@ -215,7 +216,7 @@ class ChampStats extends React.Component{
         <div className='dropdwn'>
         <Dropdown onChange={this.dropChange} selection fluid options={options}/>
         </div>
-          <Dashboard main = {this.unfixName(this.state.champion)} lane={this.state.lane} stat={this.state.data} avg={this.state.avg} op={this.unfixName(this.state.currentValues)} id='main' data={this.state.data && stat_list.slice(0,5)} data_op={this.state.data && stat_list_op.slice(0,5)}/>
+          <Dashboard main = {this.unfixName(this.state.champion)} lane={this.state.lane} stat={this.state.data} avg={avg} op={this.unfixName(this.state.currentValues)} id='main' data={this.state.data && stat_list.slice(0,5)} data_op={this.state.data && stat_list_op.slice(0,5)}/>
           <img id='left' className='vs' src={
           'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
           this.state.champion + '_0.jpg'}></img>

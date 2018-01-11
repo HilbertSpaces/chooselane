@@ -67,6 +67,7 @@ class Dashboard extends React.Component {
       </Table>)
   }
   render() {
+    var table = this.props.avg && this.buildTable()
     const {
       data
     } = this.props;
@@ -94,7 +95,7 @@ class Dashboard extends React.Component {
         id='botChart'
       />
       </div>
-       {this.buildTable()}
+       {table}
       <div className='op'>
       <Chart
         data = {this.props.data_op}

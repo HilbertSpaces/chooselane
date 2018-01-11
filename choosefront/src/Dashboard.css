@@ -50,7 +50,6 @@
   font-family: sans-serif;
   font-size: 100%;
   color: 	#19f6e8;
-  text-transform: uppercase;
   vertical-align: top;
 }
 .bar__label {
@@ -61,7 +60,7 @@
   font-weight: bold;
 }
 .bar__mark {
-  background: #69F0AE;
+  background: white;
   display: inline-block;
   height: 100%;
   transition: width .1s, background .1s;
@@ -71,7 +70,7 @@
 }
 
 .highlighted .bar__mark {
-  background: white;
+  background: #56e39f;
   color: salmon;
 }
 
