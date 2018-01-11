@@ -1,38 +1,49 @@
 import React, { Component } from 'react'
 import { Menu } from 'semantic-ui-react'
 import './Nav.css'
+import { Link } from 'react-router-dom';
+import Home from './Map'
+
 export default class Nav extends Component {
   state = {}
-
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   render() {
     const { activeItem } = this.state
 
-    return (
-      <Menu inverted stackable>
-        <Menu.Item
-          key={'Home'}
+    var home =
+      <Menu.Item
+      key={'Home'}
           name='Home'
           active={activeItem === 'Home'}
-          onClick={this.handleItemClick}
+          href='/'
         >
           Home
         </Menu.Item>
-        <Menu.Item
-          key={'Lane Seven'}
-          color={'violet'}
-          active={activeItem === 'Blank'}
-        > The Lane Seven Project
-        </Menu.Item>
+
+    var lanevii =
+      <Menu.Item
+        key={'Lane Seven'}
+        color={'violet'}
+        active={activeItem === 'Blank'}
+      >
+        The Lane Seven Project
+      </Menu.Item>
+
+      var about =
         <Menu.Item
           key={'About Us'}
           name='About Us'
           active={activeItem === 'About Us'}
-          onClick={this.handleItemClick}
+          href='/About'
         >
           About Us
         </Menu.Item>
+
+    return (
+      <Menu inverted>
+        {home}
+        {lanevii}
+        {about}
       </Menu>
     )
   }

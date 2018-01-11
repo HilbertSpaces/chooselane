@@ -1,0 +1,35 @@
+.about{
+  display: block;
+  height:100%;
+  width: 100%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-color: black;
+  background-position: center;
+  position: absolute;
+  max-width: 100%;
+  max-height: 100%;
+  background-color: #222233
+}
+.descrip{
+  height: 40%;
+  width: 60%;
+}
+h1 {
+    font-size: 6vmin;
+    display: block;
+    font-weight: 500;
+    -webkit-margin-before: 0.67em;
+    -webkit-margin-after: 0.67em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: bold;
+    color: #AACCFF;
+    font-family: Helvetica Neue,Helvetica,sans-serif;
+}
+
+p{
+  margin:0vmin;
+  font-size: 2vmin;
+  color:#AACCFF;
+}
