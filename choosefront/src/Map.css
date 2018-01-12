@@ -7,7 +7,7 @@
   background-color: black;
   background-position: center;
   position: absolute;
-  background-image:url('choose_lane_map1.png');
+  background-image:url('https://s3.us-east-2.amazonaws.com/lanevii/choose_lane_map1.png');
   max-width: 100%;
   max-height: 100%;
 }
@@ -80,7 +80,7 @@
   background-position: center;
   position: absolute;
   background-repeat:no-repeat;
-  background-image: url('TOP.png');
+  background-image: url('https://s3.us-east-2.amazonaws.com/lanevii/TOP.png');
 }
 
 #bottom {
@@ -88,7 +88,7 @@
   background-size: cover;
   height: 4em;
   width: 4em;
-  background-image: url('BOTTOM.png');
+  background-image: url('https://s3.us-east-2.amazonaws.com/lanevii/BOTTOM.png');
   max-width: 100%;
   max-height: 100%;
 }
@@ -98,7 +98,7 @@
   background-size: cover;
   height: 4em;
   width: 4em;
-  background-image: url('JUNGLE.png');
+  background-image: url('https://s3.us-east-2.amazonaws.com/lanevii/JUNGLE.png');
   max-width: 100%;
   max-height: 100%;
 }
@@ -108,7 +108,7 @@
   background-size: cover;
   height: 4em;
   width: 4em;
-  background-image: url('MIDDLE.png');
+  background-image: url('https://s3.us-east-2.amazonaws.com/lanevii/MIDDLE.png');
   max-width: 100%;
   max-height: 100%;
 }
@@ -118,7 +118,7 @@
   background-size: cover;
   height: 4em;
   width: 4em;
-  background-image: url('SUPPORT.png');
+  background-image: url('https://s3.us-east-2.amazonaws.com/lanevii/SUPPORT.png');
   max-width: 100%;
   max-height: 100%;
 }

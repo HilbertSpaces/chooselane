@@ -7,8 +7,8 @@ class About extends Component {
     return (
       <div className='about'>
       <video  id="background-video" loop autoPlay muted>
-        <source src="https://www.dropbox.com/s/dj16qggvimk478k/VKLOL24s.m4v?dl=1" type="video/mp4" />
-        <source src="https://www.dropbox.com/s/73i1g5ib1hfj0gx/VKLOL24s.webm?dl=1" type="video/webm" />
+        <source src="https://s3.us-east-2.amazonaws.com/lanevii/VKLOL24s.m4v" type="video/mp4" />
+        <source src="https://s3.us-east-2.amazonaws.com/lanevii/VKLOL24s.webm" type="video/webm" />
         Your browser does not support the video tag.
         </video>
         <div className='descrip'>

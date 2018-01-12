@@ -59,7 +59,7 @@
   background-repeat: no-repeat;
   background-color: black;
   background-position: center;
-  background-image: url('choose_lane_map1.png');
+  background-image: url('https://s3.us-east-2.amazonaws.com/lanevii/choose_lane_map1.png');
   position: absolute;
   max-width: 100%;
   max-height: 100%;
