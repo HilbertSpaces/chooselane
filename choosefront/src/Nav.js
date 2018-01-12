@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { Menu } from 'semantic-ui-react'
 import './Nav.css'
-import { Link } from 'react-router-dom';
-import Home from './Map'
 
 export default class Nav extends Component {
   state = {}

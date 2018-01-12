@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Dashboard.css'
 import {Table} from 'semantic-ui-react'
 
@@ -42,14 +42,7 @@ class Dashboard extends React.Component {
 
       )
     }
-    var roles = {
-    'top': 0,
-    'middle': 1,
-    'jungle': 2,
-    'bottom': 3,
-    'support':4,
-    }
-    var role = roles[this.props.lane]
+
     return(
       <Table inverted padded unstackable selectable>
         <Table.Header>

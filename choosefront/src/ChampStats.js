@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './ChampStats.css';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import { Link } from 'react-router-dom';
-import Home from './Map'
 import Dashboard from './Dashboard'
-import {Dropdown, Table} from 'semantic-ui-react'
+import {Dropdown} from 'semantic-ui-react'
 import axios from 'axios';
+
 class ChampStats extends React.Component{
   constructor(props) {
     super();
@@ -203,11 +202,10 @@ class ChampStats extends React.Component{
    })
    }
 
-    const currentValues = this.state.currentValues
     const avg = this.state.avg && this.state.avg
     const champ =
       <div className='full'>
-        <img className='champimg' src={
+        <img alt='main' className='champimg' src={
         'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
         this.state.champion + '_1.jpg'}>
         </img>
@@ -215,10 +213,10 @@ class ChampStats extends React.Component{
         <Dropdown onChange={this.dropChange} selection fluid options={options}/>
         </div>
           <Dashboard main = {this.unfixName(this.state.champion)} lane={this.state.lane} stat={this.state.data} avg={avg} op={this.unfixName(this.state.currentValues)} id='main' data={this.state.data && stat_list.slice(0,5)} data_op={this.state.data && stat_list_op.slice(0,5)}/>
-          <img id='left' className='vs' src={
+          <img alt='main' id='main' className='vs' src={
           'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
           this.state.champion + '_0.jpg'}></img>
-          <img id='right' className='vs' src={
+          <img alt='opponent' id='right' className='vs' src={
           'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
           this.fixName(this.state.currentValues) + '_0.jpg'}></img>
       </div>
