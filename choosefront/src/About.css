@@ -13,9 +13,9 @@
 }
 .descrip{
   position: absolute;
-  height: 90%;
+  height: 98%;
   width: 40%;
-  left: 3%;
+  left: 1%;
 }
 h1 {
     font-size: 6vmin;
@@ -52,4 +52,8 @@ p{
 .sales{
   position: absolute;
   right: 1px;
+}
+
+.legal{
+  font-size: 10px;
 }
