@@ -7,14 +7,7 @@ import axios from 'axios';
 class Champs extends React.Component {
   constructor(props) {
     super();
-    this.state = {items: ['Aatrox','Ahri','Akali','Alistar','Amumu','Anivia','Annie','Ashe','Aurelion Sol','Azir','Bard','Blitzcrank','Brand','Braum','Caitlyn','Camille','Cassiopeia',"Cho'Gath",'Corki','Darius','Diana','Dr. Mundo','Draven','Ekko',
-    'Elise','Evelynn','Ezreal','Fiddlesticks','Fiora','Fizz','Galio','Gangplank','Garen','Gnar','Gragas','Graves','Hecarim','Heimerdinger','Illaoi','Ivern','Irelia','Janna','Jarvan IV','Jax','Jayce','Jhin','Jinx','Kalista','Karma',
-    'Karthus','Kassadin','Katarina','Kayle','Kayn','Kennen',"Kha'Zix",
-    'Kindred','Kled',"Kog'Maw",'LeBlanc','Lee Sin','Leona','Lissandra','Lucian','Lulu','Lux','Malphite','Malzahar','Maokai','Master Yi','Miss Fortune','Mordekaiser','Morgana','Nami','Nasus','Nautilus','Nidalee','Nocturne','Nunu','Olaf',
-    'Orianna','Ornn','Pantheon','Poppy','Quinn','Rakan','Rammus',"Rek'Sai",'Renekton','Rengar','Riven','Rumble','Ryze','Sejuani','Shaco','Shen','Shyvana','Singed','Sion','Sivir','Skarner','Sona','Soraka','Swain','Syndra',
-    'Tahm Kench','Taliyah','Talon','Taric','Teemo','Thresh','Tristana','Trundle','Tryndamere','Twisted Fate','Twitch','Udyr','Urgot','Varus','Vayne','Veigar',"Vel'Koz",'Vi','Viktor',
-    'Vladimir','Volibear','Warwick','Wukong','Xayah','Xerath','Xin Zhao','Yasuo','Yorick','Zac','Zed','Ziggs','Zilean','Zoe','Zyra'
-  ], lane: false, data: false, tier:'',loading:false, mounted:false};
+    this.state = {lane: false, data: false, tier:'',loading:false, mounted:false};
   }
 componentWillMount() {
   const { match: {params} } = this.props;
@@ -94,7 +87,7 @@ componentWillMount() {
     }
     const roles = {'top':0,'middle':1,'jungle':2,'bottom':3,'support':4}
     var lst = []
-    const items = this.state.items && Object.keys(this.state.data)
+    const items = this.state.data && Object.keys(this.state.data)
     this.state.data && items.sort((champ1,champ2) => {
       return data[champ1]['win']['gamesWon'][roles[this.state.lane]]/data[champ1]['win']['total'][roles[this.state.lane]]-
         data[champ2]['win']['gamesWon'][roles[this.state.lane]]/data[champ2]['win']['total'][roles[this.state.lane]]
