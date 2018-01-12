@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './About.css';
+import { Button } from 'semantic-ui-react'
 
 class About extends Component {
   render() {
@@ -30,6 +31,11 @@ class About extends Component {
             Want to contact us?
             <br />
             Send us an email at: laneviiproject@gmail.com
+            <br />
+            <br />
+            Want to support us?
+            <br />
+              <Button target='_blank' href='http://paypal.me/laneviiproject' name='support' inverted basic color='violet'>Support Us!</Button>
           </p>
         </div>
       </div>

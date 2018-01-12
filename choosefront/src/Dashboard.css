@@ -61,12 +61,13 @@
 }
 .bar__mark {
   background: white;
-  display: inline-block;
+  display: absolute;
   height: 100%;
   transition: width .1s, background .1s;
   color: #222233;
   text-align: right;
   font-size: 100%;
+  margin-left: 22px;
 }
 
 .highlighted .bar__mark {
