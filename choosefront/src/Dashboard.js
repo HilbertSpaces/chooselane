@@ -14,7 +14,6 @@ class Dashboard extends React.Component {
     this.setState({highlighted: country});
   }
   buildTable(){
-    console.log(this.props.stat)
     var roles = {
     'top': 0,
     'middle': 1,

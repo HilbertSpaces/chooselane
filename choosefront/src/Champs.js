@@ -3,6 +3,7 @@ import './Champs.css';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+
 class Champs extends React.Component {
   constructor(props) {
     super();
@@ -136,7 +137,6 @@ componentWillMount() {
           transitionEnterTimeout={900}
           transitionLeaveTimeout={900}>
           {trans}
-          {this.state.lane && console.log(this.state.data['Ahri']['goldEarned']['total'][roles[this.state.lane]]/this.state.data['Ahri']['sampleSize'])}
         </ReactCSSTransitionGroup>
       </div>
       </ReactCSSTransitionGroup>

@@ -26,7 +26,7 @@ export default class Nav extends Component {
         color={'violet'}
         active={activeItem === 'Blank'}
       >
-        The Lane Seven Project
+        The LaneSeven Project
       </Menu.Item>
 
       var about =

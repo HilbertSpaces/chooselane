@@ -12,7 +12,7 @@ class About extends Component {
         Your browser does not support the video tag.
         </video>
         <div className='descrip'>
-          <h1>The Lane Seven Project</h1>
+          <h1>The LaneSeven Project</h1>
           <p>
             LaneSeven is an ongoing project (released by a single developer alongside
             a few players) with the goal
@@ -22,10 +22,10 @@ class About extends Component {
             and projects to help enhance the game.
             <br />
             <br />
-            Our current goal after completing our work with this page is to work on a collaboration project that helps
-            players form teams. Throughout this work we hope that engaging members will begin to work alongside us so
-            that we create these tools to the specifiactions of real players and helps
-            to form the league community we've all been waiting for.
+            Our current goal after completing our work with this page is to build a collaboration project that helps
+            players form teams. Throughout our work, we hope that engaging members will begin to work alongside us so
+            that we create tools to the specifiactions of real players and
+             form the league community we've all been waiting for.
             <br />
             <br />
             Want to contact us?

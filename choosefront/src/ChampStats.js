@@ -65,7 +65,6 @@ class ChampStats extends React.Component{
               })
           }
     }
-    console.log(this.state.data)
     return stat_list
   }
   fixName(name) {
@@ -197,7 +196,6 @@ class ChampStats extends React.Component{
     const champ_list = this.state.data && this.adjustList()
     var stat_list = this.state.data && this.buildStats(this.state.champion)
     var stat_list_op = this.state.data && this.buildStats(this.state.currentValues)
-    console.log(stat_list)
     const options = []
    for(var i=0;i<champ_list.length;i++){
      options.push({ value: champ_list[i], text: champ_list[i],
@@ -235,7 +233,6 @@ class ChampStats extends React.Component{
         transitionEnterTimeout={1000}
         transitionLeaveTimeout={1000}>
         {trans1}
-        {console.log(this.state.avg)}
       </ReactCSSTransitionGroup>
       <ReactCSSTransitionGroup
         transitionName="champIn"
