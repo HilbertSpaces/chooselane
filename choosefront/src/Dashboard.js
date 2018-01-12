@@ -42,14 +42,22 @@ class Dashboard extends React.Component {
 
       )
     }
+    var roles = {
+    'top': 0,
+    'middle': 1,
+    'jungle': 2,
+    'bottom': 3,
+    'support':4,
+    }
+    var role = roles[this.props.lane]
     return(
       <Table inverted padded unstackable selectable>
         <Table.Header>
         <Table.Row>
-          <Table.HeaderCell>{this.props.main}</Table.HeaderCell>
+          <Table.HeaderCell>{this.props.main +': ' + (((this.props.stat[this.props.main]['win']['gamesWon'][role]/this.props.stat[this.props.main]['win']['total'][role])*100)).toFixed(2).toString() + '%'}</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
-            <Table.HeaderCell>{this.props.op}</Table.HeaderCell>
+            <Table.HeaderCell>{this.props.op +': ' + (((this.props.stat[this.props.op]['win']['gamesWon'][role]/this.props.stat[this.props.op]['win']['total'][role])*100)).toFixed(2).toString() + '%'}</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
           </Table.Row>
           <Table.Row>
