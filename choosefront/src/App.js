@@ -12,6 +12,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className='lane_map'>
+        <p className='legal'>LaneSeven is not endorsed, certified or otherwise approved in any way by Riot Games, Inc. or any of its affiliates</p>
           <Nav />
           <Route exact path="/" render={() => <Home /> } />
           <Route exact path="/About" render={() => <About /> } />

@@ -91,3 +91,9 @@
   transform: translate(-100%);
   transition: transform 1000ms ease
 }
+.legal{
+  font-size: 10px;
+  position: absolute;
+  left: 1%;
+  top: 98%;
+}

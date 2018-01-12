@@ -237,6 +237,7 @@ class ChampStats extends React.Component{
         transitionEnterTimeout={1000}
         transitionLeaveTimeout={1000}>
         {trans}
+        <p className='legal'>LaneSeven is not endorsed, certified or otherwise approved in any way by Riot Games, Inc. or any of its affiliates</p>
       </ReactCSSTransitionGroup>
       </div>
   )}

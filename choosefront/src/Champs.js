@@ -125,7 +125,9 @@ componentWillMount() {
       </Link>
     ));
     const trans = this.state.mounted ?
-      <div className='container'>{champs}</div>: null;
+      <div className='container'>{champs}
+
+      </div>: null;
     return (
       <ReactCSSTransitionGroup
         transitionName="champOut"
@@ -138,6 +140,9 @@ componentWillMount() {
           transitionLeaveTimeout={900}>
           {trans}
         </ReactCSSTransitionGroup>
+        <p className='legal'>
+          LaneSeven is not endorsed, certified or otherwise approved in any way by Riot Games, Inc. or any of its affiliates
+        </p>
       </div>
       </ReactCSSTransitionGroup>
     );

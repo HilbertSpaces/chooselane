@@ -40,11 +40,16 @@ class HomeComponent extends Component {
         </div>
       )
     })
+    var legal =
+      <p className='legal'>
+        LaneSeven is not endorsed, certified or otherwise approved in any way by Riot Games, Inc. or any of its affiliates
+      </p>
     return (
 
         <div className='home'>
           <div className='lane_map'>{league_button}</div>
           {lane_render}
+          {legal}
         </div>
     )
   }
