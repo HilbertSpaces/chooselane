@@ -12,7 +12,7 @@ class Champs extends React.Component {
 componentWillMount() {
   const { match: {params} } = this.props;
   this.setState({loading:true})
-  axios.get(`http://localhost:8000/api/v1/data/${params.league}/stat/`)
+  axios.get(`/api/v1/data/${params.league}/stat/`)
     .then(response => {
       this.setState({ data: JSON.parse(response.data).data,
         tier: response.data.tier,
