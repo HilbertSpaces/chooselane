@@ -12,6 +12,7 @@
   background-color: #222233
 }
 .descrip{
+  position: absolute;
   height: 40%;
   width: 60%;
 }
@@ -32,4 +33,16 @@ p{
   margin:0vmin;
   font-size: 2vmin;
   color:#AACCFF;
+}
+
+#background-video{
+  position: absolute;
+  opacity: .4;
+  height:100%;
+  width: 100%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  max-width: 100%;
+  max-height: 100%;
 }
