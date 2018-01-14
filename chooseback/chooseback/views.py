@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import Context, loader
+import os
 import requests
 import redis
 
