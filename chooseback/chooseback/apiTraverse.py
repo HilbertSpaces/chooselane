@@ -165,7 +165,7 @@ def traverse(summoners, sample_size = 1, summ_cache = 3000):
 
 
 @app.task
-def traverseData(league, total_matches, sample_size = 2, cache = 3000):
+def traverseData(league, total_matches, sample_size = 800, cache = 3000):
   summoners = buildCache(league)
   avg_dict_full = json.loads(traverse(summoners, sample_size = sample_size, summ_cache = cache))
   avg_dict = avg_dict_full['data']
@@ -211,6 +211,8 @@ def traverseData(league, total_matches, sample_size = 2, cache = 3000):
               stat_dict[champ][key] = {'gamesWon':[{'perSecond': 0, 'perGame': 0} for x in range(5)], 'gameTotal': [{'perSecond': 0, 'perGame': 0} for x in range(5)], 'total':[0,0,0,0,0]}
           stat_dict[champ][key]['total'][lane] += 1
           if type(stats[key]) == bool:
+            if key == 'firstBloodAssist':
+                print stats[key], key
             if stats.get(key,False):
               stat_dict[champ][key]['gameTotal'][lane] += 1
               if stats['win']:

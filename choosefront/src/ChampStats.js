@@ -198,7 +198,7 @@ class ChampStats extends React.Component{
     const options = []
    for(var i=0;i<champ_list.length;i++){
      options.push({ value: champ_list[i], text: champ_list[i],
-     image: {avatar:true, src:'http://ddragon.leagueoflegends.com/cdn/7.24.2/img/champion/' +this.fixName(champ_list[i]) + '.png'}
+     image: {avatar:true, src:'https://ddragon.leagueoflegends.com/cdn/7.24.2/img/champion/' +this.fixName(champ_list[i]) + '.png'}
    })
    }
 
@@ -206,7 +206,7 @@ class ChampStats extends React.Component{
     const champ =
       <div className='full'>
         <img alt='main' className='champimg' src={
-        'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
+        'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
         this.state.champion + '_1.jpg'}>
         </img>
         <div className='dropdwn'>
@@ -214,10 +214,10 @@ class ChampStats extends React.Component{
         </div>
           <Dashboard main = {this.unfixName(this.state.champion)} lane={this.state.lane} stat={this.state.data} avg={avg} op={this.unfixName(this.state.currentValues)} id='main' data={this.state.data && stat_list.slice(0,5)} data_op={this.state.data && stat_list_op.slice(0,5)}/>
           <img alt='main' id='main' className='vs' src={
-          'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
+          'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
           this.state.champion + '_0.jpg'}></img>
           <img alt='opponent' id='right' className='vs' src={
-          'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
+          'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
           this.fixName(this.state.currentValues) + '_0.jpg'}></img>
       </div>
       const trans = this.state.mounted ?

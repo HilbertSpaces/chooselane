@@ -110,7 +110,7 @@ componentWillMount() {
       <div className='cham' key={champ}>
         <img className='champs'
           alt={champ}
-          src={'http://ddragon.leagueoflegends.com/cdn/7.24.2/img/champion/' +
+          src={'https://ddragon.leagueoflegends.com/cdn/7.24.2/img/champion/' +
           this.fixName(champ) + '.png'}></img>
         <div className='name'>{champ}</div>
         <div key={champ+'wr'} className='win_rate'>{(((this.state.data[champ]['win']['gamesWon'][roles[this.state.lane]]/this.state.data[champ]['win']['total'][roles[this.state.lane]])*100)).toFixed(2).toString() + '%'}</div>
