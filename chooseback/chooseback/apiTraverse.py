@@ -88,7 +88,7 @@ def summFromThread(summ_list_full, i):
   summ_iter += 1
   return summ_from_thread
 
-def traverse(summoners, sample_size = 250, summ_cache = 3000):
+def traverse(summoners, sample_size = 1, summ_cache = 3000):
   summoners = summoners
   summ = Summoner(summoners.pop(), {})
   i = 0
@@ -165,7 +165,7 @@ def traverse(summoners, sample_size = 250, summ_cache = 3000):
 
 
 @app.task
-def traverseData(league, total_matches, sample_size = 750, cache = 3000):
+def traverseData(league, total_matches, sample_size = 2, cache = 3000):
   summoners = buildCache(league)
   avg_dict_full = json.loads(traverse(summoners, sample_size = sample_size, summ_cache = cache))
   avg_dict = avg_dict_full['data']

@@ -1,4 +1,6 @@
 *.pyc
+*.conf
 chooseback/db.sqlite3
 *.db
 .DS_Store
+*.rdb

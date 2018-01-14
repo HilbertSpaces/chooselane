@@ -5,7 +5,9 @@ from django.shortcuts import render
 from django.template import Context, loader
 import requests
 import redis
-r = redis.StrictRedis(host="localhost",port=6379, db=0,decode_responses=True)
+
+redis_url = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
+r = redis.from_url(redis_url)
 
 #class ShowChamp(APIView):
 def index(request):
