@@ -4,11 +4,12 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import Context, loader
 import os
+import urlparse
 import requests
 import redis
 
-redis_url = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
-r = redis.from_url(redis_url)
+url = urlparse.urlparse(os.environ.get('REDISCLOUD_URL'))
+r = redis.Redis(host=url.hostname, port=url.port, password=url.password)
 
 #class ShowChamp(APIView):
 def index(request):
