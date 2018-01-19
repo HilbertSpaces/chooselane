@@ -205,6 +205,7 @@ class ChampStats extends React.Component{
     const avg = this.state.avg && this.state.avg
     const champ =
       <div className='full'>
+      <iframe src="//rcm-na.amazon-adsystem.com/e/cm?o=1&p=12&l=ur1&category=twitchprime&banner=025E4WXKK5G4EXYGDD02&f=ifr&lc=pf4&linkID=a54b2c2934f84a952dd0f9a9476ddde6&t=clevels-20&tracking_id=clevels-20" width="300" height="250" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>
         <img alt='main' className='champimg' src={
         'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
         this.state.champion + '_1.jpg'}>

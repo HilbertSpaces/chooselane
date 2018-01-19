@@ -27,8 +27,8 @@ summ_iter = 0
 summ_list = []
 skips = []
 def buildCache(league):
-  league_ids = {
-    'BRONZE': '86651600-c4e7-11e6-bff6-c81f66cf135e',
+  league_ids = {#needs update for new season
+    'BRONZE': 'cfb37f90-fb8c-11e7-9e65-c81f66cf2333',
     'SILVER': '1ca60e40-d112-11e6-bf61-c81f66dbb56c',
     'GOLD': 'bc5c2010-4a51-11e7-9773-c81f66dbb56c',
     'PLATINUM': 'ceac10c0-271c-11e7-8151-c81f66dbb56c',
@@ -165,7 +165,7 @@ def traverse(summoners, sample_size = 1, summ_cache = 3000):
 
 
 @app.task
-def traverseData(league, total_matches, sample_size = 800, cache = 3000):
+def traverseData(league, total_matches, sample_size = 2, cache = 3000):
   summoners = buildCache(league)
   avg_dict_full = json.loads(traverse(summoners, sample_size = sample_size, summ_cache = cache))
   avg_dict = avg_dict_full['data']
