@@ -12,6 +12,7 @@ class Champs extends React.Component {
 componentWillMount() {
   const { match: {params} } = this.props;
   this.setState({loading:true})
+  /*axios.get(`http://localhost:8000/api/v1/data/${params.league}/stat/`)*/
   axios.get(`/api/v1/data/${params.league}/stat/`)
     .then(response => {
       this.setState({ data: JSON.parse(response.data).data,
@@ -127,6 +128,11 @@ componentWillMount() {
         transitionEnterTimeout={900}
         transitionLeaveTimeout={1000}>
       <div className='filler'>
+      <a href="http://www.kqzyfj.com/click-8539027-13131866" target="_top">
+      <img src="http://www.ftjcfx.com/image-8539027-13131866" width="300" height="50" alt="Fiverr" border="0"/></a>
+      <iframe className='aff' src="//rcm-na.amazon-adsystem.com/e/cm?o=1&p=14&l=ur1&category=hotnewreleases&banner=1BWCMZYQA5F2PESPW182&f=ifr&linkID=c78b6f22be526635daaf8bb33ee8eb05&t=clevels-20&tracking_id=clevels-20" width="160" height="600" scrolling="no" border="0" marginwidth="0" frameborder="0"></iframe>
+      <iframe className='affr' src="//rcm-na.amazon-adsystem.com/e/cm?o=1&p=14&l=ur1&category=twitchprime&banner=1KQ611VSFHHQ71PJKR82&f=ifr&linkID=35199a016c974221b3f63d9142043b6f&t=clevels-20&tracking_id=clevels-20" width="160" height="600" scrolling="no" border="0" marginwidth="0" frameborder="0"></iframe>
+
         <ReactCSSTransitionGroup
           transitionName="champT"
           transitionEnterTimeout={900}

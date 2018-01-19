@@ -107,7 +107,19 @@
 .dropdwn{
   position: absolute;
   height: 22%;
-  width: 28%;
+  width: 25%;
   top: .1%;
   right: 28.4%;
+}
+
+.affh{
+  position: absolute;
+  top: 9.3%;
+  right: 28.4%;
+}
+
+.affha{
+  position: absolute;
+  top:4.7%;
+  right: 54%;
 }

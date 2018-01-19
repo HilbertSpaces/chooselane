@@ -45,9 +45,11 @@ class HomeComponent extends Component {
         LaneSeven is not endorsed, certified or otherwise approved in any way by Riot Games, Inc. or any of its affiliates
       </p>
     return (
-
         <div className='home'>
-          <div className='lane_map'>{league_button}</div>
+          <div className='lane_map'>{league_button}
+          <iframe className='aff' src="//rcm-na.amazon-adsystem.com/e/cm?o=1&p=14&l=ur1&category=hotnewreleases&banner=1BWCMZYQA5F2PESPW182&f=ifr&linkID=c78b6f22be526635daaf8bb33ee8eb05&t=clevels-20&tracking_id=clevels-20" width="160" height="600" scrolling="no" border="0" marginwidth="0" frameborder="0"></iframe>
+          <iframe className='affr' src="//rcm-na.amazon-adsystem.com/e/cm?o=1&p=14&l=ur1&category=twitchprime&banner=1KQ611VSFHHQ71PJKR82&f=ifr&linkID=35199a016c974221b3f63d9142043b6f&t=clevels-20&tracking_id=clevels-20" width="160" height="600" scrolling="no" border="0" marginwidth="0" frameborder="0"></iframe>
+          </div>
           {lane_render}
           {legal}
         </div>

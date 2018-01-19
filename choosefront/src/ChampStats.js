@@ -25,6 +25,7 @@ class ChampStats extends React.Component{
     componentWillMount() {
       const { match: {params} } = this.props;
       this.setState({loading:true})
+      /*axios.get(`http://localhost:8000/api/v1/data/${params.league}/stat/`)*/
       axios.get(`/api/v1/data/${params.league}/stat/`)
         .then(response => {
           this.setState({ data: JSON.parse(response.data).data,
@@ -205,7 +206,6 @@ class ChampStats extends React.Component{
     const avg = this.state.avg && this.state.avg
     const champ =
       <div className='full'>
-      <iframe src="//rcm-na.amazon-adsystem.com/e/cm?o=1&p=12&l=ur1&category=twitchprime&banner=025E4WXKK5G4EXYGDD02&f=ifr&lc=pf4&linkID=a54b2c2934f84a952dd0f9a9476ddde6&t=clevels-20&tracking_id=clevels-20" width="300" height="250" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>
         <img alt='main' className='champimg' src={
         'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
         this.state.champion + '_1.jpg'}>
@@ -231,6 +231,7 @@ class ChampStats extends React.Component{
         transitionName="mapT"
         transitionEnterTimeout={1000}
         transitionLeaveTimeout={1000}>
+
         {trans1}
       </ReactCSSTransitionGroup>
       <ReactCSSTransitionGroup
@@ -238,6 +239,9 @@ class ChampStats extends React.Component{
         transitionEnterTimeout={1000}
         transitionLeaveTimeout={1000}>
         {trans}
+        <iframe className='affha' src="//rcm-na.amazon-adsystem.com/e/cm?o=1&p=12&l=ur1&category=twitchprime&banner=025E4WXKK5G4EXYGDD02&f=ifr&lc=pf4&linkID=d8344322f9cc62badd3549104fa80602&t=clevels-20&tracking_id=clevels-20" width="300" height="250" scrolling="no" border="0" marginwidth="0" frameborder="0"></iframe>
+        <a className='affh' href="http://www.kqzyfj.com/click-8539027-13131866" target="_top">
+<img src="http://www.awltovhc.com/image-8539027-13131866" width="300" height="50" alt="Fiverr" border="0"/></a>
         <p className='legal'>LaneSeven is not endorsed, certified or otherwise approved in any way by Riot Games, Inc. or any of its affiliates</p>
       </ReactCSSTransitionGroup>
       </div>

@@ -128,3 +128,15 @@
   left: 1%;
   top: 98.2%;
 }
+
+.aff{
+  position: absolute;
+  top: 10%;
+  left: .1px;
+}
+
+.affr{
+  position: absolute;
+  top: 10%;
+  right: .1px;
+}

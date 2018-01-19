@@ -7,9 +7,11 @@ import os
 import urlparse
 import requests
 import redis
-
+''' heroku settings
 url = urlparse.urlparse(os.environ.get('REDISCLOUD_URL'))
 r = redis.Redis(host=url.hostname, port=url.port, password=url.password)
+'''
+r = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 #class ShowChamp(APIView):
 def index(request):
